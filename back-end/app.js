@@ -1,11 +1,16 @@
 const express = require('express');
-const database = require('./config/database-connection');
 const app = express();
+const database = require('./utils/database-connection');
+const bodyParser = require('body-parser');
 
-require('dotenv').config();
+app.use(bodyParser.json());
 
 database.authenticate()
     .then(() => console.log("Successfull connection"))
-    .catch((error) => console.log("Unsuccessfull connection"))
+    .catch(() => console.log("Unsuccessfull connection"))
+
+database.sync()
+    .then(() => console.log("Successfull syncing"))
+    .catch(() => console.log("Unsuccessfull syncing"))   
 
 app.listen(8000);    
