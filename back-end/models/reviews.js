@@ -6,6 +6,7 @@ const Review = sequelize.define('reviews',
     id:
     {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
     },
 
