@@ -1,5 +1,6 @@
 const {DataTypes} = require('sequelize');
 const sequelize = require('../utils/databaseConnection');
+const BookingItem = require('./bookingItems');
 
 const Booking = sequelize.define('bookings',
 {
@@ -30,5 +31,7 @@ const Booking = sequelize.define('bookings',
         type: DataTypes.ENUM('Pending', 'Declined', 'Paid'),
     }
 });
+
+Booking.hasMany(BookingItem, {foreignKey: 'booking_id'});
 
 module.exports = Booking;
