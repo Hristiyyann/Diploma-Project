@@ -1,11 +1,13 @@
 const {Sequelize, DataTypes} = require('sequelize');
 const sequelize = require('../utils/databaseConnection');
+const SitterCriteria = require('./sitterDogCriteria');
 
 const DogSize = sequelize.define('dog_sizes',
 {
     id:
     {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
     },   
 
@@ -24,5 +26,7 @@ const DogSize = sequelize.define('dog_sizes',
         type: DataTypes.INTEGER,
     }
 });
+
+DogSize.hasMany(SitterCriteria, {foreignKey: 'dog_size_id'});
 
 module.exports = DogSize;
