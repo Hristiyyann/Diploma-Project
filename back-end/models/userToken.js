@@ -23,6 +23,7 @@ const UserToken = sequelize.define('user_tokens',
     is_invalidated:
     {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
     }
 });
 

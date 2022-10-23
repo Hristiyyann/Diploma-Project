@@ -34,6 +34,6 @@ const Schedule = sequelize.define('schedules',
     {
         type: DataTypes.TIME,
     }
-})
+});
 
 module.exports = Schedule;

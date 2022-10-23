@@ -22,7 +22,7 @@ const BookingItem = sequelize.define('booking_items',
 
     price:
     {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.DECIMAL(7,2),
     }
 });
 

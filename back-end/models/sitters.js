@@ -26,7 +26,6 @@ const Sitter = sequelize.define('sitters',
         type: DataTypes.STRING,
     },
 
-    
     neighborhood:
     {
         type: DataTypes.STRING,
