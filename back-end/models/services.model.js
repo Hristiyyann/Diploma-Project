@@ -1,8 +1,8 @@
 const {DataTypes} = require('sequelize');
-const sequelize = require('../utils/databaseConnection');
-const Schedule = require('./schedules');
-const SitterService = require('./sitterServices');
-const BookingItem = require('./bookingItems');
+const sequelize = require('../utils/database-connection');
+const Schedule = require('./schedules.model');
+const SitterService = require('./sitter-services.model');
+const BookingItem = require('./booking-items.model');
 
 const Service = sequelize.define('services',
 {

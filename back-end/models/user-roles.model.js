@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize');
-const sequelize = require('../utils/databaseConnection');
+const sequelize = require('../utils/database-connection');
 
-const UserNotificationsToken = sequelize.define('user_notifications_tokens',
+const UserRole = sequelize.define('user_roles',
 {
     id:
     {
@@ -15,10 +15,10 @@ const UserNotificationsToken = sequelize.define('user_notifications_tokens',
         type: DataTypes.UUID,
     },
 
-    token:
+    role: 
     {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM('Common', 'Sitter', 'Admin'),
     }
 });
 
-module.exports = UserNotificationsToken;
+module.exports = UserRole;

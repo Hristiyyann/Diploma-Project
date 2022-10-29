@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize');
-const sequelize = require('../utils/databaseConnection');
+const sequelize = require('../utils/database-connection');
 
-const UserToken = sequelize.define('user_tokens',
+const UserNotificationsToken = sequelize.define('user_notifications_tokens',
 {
     id:
     {
@@ -18,13 +18,7 @@ const UserToken = sequelize.define('user_tokens',
     token:
     {
         type: DataTypes.STRING,
-    },
-
-    is_invalidated:
-    {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
     }
 });
 
-module.exports = UserToken;
+module.exports = UserNotificationsToken;

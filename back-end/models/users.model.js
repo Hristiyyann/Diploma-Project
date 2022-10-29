@@ -1,12 +1,11 @@
 const {DataTypes} = require('sequelize');
-const sequelize = require('../utils/databaseConnection');
-const UserNotificationsToken = require('./userNotificationsToken');
-const UserRole = require('./userRoles');
-const UserToken = require('./userToken');
-const SmsCode = require('./smsCodes');
-const Sitter = require('./sitters');
-const Review = require('./reviews');
-const Booking = require('./bookings');
+const sequelize = require('../utils/database-connection');
+const UserNotificationsToken = require('./user-notifications-token.model');
+const UserRole = require('./user-roles.model');
+const UserToken = require('./user-token.model');
+const Sitter = require('./sitters.model');
+const Review = require('./reviews.model');
+const Booking = require('./bookings.model');
 
 const User = sequelize.define('users',
 {
@@ -30,7 +29,7 @@ const User = sequelize.define('users',
     email_address:
     {
         type: DataTypes.STRING,
-        unique: true,
+        unique: 'email_address',
     },
 
     password:
@@ -41,7 +40,7 @@ const User = sequelize.define('users',
     telephone_number:
     {
         type: DataTypes.STRING,
-        unique: true
+        unique: 'telephone_number'
     },
 
     is_candidate:
@@ -67,7 +66,6 @@ User.hasOne(Sitter, {foreignKey: 'user_id'});
 User.hasMany(UserNotificationsToken, {foreignKey: 'user_id'});
 User.hasMany(UserRole, {foreignKey: 'user_id'});
 User.hasMany(UserToken, {foreignKey: 'user_id'});
-User.hasMany(SmsCode, {foreignKey: 'user_id'});
 User.hasMany(Review, {foreignKey: 'booker_id'});
 User.hasMany(Booking, {foreignKey: 'booker_id'});
 

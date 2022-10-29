@@ -1,10 +1,10 @@
 const {DataTypes} = require('sequelize');
-const sequelize = require('../utils/databaseConnection');
-const Review = require('./reviews');
-const Booking = require('./bookings');
-const SitterService = require('./sitterServices');
-const Schedule = require('./schedules');
-const SitterCriteria = require('./sitterDogCriteria');
+const sequelize = require('../utils/database-connection');
+const Review = require('./reviews.model');
+const Booking = require('./bookings.model');
+const SitterService = require('./sitter-services.model');
+const Schedule = require('./schedules.model');
+const SitterCriteria = require('./sitter-pet-criteria.model');
 
 const Sitter = sequelize.define('sitters',
 {

@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize');
-const sequelize = require('../utils/databaseConnection');
+const sequelize = require('../utils/database-connection');
 
-const SmsCode = sequelize.define('sms_codes',
+const UserToken = sequelize.define('user_tokens',
 {
     id:
     {
@@ -15,15 +15,16 @@ const SmsCode = sequelize.define('sms_codes',
         type: DataTypes.UUID,
     },
 
-    code:
+    token:
     {
         type: DataTypes.STRING,
     },
 
-    expires_in:
+    is_invalidated:
     {
-        type: DataTypes.DATE,
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
     }
 });
 
-module.exports = SmsCode;
+module.exports = UserToken;

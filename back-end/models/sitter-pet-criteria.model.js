@@ -1,7 +1,8 @@
 const {DataTypes} = require('sequelize');
-const sequelize = require('../utils/databaseConnection');
+const sequelize = require('../utils/database-connection');
 
-const SitterCriteria = sequelize.define('sitter_dog_criteria',{
+const SitterCriteria = sequelize.define('sitter_pet_criteria',
+{
     id: 
     {
         type: DataTypes.UUID,
@@ -13,7 +14,7 @@ const SitterCriteria = sequelize.define('sitter_dog_criteria',{
         type: DataTypes.UUID
     },
 
-    dog_size_id:
+    pet_id:
     {
         type: DataTypes.UUID
     }

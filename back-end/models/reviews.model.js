@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize');
-const sequelize = require('../utils/databaseConnection');
+const sequelize = require('../utils/database-connection');
 
-const SitterService = sequelize.define('sitter_services',
+const Review = sequelize.define('reviews',
 {
     id:
     {
@@ -10,20 +10,25 @@ const SitterService = sequelize.define('sitter_services',
         primaryKey: true,
     },
 
+    booker_id: 
+    {
+        type: DataTypes.UUID,
+    },
+
     sitter_id: 
     {
         type: DataTypes.UUID,
     },
 
-    service_id:
+    review:
     {
-        type: DataTypes.UUID,
+        type: DataTypes.TEXT,
     },
 
-    price:
+    grade: 
     {
-        type: DataTypes.DECIMAL(5,2),
+        type: DataTypes.INTEGER,
     }
 });
 
-module.exports = SitterService;
+module.exports = Review;
