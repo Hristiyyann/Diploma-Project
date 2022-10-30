@@ -15,10 +15,10 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 
     dialectOptions: 
     {
-        timezone: "+03:00"
+        timezone: "+02:00"
     },
 
-    timezone: "+03:00",
+    timezone: "+02:00",
 });
 
 module.exports = sequelize;
