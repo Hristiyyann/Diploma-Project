@@ -9,10 +9,11 @@ const Review = require('../models/reviews.model');
 const Service = require('../models/services.model');
 const SitterService = require('../models/sitter-services.model');
 const UserNotificationsToken = require('../models/user-notifications-token.model');
-const UserToken = require('../models/user-token.model'); 
+const UserToken = require('../models/user-tokens.model'); 
+const UserRole = require('../models/user-roles.model');
 
 module.exports = 
 {
     User, Sitter, Service, SitterService, UserNotificationsToken, UserToken,
-    Booking, BookingItem, Schedule, Pet, SitterCriteria, Review 
+    Booking, BookingItem, Schedule, Pet, SitterCriteria, Review, UserRole
 };
