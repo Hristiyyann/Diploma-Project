@@ -1,6 +1,9 @@
-const User = require('../models/users.model');
+const {User, UserRole} = require('../utils/models');
+const {addTokenToDB} = require('../utils/helpers');
 const { Op } = require("sequelize");
 const bcrypt = require('bcrypt');
+const config = require('../utils/config');
+const jwt = require('jsonwebtoken');
 
 async function signUp(req, res) 
 {
@@ -43,7 +46,49 @@ async function signUp(req, res)
     }
 }
 
-module.exports = {
+async function verify(req, res)
+{
+    try 
+    {
+        const{smsCode, userId} = req.body;
+        //смс кода се проверява
+
+        const user = await User.findByPk(userId);
+
+        if(!user) res.status(404).send("This user does not exist");
+
+        user.is_verified = true
+        user.save(); 
+
+        const records = await UserRole.create(
+        {
+            user_id: userId,
+            role: UserRole.rawAttributes.role.values[0]
+        }) 
+
+        const accessToken = jwt.sign(
+        {userId, role: [records.role]}, 
+        config.accessTokenSecret,
+        {expiresIn: '30s'});
+
+        const refreshToken = jwt.sign(
+        {userId},
+        config.refreshTokenSecret);
+
+        addTokenToDB(userId, accessToken);
+        addTokenToDB(userId, refreshToken);
+
+        res.status(200).send({role: [records.role], accessToken, refreshToken});
+    }
+    catch (err)
+    {
+        console.log(err);
+    }
+}
+
+module.exports = 
+{
     signUp,
+    verify
 };
 
