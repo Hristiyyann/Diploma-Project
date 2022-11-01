@@ -1,6 +1,6 @@
-const {User, UserRole} = require('../utils/models');
-const {addTokenToDB} = require('../utils/helpers');
 const { Op } = require("sequelize");
+const {User, UserRole, UserToken} = require('../utils/models');
+const {addTokenToDB} = require('../utils/helpers');
 const bcrypt = require('bcrypt');
 const config = require('../utils/config');
 const jwt = require('jsonwebtoken');
@@ -67,7 +67,7 @@ async function verify(req, res)
         const accessToken = jwt.sign(
         {userId, role: [records.role]}, 
         config.accessTokenSecret,
-        {expiresIn: '30s'});
+        {expiresIn: '1h'});
 
         const refreshToken = jwt.sign(
         {userId},
@@ -84,9 +84,35 @@ async function verify(req, res)
     }
 }
 
+async function logOut(req, res)
+{
+    const {allDevices} = req.query;
+    const {accessToken, refreshToken} = req.body;
+    console.log(accessToken, refreshToken);
+    const conditions = {};
+    
+    if(allDevices) conditions.where = {...conditions.where, user_id: req.userData.userId};
+    else conditions.where = {...conditions.where, [Op.or] : [{token: accessToken}, {token: refreshToken}]};
+    console.log(conditions);
+
+    try
+    {
+        const tokens = await UserToken.findAll(conditions);
+        
+        tokens.forEach((token) => {token.is_invalidated = true; token.save()});
+
+        return res.status(200).send({success: true, message:"Tokens are invalidated!"});
+    }
+    catch (error)
+    {
+        console.log(error);
+    }
+}
+
 module.exports = 
 {
     signUp,
-    verify
+    verify,
+    logOut,
 };
 
