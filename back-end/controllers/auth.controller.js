@@ -11,19 +11,16 @@ async function signUp(req, res)
     {
         const {firstName, lastName, emailAddress, password, telephoneNumber} = req.body;
 
-        const oldUser = await User.findOne(
+        const user = await User.findOne(
         {
             where: 
             {
-                [Op.or]:
-                [
-                    {telephone_number: telephoneNumber},
-                    {email_address: emailAddress}
-                ]
+                telephone_number: telephoneNumber
             }
         });
 
-        if(oldUser) res.status(400).send({success: false, message: "This user already exists, please log in!"});
+        if(user && !user.is_verified) return res.status(400).send({success: false, message: "You have to verify your telephone_number!"});
+        else if(user) return res.status(200).send({success: true, message: "You have to log in!"});
 
         const passwordSalt = await bcrypt.genSalt(16);
         const hashedPassword = await bcrypt.hash(password, passwordSalt);
@@ -40,9 +37,9 @@ async function signUp(req, res)
         console.log(JSON.stringify(newUser));
         res.status(200).send({success: true, userId: newUser.id});
     }
-    catch(err) 
+    catch(error) 
     {
-        console.log(err);
+        if(error.name == 'SequelizeUniqueConstraintError') res.status(403).send({success: false, message: "This email is already used"});
     }
 }
 
@@ -51,11 +48,12 @@ async function verify(req, res)
     try 
     {
         const{smsCode, userId} = req.body;
-        //смс кода се проверява
+        
+        if(!(smsCode == 2323)) return res.status(403).send({success: false, message: "This code is incorrect! Try again!"});
 
         const user = await User.findByPk(userId);
 
-        if(!user) res.status(404).send("This user does not exist");
+        if(!user) return res.status(404).send("This user does not exist");
 
         user.is_verified = true
         user.save(); 
@@ -80,7 +78,7 @@ async function verify(req, res)
 
         res.status(200).send({role: [records.role], accessToken, refreshToken});
     }
-    catch (err)
+    catch (error)
     {
         console.log(err);
     }
