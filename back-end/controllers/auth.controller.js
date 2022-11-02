@@ -80,7 +80,7 @@ async function verify(req, res)
     }
     catch (error)
     {
-        console.log(err);
+        console.log(error);
     }
 }
 
@@ -91,8 +91,8 @@ async function logOut(req, res)
     console.log(accessToken, refreshToken);
     const conditions = {};
     
-    if(allDevices) conditions.where = {...conditions.where, user_id: req.userData.userId};
-    else conditions.where = {...conditions.where, [Op.or] : [{token: accessToken}, {token: refreshToken}]};
+    if(allDevices) conditions.where = {...conditions.where, [Op.and]: [{is_invalidated: false}, {user_id: req.userData.userId}]};
+    else conditions.where = {...conditions.where, [Op.and]: [{is_invalidated: false}, {[Op.or] : [{token: accessToken}, {token: refreshToken}]}]};
     console.log(conditions);
 
     try
@@ -101,7 +101,7 @@ async function logOut(req, res)
         
         tokens.forEach((token) => {token.is_invalidated = true; token.save()});
 
-        return res.status(200).send({success: true, message:"Tokens are invalidated!"});
+        return res.status(200).send({success: true, message:"Tokens are invalidated!", tokens});
     }
     catch (error)
     {
