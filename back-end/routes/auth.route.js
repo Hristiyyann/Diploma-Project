@@ -6,6 +6,9 @@ const verifyToken = require('../middlewares/verifyToken');
 router.route('/signup')
     .post(authController.signUp);
 
+router.route('/signin')
+    .post(authController.signIn); 
+
 router.route('/verify')
     .post(authController.verify); 
     

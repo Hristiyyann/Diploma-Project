@@ -43,6 +43,51 @@ async function signUp(req, res)
     }
 }
 
+async function signIn(req, res) 
+{
+    const {telephoneNumber, emailAddress, password} = req.body;
+    const conditions = {};
+
+    if(telephoneNumber) conditions.where = {...conditions.where, telephone_number: telephoneNumber};
+    else if(emailAddress) conditions.where = {...conditions.where, email_address: emailAddress};
+    else return res.status(403).send({success: true, message: "There aren't provided credentials"});
+
+    const user = await User.findOne(conditions);
+
+    if(!user) return res.status(404).send({success: false, message: "This user does not exist"});
+    else if(user && !user.is_verified) return res.status(400).send({success: false, message: "You have to verify your telephone_number!"});
+
+    const result = await bcrypt.compare(password, user.password);
+   
+    if(!result) return res.status(403).send({success: false, message: "Password is incorrect"});
+
+    const userRoles = await UserRole.findAll(
+    {
+        where:
+        {
+            user_id: user.id
+        },
+        attributes: ['role']
+    });
+
+    const roles = [];
+    userRoles.forEach(role => { roles.push(role.role); });
+
+    const accessToken = jwt.sign(
+    {userId: user.id, roles}, 
+    config.accessTokenSecret,
+    {expiresIn: '1h'});
+
+    const refreshToken = jwt.sign(
+    {userId:user.id},
+    config.refreshTokenSecret);
+
+    addTokenToDB(user.id, accessToken);
+    addTokenToDB(user.id, refreshToken);
+
+    res.status(200).send({roles, accessToken, refreshToken});
+}
+
 async function verify(req, res)
 {
     try 
@@ -53,7 +98,8 @@ async function verify(req, res)
 
         const user = await User.findByPk(userId);
 
-        if(!user) return res.status(404).send("This user does not exist");
+        if(user.is_verified) return res.status(400).send({success: false, message: "This user is already verified!"});
+        else if(!user) return res.status(404).send({success: false, message: "This user does not exist"});
 
         user.is_verified = true
         user.save(); 
@@ -65,7 +111,7 @@ async function verify(req, res)
         }) 
 
         const accessToken = jwt.sign(
-        {userId, role: [records.role]}, 
+        {userId, roles: [records.role]}, 
         config.accessTokenSecret,
         {expiresIn: '1h'});
 
@@ -112,6 +158,7 @@ async function logOut(req, res)
 module.exports = 
 {
     signUp,
+    signIn,
     verify,
     logOut,
 };
