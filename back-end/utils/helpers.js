@@ -44,8 +44,29 @@ async function getRoles(userId)
     }
 }
 
+async function findToken(token)
+{
+    try
+    {
+        const isTokenFound = await UserToken.findOne(
+        {
+            where: 
+            { 
+                token
+            }
+        });
+
+        return isTokenFound;
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+}
+
 module.exports = 
 {
     addTokensToDB,
-    getRoles
+    getRoles,
+    findToken
 }
