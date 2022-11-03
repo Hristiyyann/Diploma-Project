@@ -45,37 +45,45 @@ async function signUp(req, res)
 
 async function signIn(req, res) 
 {
-    const {telephoneNumber, emailAddress, password} = req.body;
-    const conditions = {};
+    try
+    {
+        const {telephoneNumber, emailAddress, password} = req.body;
+        const conditions = {};
 
-    if(telephoneNumber) conditions.where = {...conditions.where, telephone_number: telephoneNumber};
-    else if(emailAddress) conditions.where = {...conditions.where, email_address: emailAddress};
-    else return res.status(403).send({success: true, message: "There aren't provided credentials"});
+        if(telephoneNumber) conditions.where = {...conditions.where, telephone_number: telephoneNumber};
+        else if(emailAddress) conditions.where = {...conditions.where, email_address: emailAddress};
+        else return res.status(403).send({success: true, message: "There aren't provided credentials"});
 
-    const user = await User.findOne(conditions);
+        const user = await User.findOne(conditions);
 
-    if(!user) return res.status(404).send({success: false, message: "This user does not exist"});
-    else if(user && !user.is_verified) return res.status(400).send({success: false, message: "You have to verify your telephone_number!"});
+        if(!user) return res.status(404).send({success: false, message: "This user does not exist"});
+        else if(user && !user.is_verified) return res.status(400).send({success: false, message: "You have to verify your telephone_number!"});
 
-    const result = await bcrypt.compare(password, user.password);
-   
-    if(!result) return res.status(403).send({success: false, message: "Password is incorrect"});
- 
-    const roles = await getRoles(user.id);
+        const result = await bcrypt.compare(password, user.password);
+    
+        if(!result) return res.status(403).send({success: false, message: "Password is incorrect"});
+    
+        const roles = await getRoles(user.id);
 
-    const accessToken = jwt.sign(
-    {userId: user.id, roles}, 
-    config.accessTokenSecret,
-    {expiresIn: '1h'});
+        const accessToken = jwt.sign(
+        {userId:    user.id, roles}, 
+        config.accessTokenSecret,
+        {expiresIn: '1h'});
 
-    const refreshToken = jwt.sign(
-    {userId:user.id},
-    config.refreshTokenSecret);
+        const refreshToken = jwt.sign(
+        {userId:user.id},
+        config.refreshTokenSecret);
 
-    addTokensToDB(user.id, accessToken, refreshToken);
+        addTokensToDB(user.id, accessToken, refreshToken);
 
-    res.status(200).send({roles, accessToken, refreshToken});
-}
+        res.status(200).send({roles, accessToken, refreshToken});
+
+    }
+    catch (error)
+    {
+        console.log(error);
+    }
+}    
 
 async function verify(req, res)
 {
@@ -164,7 +172,7 @@ async function refreshToken(req,res)
         
         addTokensToDB(user.userId, newRefreshToken, newRefreshToken);
 
-        return res.status(200).send({success: true, accessToken: newAccessToken, refreshToken: newRefreshToken, roles});
+        return res.status(200).send({success: true, roles, accessToken: newAccessToken, refreshToken: newRefreshToken});
     }
     catch(error)
     {
@@ -180,17 +188,15 @@ async function logOut(req, res)
     console.log(accessToken, refreshToken);
     const conditions = {};
     
-    if(allDevices) conditions.where = {...conditions.where, [Op.and]: [{is_invalidated: false}, {user_id: req.userData.userId}]};
-    else conditions.where = {...conditions.where, [Op.and]: [{is_invalidated: false}, {[Op.or] : [{token: accessToken}, {token: refreshToken}]}]};
+    if(allDevices) conditions.where = {...conditions.where, user_id: req.userData.userId};
+    else conditions.where = {...conditions.where, [Op.or] : [{token: accessToken}, {token: refreshToken}]};
     console.log(conditions);
 
     try
     {
-        const tokens = await UserToken.findAll(conditions);
-        
-        tokens.forEach((token) => {token.is_invalidated = true; token.save()});
+        await UserToken.destroy(conditions);
 
-        return res.status(200).send({success: true, message:"Tokens are invalidated!", tokens});
+        return res.status(200).send({success: true, message:"Tokens are invalidated!"});
     }
     catch (error)
     {
