@@ -1,6 +1,6 @@
 const { Op } = require("sequelize");
 const {User, UserRole, UserToken} = require('../utils/models');
-const {addTokenToDB} = require('../utils/helpers');
+const {addTokensToDB, getRoles} = require('../utils/helpers');
 const bcrypt = require('bcrypt');
 const config = require('../utils/config');
 const jwt = require('jsonwebtoken');
@@ -22,7 +22,7 @@ async function signUp(req, res)
         if(user && !user.is_verified) return res.status(400).send({success: false, message: "You have to verify your telephone_number!"});
         else if(user) return res.status(200).send({success: true, message: "You have to log in!"});
 
-        const passwordSalt = await bcrypt.genSalt(16);
+        const passwordSalt = await bcrypt.genSalt(12);
         const hashedPassword = await bcrypt.hash(password, passwordSalt);
 
         const newUser = await User.create(
@@ -60,18 +60,8 @@ async function signIn(req, res)
     const result = await bcrypt.compare(password, user.password);
    
     if(!result) return res.status(403).send({success: false, message: "Password is incorrect"});
-
-    const userRoles = await UserRole.findAll(
-    {
-        where:
-        {
-            user_id: user.id
-        },
-        attributes: ['role']
-    });
-
-    const roles = [];
-    userRoles.forEach(role => { roles.push(role.role); });
+ 
+    const roles = await getRoles(user.id);
 
     const accessToken = jwt.sign(
     {userId: user.id, roles}, 
@@ -82,8 +72,7 @@ async function signIn(req, res)
     {userId:user.id},
     config.refreshTokenSecret);
 
-    addTokenToDB(user.id, accessToken);
-    addTokenToDB(user.id, refreshToken);
+    addTokensToDB(user.id, accessToken, refreshToken);
 
     res.status(200).send({roles, accessToken, refreshToken});
 }
@@ -119,8 +108,7 @@ async function verify(req, res)
         {userId},
         config.refreshTokenSecret);
 
-        addTokenToDB(userId, accessToken);
-        addTokenToDB(userId, refreshToken);
+        addTokensToDB(userId, accessToken, refreshToken);
 
         res.status(200).send({role: [records.role], accessToken, refreshToken});
     }
@@ -128,6 +116,61 @@ async function verify(req, res)
     {
         console.log(error);
     }
+}
+
+async function refreshToken(req,res)
+{
+    try
+    {
+        const {refreshToken} = req.body;
+
+        if(!refreshToken) res.status(403).send({success: false, message:"There is no provided token"});
+
+        const isTokenFound = await UserToken.findOne(
+        {
+            where: 
+            {
+                token: refreshToken
+            }
+        });
+
+        const user = jwt.verify(refreshToken, config.refreshTokenSecret);
+        
+        if(!isTokenFound)
+        {
+            console.log(JSON.stringify(user));
+            const allConnectedTokens = await UserToken.destroy(
+            {
+                where:
+                {
+                    user_id: user.userId
+                }
+            });
+            
+            return res.send({success: false, message: "Access denied"});
+        }
+
+        await UserToken.destroy({where:{token:refreshToken}});
+        const roles = await getRoles(user.userId);
+        
+        const newAccessToken = jwt.sign(
+        {userId: user.userId, roles}, 
+        config.accessTokenSecret,
+        {expiresIn: '1h'});
+
+        const newRefreshToken = jwt.sign(
+        {userId: user.userId},
+        config.refreshTokenSecret);
+        
+        addTokensToDB(user.userId, newRefreshToken, newRefreshToken);
+
+        return res.status(200).send({success: true, accessToken: newAccessToken, refreshToken: newRefreshToken, roles});
+    }
+    catch(error)
+    {
+        if(error.name == 'JsonWebTokenError') return res.status(403).send({success: false, message: "Access denied"});
+        console.log(error);
+    }    
 }
 
 async function logOut(req, res)
@@ -160,6 +203,7 @@ module.exports =
     signUp,
     signIn,
     verify,
+    refreshToken,
     logOut,
 };
 

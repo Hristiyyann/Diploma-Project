@@ -13,6 +13,9 @@ router.route('/verify')
     .post(authController.verify); 
     
 router.route('/logout')
-    .post(verifyToken, authController.logOut);    
-
+    .post(verifyToken, authController.logOut);
+    
+router.route('/refresh')    
+    .post(authController.refreshToken);
+    
 module.exports = router;
