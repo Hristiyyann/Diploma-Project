@@ -1,7 +1,10 @@
 const express = require('express');
 const app = express();
+require('express-async-errors');
 const database = require('./utils/database-connection');
 const models = require('./utils/models');
+const errorLogger = require('./middlewares/errorLogger');
+const errorHandler = require('./middlewares/errorHandler');
 const authRouter = require('./routes/auth.route');
 
 app.use(express.json());
@@ -15,5 +18,8 @@ database.authenticate()
 /* database.sync({alter: true})
     .then(() => console.log("Successfull sync"))
     .catch((err) => console.log("Unsuccessfull sync", err)) */
+
+app.use(errorLogger);
+app.use(errorHandler);
 
 app.listen(8000);    
