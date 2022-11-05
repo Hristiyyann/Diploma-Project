@@ -1,4 +1,6 @@
+const {validationResult} = require('express-validator');
 const {UserToken, UserRole} = require('./models');
+const {ValidationError} = require('../utils/errors');
 
 async function addTokensToDB(userId, accessToken, refreshToken) 
 {
@@ -64,9 +66,20 @@ async function findToken(token)
     }
 }
 
+function throwError(req)
+{
+    const error = validationResult(req);
+    if(!error.isEmpty()) 
+    {
+        console.log(JSON.stringify(error.array()));
+        throw new ValidationError(error.array()[0].msg, 400);
+    }    
+}
+
 module.exports = 
 {
     addTokensToDB,
     getRoles,
-    findToken
+    findToken,
+    throwError
 }
