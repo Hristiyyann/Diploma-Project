@@ -4,66 +4,45 @@ const {ValidationError} = require('../utils/errors');
 
 async function addTokensToDB(userId, accessToken, refreshToken) 
 {
-    try
+    await UserToken.bulkCreate([
     {
-        await UserToken.bulkCreate([
-        {
-            user_id: userId,
-            token: accessToken
-        },
-        {
-            user_id: userId,
-            token: refreshToken
-        }]);
-    }
-    catch (err)
+        user_id: userId,
+        token: accessToken
+    },
     {
-        console.log(err);
-    }
+        user_id: userId,
+        token: refreshToken
+    }]);
 }
 
 async function getRoles(userId)
 {
-    try
+    const userRoles = await UserRole.findAll(
     {
-        const userRoles = await UserRole.findAll(
+        where:
         {
-            where:
-            {
-                user_id: userId
-            },
-            attributes: ['role']
-        });
-    
-        const roles = [];
-        userRoles.forEach(role => { roles.push(role.role); });
+            user_id: userId
+        },
+        attributes: ['role']
+    });
 
-        return roles;
-    }
-    catch(error) 
-    {
-        console.log(error);
-    }
+    const roles = [];
+    userRoles.forEach(role => { roles.push(role.role); });
+
+    return roles;
 }
 
 async function findToken(token)
 {
-    try
+    const isTokenFound = await UserToken.findOne(
     {
-        const isTokenFound = await UserToken.findOne(
-        {
-            where: 
-            { 
-                token
-            }
-        });
+        where: 
+        { 
+            token
+        }
+    });
 
-        return isTokenFound;
-    }
-    catch(error)
-    {
-        console.log(error);
-    }
+    return isTokenFound;
 }
 
 function throwError(req)
