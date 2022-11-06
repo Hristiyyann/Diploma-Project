@@ -123,7 +123,7 @@ async function refreshToken(req,res)
             }
         });
         
-        throw new ValidationError('Acess denied', 403);
+        throw new ValidationError('Access denied', 403);
     }
 
     await UserToken.destroy({where:{token:refreshToken}});
