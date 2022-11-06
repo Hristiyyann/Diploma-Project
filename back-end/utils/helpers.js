@@ -9,11 +9,13 @@ async function addTokensToDB(userId, accessToken, refreshToken)
     await UserToken.bulkCreate([
     {
         user_id: userId,
-        token: accessToken
+        token: accessToken, 
+        token_type: UserToken.rawAttributes.token_type.values[0]
     },
     {
         user_id: userId,
-        token: refreshToken
+        token: refreshToken,
+        token_type:UserToken.rawAttributes.token_type.values[1]
     }]);
 }
 

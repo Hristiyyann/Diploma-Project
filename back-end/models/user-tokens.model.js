@@ -20,10 +20,9 @@ const UserToken = sequelize.define('user_tokens',
         type: DataTypes.STRING,
     },
 
-    is_invalidated:
+    token_type:
     {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+        type: DataTypes.ENUM('Access', 'Refresh'),
     }
 });
 
