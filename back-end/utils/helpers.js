@@ -1,6 +1,8 @@
+const jwt = require('jsonwebtoken');
 const {validationResult} = require('express-validator');
 const {UserToken, UserRole} = require('./models');
 const {ValidationError} = require('../utils/errors');
+const config = require('../utils/config');
 
 async function addTokensToDB(userId, accessToken, refreshToken) 
 {
@@ -55,10 +57,31 @@ function throwError(req)
     }    
 }
 
+function signAccessToken(userId, roles)
+{
+    const accessToken = jwt.sign(
+    {userId, roles}, 
+    config.accessTokenSecret,
+    {expiresIn: '1h'});
+
+    return accessToken;
+}
+
+function signRefreshToken(userId)
+{
+    const refreshToken = jwt.sign(
+    {userId},
+    config.refreshTokenSecret);
+    
+    return refreshToken;
+}
+
 module.exports = 
 {
     addTokensToDB,
     getRoles,
     findToken,
-    throwError
+    throwError,
+    signAccessToken,
+    signRefreshToken
 }
