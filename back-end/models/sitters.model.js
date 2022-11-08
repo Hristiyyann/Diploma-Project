@@ -34,6 +34,11 @@ const Sitter = sequelize.define('sitters',
     neighborhood:
     {
         type: DataTypes.STRING,
+    },
+
+    status:
+    {
+        type: DataTypes.ENUM('Candidate', 'Approved', 'Disapproved'),
     }
 });
 

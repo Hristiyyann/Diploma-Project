@@ -43,12 +43,6 @@ const User = sequelize.define('users',
         unique: 'telephone_number'
     },
 
-    is_candidate:
-    {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-    },
-
     is_verified:
     {
         type: DataTypes.BOOLEAN,
