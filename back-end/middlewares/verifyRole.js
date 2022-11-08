@@ -5,14 +5,16 @@ function verifyRole(roles)
     return(req, res, next) =>
     {
         const userRoles = req.userData.roles;
-        userRoles.forEach(role => 
+        
+        for(const role of userRoles)
         {
             if(roles.includes(role))
             {
-                next();
+                console.log(roles, role);
+                return next();
             }
-        })
-
+        }
+    
         throw new ValidationError("Unauthorized", 403);
     }
 }
