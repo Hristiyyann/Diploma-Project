@@ -78,6 +78,15 @@ function signRefreshToken(userId)
     return refreshToken;
 }
 
+function differenceInDays(changeDate)
+{
+    const previousStatusChange = new Date(changeDate);
+    const todayDate = new Date();
+    const millisPerDay = 24 * 60 * 60 * 1000; 
+
+    return Math.floor((todayDate - previousStatusChange) / millisPerDay);
+}
+
 module.exports = 
 {
     addTokensToDB,
@@ -85,5 +94,6 @@ module.exports =
     findToken,
     throwError,
     signAccessToken,
-    signRefreshToken
+    signRefreshToken,
+    differenceInDays
 }

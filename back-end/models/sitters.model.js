@@ -39,6 +39,7 @@ const Sitter = sequelize.define('sitters',
     status:
     {
         type: DataTypes.ENUM('Candidate', 'Approved', 'Disapproved'),
+        defaultValue: 'Candidate',
     }
 });
 

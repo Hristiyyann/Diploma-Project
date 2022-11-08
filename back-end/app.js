@@ -6,10 +6,12 @@ const models = require('./utils/models');
 const errorLogger = require('./middlewares/errorLogger');
 const errorHandler = require('./middlewares/errorHandler');
 const authRouter = require('./routes/auth.route');
+const sitterRouter = require('./routes/sitters.route');
 
 app.use(express.json());
 
 app.use('/auth', authRouter);
+app.use('/sitters', sitterRouter);
 
 database.authenticate()
     .then(() => console.log("Successfull connection"))
