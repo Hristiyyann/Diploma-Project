@@ -39,7 +39,21 @@ async function postCandidates(req, res)
     return res.status(200).send({success: true, message: "Okay user is again candidate"});
 }
 
+async function getCandidates(req, res)
+{
+    const candidates = await Sitter.findAll(
+    {
+        where: 
+        {
+            status: 'Candidate'
+        }
+    });
+
+    res.status(200).send({success: true, candidates});
+}
+
 module.exports = 
 {
     postCandidates,
+    getCandidates
 }
