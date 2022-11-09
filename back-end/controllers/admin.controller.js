@@ -1,5 +1,5 @@
 const {Op} = require('sequelize');
-const {Sitter} = require('../utils/models');
+const {Sitter, UserRole} = require('../utils/models');
 const {ResourceError} = require('../utils/errors');
 
 async function respondToCandidate(req, res) 
@@ -17,7 +17,7 @@ async function respondToCandidate(req, res)
                 {
                     status:
                     { 
-                        [Op.notIn]: ['Approved', 'Disapproved']
+                        [Op.notIn]: ['Approved']
                     }
                 }
             ]
@@ -26,10 +26,15 @@ async function respondToCandidate(req, res)
 
     if(!user) throw new ResourceError('This user does not exist', 400);
 
-    if(respond)
+    if(respond == 'true')
     {
         user.status = Sitter.rawAttributes.status.values[1];
         user.save();
+        await UserRole.create(
+        {
+            user_id: user.user_id,
+            role: UserRole.rawAttributes.role.values[1],
+        });
         return res.status(200).send({success: true, message:'User became sitter'});
     }
 
