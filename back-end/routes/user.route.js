@@ -4,6 +4,7 @@ const userController = require('../controllers/user.controller');
 const verifyToken = require('../middlewares/verifyToken');
 
 router.route('/information')
-    .get(verifyToken, userController.userInformation);
+    .get(verifyToken, userController.getUserInformation)
+    .put(verifyToken, userController.putUserInformation);
 
 module.exports = router;

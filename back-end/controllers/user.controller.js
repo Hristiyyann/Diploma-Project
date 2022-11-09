@@ -1,6 +1,6 @@
 const {User} = require('../utils/models');
 
-async function userInformation(req, res)
+async function getUserInformation(req, res)
 {
     const userId = req.userData.userId;
 
@@ -20,7 +20,35 @@ async function userInformation(req, res)
     res.status(200).send({success:true, data})
 }
 
+async function putUserInformation(req, res)
+{
+    const {firstName, lastName, telephone} = req.body
+    const userId = req.userData.userId;
+
+    const user = await User.findOne(
+    {
+        where:
+        {
+            id: userId
+        }
+    });
+
+    if(!user) throw new ResourceError('This user does not exist', 400);
+
+    await user.update(
+    {
+        first_name: firstName,
+        last_name: lastName,
+        telephone_number: telephone
+    });
+    
+    await user.save();
+
+    return res.status(200).send({success:true});
+} 
+
 module.exports = 
 {
-    userInformation,
+    getUserInformation,
+    putUserInformation
 }
