@@ -8,12 +8,14 @@ const errorHandler = require('./middlewares/errorHandler');
 const authRouter = require('./routes/auth.route');
 const sitterRouter = require('./routes/sitters.route');
 const adminRouter = require('./routes/admin.route');
+const userRouter = require('./routes/user.route');
 
 app.use(express.json());
 
 app.use('/auth', authRouter);
 app.use('/sitters', sitterRouter);
 app.use('/admin', adminRouter);
+app.use('/user', userRouter);
 
 database.authenticate()
     .then(() => console.log("Successfull connection"))
