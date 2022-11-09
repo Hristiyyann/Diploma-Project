@@ -1,4 +1,3 @@
-const { use } = require('express/lib/router');
 const {differenceInDays} = require('../utils/helpers');
 const {Sitter} = require('../utils/models');
 
@@ -41,15 +40,37 @@ async function postCandidates(req, res)
 
 async function getCandidates(req, res)
 {
+    const page = +req.query.page || 1;
+    const candidates_per_page = 5;
+
+    const total_candidates = await Sitter.count(
+    {
+        where: {status: 'Candidate'}
+    });
+
     const candidates = await Sitter.findAll(
     {
+        offset: (page - 1) * candidates_per_page,
+        limit: candidates_per_page,
         where: 
         {
             status: 'Candidate'
         }
     });
 
-    res.status(200).send({success: true, candidates});
+    const result = {}
+    if(page * candidates_per_page < total_candidates)
+    {
+        result.nextPageNumber = page +1;
+    }
+
+    res.status(200).send(
+    {
+        success: true, 
+        nextPage: page * candidates_per_page < total_candidates,
+        result,   
+        candidates
+    });
 }
 
 module.exports = 
