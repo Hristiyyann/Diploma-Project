@@ -21,7 +21,11 @@ async function signUp(req, res)
         }
     });
 
-    if(user && !user.is_verified) throw new ValidationError('You have to verify your telephone number!', 403)
+    if(user && !user.is_verified) 
+    {
+        await verification.sendOTP();
+        throw new ValidationError('You have to verify your telephone number!', 403)
+    }
     else if(user) throw new ValidationError('You have to log in', 401); 
 
     const passwordSalt = await bcrypt.genSalt(12);
@@ -55,11 +59,14 @@ async function signIn(req, res)
 
     const user = await User.findOne(conditions);
     if(!user) throw new ResourceError('Password or email address do not match', 400);
+    else if(user && !user.is_verified)  
+    {
+        await verification.sendOTP();
+        throw new ValidationError('You have to verify your telephone number', 403);
+    }    
     
     const result = await bcrypt.compare(password, user.password);
     if(!result) throw new ValidationError('Password or email address do not match', 400); 
-    else if(user && !user.is_verified)  throw new ValidationError('You have to verify your telephone number', 403);
-
     const roles = await getRoles(user.id);
 
     const accessToken = signAccessToken(user.id, roles);
@@ -75,12 +82,11 @@ async function verify(req, res)
 
     const{smsCode, userId} = req.body;
     
-    if(!(await verification.checkOTP(smsCode))) throw new ValidationError('This code is incorrect', 400);
-
     const user = await User.findByPk(userId);
-
-    if(user.is_verified)  throw new ValidationError('This user is already verified!', 400);
-    else if(!user) throw new ResourceError('This user does not exist', 400);
+    
+    if(!user) throw new ResourceError('This user does not exist', 400);
+    else if(user.is_verified)  throw new ValidationError('This user is already verified!', 400);
+    else if(!(await verification.checkOTP(smsCode))) throw new ValidationError('This code is incorrect', 400);
 
     user.is_verified = true
     user.save(); 
