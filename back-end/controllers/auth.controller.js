@@ -5,6 +5,7 @@ const {User, UserRole, UserToken} = require('../utils/models');
 const {addTokensToDB, getRoles, throwError, signAccessToken, signRefreshToken} = require('../utils/helpers');
 const {ValidationError, ResourceError} = require('../utils/errors');
 const config = require('../utils/config');
+const verification = require('../utils/telephone-number-verification');
 
 async function signUp(req, res) 
 {
@@ -34,6 +35,8 @@ async function signUp(req, res)
         password: hashedPassword,
         telephone_number: telephoneNumber
     })
+
+    await verification.sendOTP();
 
     console.log(JSON.stringify(newUser));
     res.status(200).send({success: true, userId: newUser.id});
@@ -72,7 +75,7 @@ async function verify(req, res)
 
     const{smsCode, userId} = req.body;
     
-    if(!(smsCode == 2323)) throw new ValidationError('This code is incorrect', 400);
+    if(!(await verification.checkOTP(smsCode))) throw new ValidationError('This code is incorrect', 400);
 
     const user = await User.findByPk(userId);
 
