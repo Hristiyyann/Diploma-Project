@@ -11,27 +11,27 @@ const Booking = sequelize.define('bookings',
         primaryKey: true,
     },
 
-    booker_id:
+    bookerId:
     {
         type: DataTypes.UUID,
     },
 
-    sitter_id:
+    sitterId:
     {
         type: DataTypes.UUID,
     },
 
-    transaction_secret_key:
+    transactionSecretKey:
     {
         type: DataTypes.STRING,
     },
 
-    transaction_status:
+    transactionStatus:
     {
         type: DataTypes.ENUM('Pending', 'Declined', 'Paid'),
     }
 });
 
-Booking.hasMany(BookingItem, {foreignKey: 'booking_id'});
+Booking.hasMany(BookingItem, {foreignKey: 'bookingId'});
 
 module.exports = Booking;

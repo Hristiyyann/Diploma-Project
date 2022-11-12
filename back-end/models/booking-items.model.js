@@ -10,12 +10,12 @@ const BookingItem = sequelize.define('booking_items',
         primaryKey: true,
     },
 
-    booking_id: 
+    bookingId: 
     {
         type: DataTypes.UUID,
     },
 
-    service_id:
+    serviceId:
     {
         type: DataTypes.UUID,
     },

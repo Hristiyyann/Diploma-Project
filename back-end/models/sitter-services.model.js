@@ -10,12 +10,12 @@ const SitterService = sequelize.define('sitter_services',
         primaryKey: true,
     },
 
-    sitter_id: 
+    sitterId: 
     {
         type: DataTypes.UUID,
     },
 
-    service_id:
+    serviceId:
     {
         type: DataTypes.UUID,
     },

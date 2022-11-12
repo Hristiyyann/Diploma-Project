@@ -15,13 +15,13 @@ const Sitter = sequelize.define('sitters',
         primaryKey: true,
     },
 
-    user_id: 
+    userId: 
     {
         type: DataTypes.UUID,
         unique: true,
     },
 
-    about_sitter:
+    aboutSitter:
     {
         type: DataTypes.TEXT,
     },
@@ -43,10 +43,10 @@ const Sitter = sequelize.define('sitters',
     }
 });
 
-Sitter.hasMany(Review, {foreignKey: 'sitter_id'});
-Sitter.hasMany(SitterService, {foreignKey: 'sitter_id'});
-Sitter.hasMany(Booking, {foreignKey: 'sitter_id'});
-Sitter.hasMany(Schedule,{foreignKey: 'sitter_id'});
-Sitter.hasMany(SitterCriteria, {foreignKey: 'sitter_id'});
+Sitter.hasMany(Review, {foreignKey: 'sitterId'});
+Sitter.hasMany(SitterService, {foreignKey: 'sitterId'});
+Sitter.hasMany(Booking, {foreignKey: 'sitterId'});
+Sitter.hasMany(Schedule,{foreignKey: 'sitterId'});
+Sitter.hasMany(SitterCriteria, {foreignKey: 'sitterId'});
     
 module.exports = Sitter;

@@ -9,12 +9,12 @@ const SitterCriteria = sequelize.define('sitter_pet_criteria',
         primaryKey: true
     },
 
-    sitter_id:
+    sitterId:
     {
         type: DataTypes.UUID
     },
 
-    pet_id:
+    petId:
     {
         type: DataTypes.UUID
     }

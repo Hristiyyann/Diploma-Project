@@ -13,20 +13,20 @@ const Service = sequelize.define('services',
         primaryKey: true,
     },
 
-    service_name: 
+    serviceName: 
     {
         type: DataTypes.STRING,
         unique: true,
     },
     
-    service_type:
+    serviceType:
     {
         type: DataTypes.ENUM('Main', 'Additional'),
     }
 });
 
-Service.hasMany(SitterService, {foreignKey: 'service_id',});
-Service.hasMany(BookingItem, {foreignKey: 'service_id'});
-Service.hasMany(Schedule, {foreignKey: 'service_id'});
+Service.hasMany(SitterService, {foreignKey: 'serviceId',});
+Service.hasMany(BookingItem, {foreignKey: 'serviceId'});
+Service.hasMany(Schedule, {foreignKey: 'serviceId'});
 
 module.exports = Service;

@@ -10,12 +10,12 @@ const Review = sequelize.define('reviews',
         primaryKey: true,
     },
 
-    booker_id: 
+    bookerId: 
     {
         type: DataTypes.UUID,
     },
 
-    sitter_id: 
+    sitterId: 
     {
         type: DataTypes.UUID,
     },

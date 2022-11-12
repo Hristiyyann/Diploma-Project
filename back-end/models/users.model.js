@@ -16,17 +16,17 @@ const User = sequelize.define('users',
         primaryKey: true,
     },
 
-    first_name:
+    firstName:
     {
         type: DataTypes.STRING,
     },
 
-    last_name:
+    lastName:
     {
         type: DataTypes.STRING,
     },
 
-    email_address:
+    emailAddress:
     {
         type: DataTypes.STRING,
         unique: 'email_address',
@@ -37,30 +37,30 @@ const User = sequelize.define('users',
         type: DataTypes.STRING,
     },
 
-    telephone_number:
+    telephoneNumber:
     {
         type: DataTypes.STRING,
         unique: 'telephone_number'
     },
 
-    is_verified:
+    isVerified:
     {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
 
-    is_bloked:
+    isBloked:
     {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     }
 });
 
-User.hasOne(Sitter, {foreignKey: 'user_id'});    
-User.hasMany(UserNotificationsToken, {foreignKey: 'user_id'});
-User.hasMany(UserRole, {foreignKey: 'user_id'});
-User.hasMany(UserToken, {foreignKey: 'user_id'});
-User.hasMany(Review, {foreignKey: 'booker_id'});
-User.hasMany(Booking, {foreignKey: 'booker_id'});
+User.hasOne(Sitter, {foreignKey: 'userId'});    
+User.hasMany(UserNotificationsToken, {foreignKey: 'userId'});
+User.hasMany(UserRole, {foreignKey: 'userId'});
+User.hasMany(UserToken, {foreignKey: 'userId'});
+User.hasMany(Review, {foreignKey: 'bookerId'});
+User.hasMany(Booking, {foreignKey: 'bookerId'});
 
 module.exports = User;

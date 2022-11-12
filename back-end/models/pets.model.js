@@ -11,12 +11,12 @@ const Pet = sequelize.define('pets',
         primaryKey: true,
     },   
 
-    pet_name:
+    petName:
     {
         type: DataTypes.STRING,
     }
 });
 
-Pet.hasMany(SitterCriteria, {foreignKey: 'pet_id'});
+Pet.hasMany(SitterCriteria, {foreignKey: 'petId'});
 
 module.exports = Pet;

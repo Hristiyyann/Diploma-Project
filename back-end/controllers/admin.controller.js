@@ -13,7 +13,7 @@ async function respondToCandidate(req, res)
         {
             [Op.and]:
             [
-                {user_id: userId},
+                {userId},
                 {
                     status:
                     { 
@@ -32,7 +32,7 @@ async function respondToCandidate(req, res)
         user.save();
         await UserRole.create(
         {
-            user_id: user.user_id,
+            userId: user.userId,
             role: UserRole.rawAttributes.role.values[1],
         });
         return res.status(200).send({success: true, message:'User became sitter'});

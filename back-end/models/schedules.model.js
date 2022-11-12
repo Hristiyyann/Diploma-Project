@@ -10,12 +10,12 @@ const Schedule = sequelize.define('schedules',
         primaryKey: true
     },
 
-    sitter_id:
+    sitterId:
     {
         type: DataTypes.UUID,
     },
 
-    service_id:
+    serviceId:
     {
         type: DataTypes.UUID,
     },
@@ -25,12 +25,12 @@ const Schedule = sequelize.define('schedules',
         type: DataTypes.DATEONLY,
     },
 
-    start_hour:
+    startHour:
     {
         type: DataTypes.TIME,
     },
 
-    end_hour:
+    endHour:
     {
         type: DataTypes.TIME,
     }

@@ -10,7 +10,6 @@ function verifyRole(roles)
         {
             if(roles.includes(role))
             {
-                console.log(roles, role);
                 return next();
             }
         }

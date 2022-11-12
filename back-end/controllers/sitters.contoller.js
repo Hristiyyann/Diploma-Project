@@ -10,7 +10,7 @@ async function postCandidates(req, res)
     {
         where:
         {
-            user_id: userId,
+            userId,
         }
     });
 
@@ -18,10 +18,8 @@ async function postCandidates(req, res)
     {
         await Sitter.create(
         {
-            user_id: userId,
-            about_sitter: aboutSitter,
-            city,
-            neighborhood
+            userId, aboutSitter,
+            city, neighborhood
         });
 
         return res.status(201).send({success: true, message:"User is added to sitter candidates"});
@@ -41,17 +39,17 @@ async function postCandidates(req, res)
 async function getCandidates(req, res)
 {
     const page = +req.query.page || 1;
-    const candidates_per_page = 5;
+    const candidatesPerPage = 5;
 
-    const total_candidates = await Sitter.count(
+    const totalCandidates = await Sitter.count(
     {
         where: {status: 'Candidate'}
     });
 
     const candidates = await Sitter.findAll(
     {
-        offset: (page - 1) * candidates_per_page,
-        limit: candidates_per_page,
+        offset: (page - 1) * candidatesPerPage,
+        limit: candidatesPerPage,
         where: 
         {
             status: 'Candidate'
@@ -59,7 +57,7 @@ async function getCandidates(req, res)
     });
 
     const result = {}
-    if(page * candidates_per_page < total_candidates)
+    if(page * candidatesPerPage < totalCandidates)
     {
         result.nextPageNumber = page +1;
     }
@@ -67,7 +65,7 @@ async function getCandidates(req, res)
     res.status(200).send(
     {
         success: true, 
-        nextPage: page * candidates_per_page < total_candidates,
+        nextPage: page * candidatePerPage < totalCandidates,
         result,   
         candidates
     });

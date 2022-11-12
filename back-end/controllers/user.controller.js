@@ -8,7 +8,7 @@ async function getUserInformation(req, res)
     {
         attributes:
         {
-            exclude:['id', 'password', 'createdAt', 'updatedAt', 'is_bloked']
+            exclude:['id', 'password', 'createdAt', 'updatedAt', 'isBloked']
         },
 
         where: 
@@ -22,7 +22,7 @@ async function getUserInformation(req, res)
 
 async function putUserInformation(req, res)
 {
-    const {firstName, lastName, telephone} = req.body
+    const {firstName, lastName, telephoneNumber} = req.body
     const userId = req.userData.userId;
 
     const user = await User.findOne(
@@ -37,9 +37,9 @@ async function putUserInformation(req, res)
 
     await user.update(
     {
-        first_name: firstName,
-        last_name: lastName,
-        telephone_number: telephone
+        firstName,
+        lastName,
+        telephoneNumber
     });
     
     await user.save();

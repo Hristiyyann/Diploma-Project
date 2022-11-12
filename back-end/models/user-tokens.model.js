@@ -10,7 +10,7 @@ const UserToken = sequelize.define('user_tokens',
         primaryKey: true,
     },
 
-    user_id: 
+    userId: 
     {
         type: DataTypes.UUID,
     },
@@ -20,7 +20,7 @@ const UserToken = sequelize.define('user_tokens',
         type: DataTypes.STRING,
     },
 
-    token_type:
+    tokenType:
     {
         type: DataTypes.ENUM('Access', 'Refresh'),
     }

@@ -17,11 +17,11 @@ async function signUp(req, res)
     {
         where: 
         {
-            telephone_number: telephoneNumber
+            telephoneNumber
         }
     });
 
-    if(user && !user.is_verified) 
+    if(user && !user.isVerified) 
     {
         await verification.sendOTP();
         throw new ValidationError('You have to verify your telephone number!', 403)
@@ -33,11 +33,11 @@ async function signUp(req, res)
 
     const newUser = await User.create(
     {
-        first_name: firstName,
-        last_name: lastName,
-        email_address: emailAddress,
+        firstName,
+        lastName,
+        emailAddress,
         password: hashedPassword,
-        telephone_number: telephoneNumber
+        telephoneNumber
     })
 
     await verification.sendOTP();
@@ -53,13 +53,13 @@ async function signIn(req, res)
     const {telephoneNumber, emailAddress, password} = req.body;
     const conditions = {};
 
-    if(telephoneNumber) conditions.where = {...conditions.where, telephone_number: telephoneNumber};
-    else if(emailAddress) conditions.where = {...conditions.where, email_address: emailAddress};
+    if(telephoneNumber) conditions.where = {...conditions.where, telephoneNumber};
+    else if(emailAddress) conditions.where = {...conditions.where, emailAddress};
     else throw new ResourceError('There aren\'t provided credentials', 400); 
 
     const user = await User.findOne(conditions);
     if(!user) throw new ResourceError('Password or email address do not match', 400);
-    else if(user && !user.is_verified)  
+    else if(user && !user.isVerified)  
     {
         await verification.sendOTP();
         throw new ValidationError('You have to verify your telephone number', 403);
@@ -85,15 +85,15 @@ async function verify(req, res)
     const user = await User.findByPk(userId);
     
     if(!user) throw new ResourceError('This user does not exist', 400);
-    else if(user.is_verified)  throw new ValidationError('This user is already verified!', 400);
+    else if(user.isVerified)  throw new ValidationError('This user is already verified!', 400);
     else if(!(await verification.checkOTP(smsCode))) throw new ValidationError('This code is incorrect', 400);
 
-    user.is_verified = true
+    user.isVerified = true
     user.save(); 
 
     const records = await UserRole.create(
     {
-        user_id: userId,
+        userId,
         role: UserRole.rawAttributes.role.values[0]
     }) 
 
@@ -128,7 +128,7 @@ async function refreshToken(req,res)
         {
             where:
             {
-                user_id: user.userId
+                userId: user.userId
             }
         });
         
@@ -153,7 +153,7 @@ async function logOut(req, res)
     const {accessToken, refreshToken} = req.body;
     const conditions = {};
     
-    if(allDevices) conditions.where = {...conditions.where, user_id: req.userData.userId};
+    if(allDevices) conditions.where = {...conditions.where, userId: req.userData.userId};
     else conditions.where = {...conditions.where, [Op.or] : [{token: accessToken}, {token: refreshToken}]};
 
     await UserToken.destroy(conditions);

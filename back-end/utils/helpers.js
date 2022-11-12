@@ -8,14 +8,14 @@ async function addTokensToDB(userId, accessToken, refreshToken)
 {
     await UserToken.bulkCreate([
     {
-        user_id: userId,
+        userId,
         token: accessToken, 
-        token_type: UserToken.rawAttributes.token_type.values[0]
+        tokenType: UserToken.rawAttributes.tokenType.values[0]
     },
     {
-        user_id: userId,
+        userId,
         token: refreshToken,
-        token_type:UserToken.rawAttributes.token_type.values[1]
+        tokenType:UserToken.rawAttributes.tokenType.values[1]
     }]);
 }
 
@@ -25,7 +25,7 @@ async function getRoles(userId)
     {
         where:
         {
-            user_id: userId
+            userId
         },
         attributes: ['role']
     });

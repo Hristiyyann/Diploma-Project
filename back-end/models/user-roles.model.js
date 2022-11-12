@@ -10,7 +10,7 @@ const UserRole = sequelize.define('user_roles',
         primaryKey: true,
     },
 
-    user_id: 
+    userId: 
     {
         type: DataTypes.UUID,
     },

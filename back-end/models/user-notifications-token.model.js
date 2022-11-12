@@ -10,7 +10,7 @@ const UserNotificationsToken = sequelize.define('user_notifications_tokens',
         primaryKey: true,
     },
 
-    user_id: 
+    userId: 
     {
         type: DataTypes.UUID,
     },
