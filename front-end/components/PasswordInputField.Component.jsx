@@ -10,6 +10,7 @@ export default function PasswordInputField({placeholder, iconName})
     return(
         <View style = {styles.container}>
             <Input
+            style = {styles.input}
             placeholder = {placeholder}
             accessoryLeft = {<Icon iconName={iconName}/>}
             accessoryRight=
@@ -30,7 +31,13 @@ const styles = StyleSheet.create(
 {
     container: 
     {
-    alignSelf: 'stretch',
-    marginTop:10,
+        alignSelf: 'stretch',
+        marginTop:10,
+    },
+
+    input:
+    {
+        borderRadius: 15,
+        backgroundColor: '#D9D9D9',
     }
 })

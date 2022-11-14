@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import {Input} from '@ui-kitten/components';
 import Icon from './Icon.Component';
 
@@ -8,6 +8,7 @@ export default function InputField({placeholder, iconName})
     return(
       <View style = {styles.container}>
         <Input
+        style = {styles.input}
         placeholder = {placeholder}
         accessoryLeft = {<Icon iconName = {iconName}/>}
         /> 
@@ -21,5 +22,11 @@ const styles = StyleSheet.create(
   {
     alignSelf: 'stretch',
     marginTop:10,
+  },
+  
+  input:
+  {
+    borderRadius: 15,
+    backgroundColor: '#D9D9D9',
   }
 })
