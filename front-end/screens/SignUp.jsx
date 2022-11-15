@@ -1,56 +1,41 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {StyleSheet, View, KeyboardAvoidingView, Keyboard, Platform, 
         TouchableWithoutFeedback, SafeAreaView, TouchableOpacity} from 'react-native';
 import {Text, Input} from '@ui-kitten/components';
-import PhoneInput from "react-native-phone-number-input";
-import Lottie from 'lottie-react-native';
+import PhoneInput from 'react-native-phone-number-input';
+import Animation from '../components/Lottie.Component';
 import PasswordInputField from '../components/PasswordInputField.Component';
 import Icon from '../components/Icon.Component';
 import GlobalStyles from '../GlobalStyles';
-
+import AnimationsPaths from '../assets/animations/AnimationsPaths';
 
 export default function SignIn()
 {
-    const animation = React.useRef();
-    const phoneInput = React.useRef(null);
+    const phoneInput = useRef(null);
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    useEffect(() => {
-        setTimeout(() => animation.current?.play());
-
-        return () => {
-            animation.current?.reset();
-        }
-    }, []);
-
     return(
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
             <SafeAreaView style={ { flex: 1 } }>
                 <KeyboardAvoidingView
-                style = {GlobalStyles.screenContainer}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}>
-                    <Lottie
-                        style={
-                        {
-                            width: 230,
-                            height: 230,
-                        }}
-                        source={require('../assets/signup.json')}
-                        loop = {false}
-                        ref={animation} 
+                    style = {GlobalStyles.screenContainer}
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                    
+                    <Animation
+                        path={AnimationsPaths.signUp}
                     />
-                
+
                     <View style = {GlobalStyles.method}>
                         <Text
                             status = 'primary'
                             style = {GlobalStyles.methodText}>Sign Up
                         </Text>
 
-                        <Text>Already have an account?
-                            <Text status = 'primary'> Sign in</Text>
+                        <Text status = 'primary'>Already have an account?
+                            <Text> Sign in</Text>
                         </Text>
                     </View>
 
@@ -66,9 +51,9 @@ export default function SignIn()
 
                     <PhoneInput
                         ref={phoneInput}
-                        defaultCode="BG"
+                        defaultCode='BG'
                         placeholder = {'Telephone number'}
-                        layout="first"
+                        layout='first'
                     /*  onChangeText={(text) => 
                         {
                             setValue(text);
@@ -100,11 +85,11 @@ export default function SignIn()
                         onChange = {setConfirmPassword}
                     />
                     
-                    <TouchableOpacity style = {styles.button}>
-                        <Text>Continue</Text>
+                    <TouchableOpacity style = {GlobalStyles.button}>
+                        <Text status = 'primary'>Continue</Text>
                     </TouchableOpacity>
 
-                    <Text>Terms and conditions</Text>
+                    <Text status = 'primary'>Terms and conditions</Text>
                 </KeyboardAvoidingView>
             </SafeAreaView>
         </TouchableWithoutFeedback>   
@@ -113,17 +98,6 @@ export default function SignIn()
 
 const styles = StyleSheet.create(
 {
-    button:
-    {
-        alignItems: 'center',
-        width: '80%',
-        padding: 10,
-        marginTop: 20,
-        marginBottom: 10,
-        borderRadius: 15,
-        backgroundColor: '#D9D9D9',
-    },
-
     telephoneContainer:
     {
         width: '100%',

@@ -1,38 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import {View, SafeAreaView, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
 import {Input, Text} from '@ui-kitten/components';
 import Icon from '../components/Icon.Component';
 import PasswordInputField from '../components/PasswordInputField.Component';
-import Lottie from 'lottie-react-native';
+import Animation from '../components/Lottie.Component';
+import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
 export default function SignIn()
 {
-    const animation = React.useRef();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(() => {
-        setTimeout(() => animation.current?.play());
-
-        return () => {
-            animation.current?.reset();
-        }
-    }, []);
-
-
     return(
         <SafeAreaView style = {GlobalStyles.screenContainer}>
-            
-            <Lottie
-                style={
-                {
-                    width: 230,
-                    height: 230,
-                }}
-                source={require('../assets/signin.json')}
-                ref={animation} 
-            /> 
+
+            <Animation
+                path = {AnimationsPaths.signIn}
+            />
 
             <View style = {GlobalStyles.method}>
                 <Text
@@ -40,8 +25,8 @@ export default function SignIn()
                     style = {GlobalStyles.methodText}>Sign In
                 </Text>
 
-                <Text>Already have an account?
-                    <Text status = 'primary'> Sign in</Text>
+                <Text>Don't have an account?
+                    <Text status = 'primary'> Sign up</Text>
                 </Text>
             </View>
 
@@ -60,6 +45,27 @@ export default function SignIn()
                 iconName = {'lock-closed'}
                 onChange = {setPassword}
             />
+
+            <TouchableOpacity
+                style = {styles.forgoPassword}
+            >
+                <Text status = 'primary'>Forgot password?</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style = {GlobalStyles.button}>
+                        <Text status = 'primary'>Sign in</Text>
+            </TouchableOpacity>
+
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create(
+{
+    forgoPassword:
+    {
+        alignSelf: 'flex-end',
+        paddingRight: 5,
+        marginTop: 10
+    },
+})

@@ -28,12 +28,23 @@ export default GlobalStyles = StyleSheet.create(
     {
         alignSelf: 'flex-start',
         paddingLeft: 5,
-        marginTop: 10
+        marginTop: 15
     },
     
     methodText:
     {
         fontSize: 40,
         fontWeight: 'bold',
+    },
+
+    button:
+    {
+        alignItems: 'center',
+        width: '80%',
+        padding: 10,
+        marginTop: 20,
+        marginBottom: 10,
+        borderRadius: 15,
+        backgroundColor: '#D9D9D9',
     },
 });
