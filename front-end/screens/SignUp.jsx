@@ -6,6 +6,7 @@ import PhoneInput from "react-native-phone-number-input";
 import Lottie from 'lottie-react-native';
 import PasswordInputField from '../components/PasswordInputField.Component';
 import Icon from '../components/Icon.Component';
+import GlobalStyles from '../GlobalStyles';
 
 
 export default function SignIn()
@@ -29,7 +30,7 @@ export default function SignIn()
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
             <SafeAreaView style={ { flex: 1 } }>
                 <KeyboardAvoidingView
-                style = {styles.container}
+                style = {GlobalStyles.screenContainer}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
                     <Lottie
                         style={
@@ -42,10 +43,10 @@ export default function SignIn()
                         ref={animation} 
                     />
                 
-                    <View style = {styles.signUp}>
+                    <View style = {GlobalStyles.method}>
                         <Text
                             status = 'primary'
-                            style = {styles.signUpText}>Sign Up
+                            style = {GlobalStyles.methodText}>Sign Up
                         </Text>
 
                         <Text>Already have an account?
@@ -53,9 +54,9 @@ export default function SignIn()
                         </Text>
                     </View>
 
-                    <View style = {styles.inputContainer}>
+                    <View style = {GlobalStyles.inputContainer}>
                         <Input
-                            style = {styles.input}
+                            style = {GlobalStyles.input}
                             value = {fullName}
                             placeholder = 'Full name'
                             accessoryLeft = {<Icon iconName = {'person'}/>}
@@ -77,9 +78,9 @@ export default function SignIn()
                         textContainerStyle = {styles.telephoneText}
                     />
 
-                    <View style = {styles.inputContainer}>
+                    <View style = {GlobalStyles.inputContainer}>
                         <Input
-                            style = {styles.input}
+                            style = {GlobalStyles.input}
                             value = {email}
                             placeholder = 'Email'
                             accessoryLeft = {<Icon iconName = {'mail'}/>}
@@ -112,41 +113,6 @@ export default function SignIn()
 
 const styles = StyleSheet.create(
 {
-    container: 
-    {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: 15
-    },
-
-    inputContainer: 
-    {
-        alignSelf: 'stretch',
-        marginTop:10,
-    },
-  
-    input:
-    {
-        borderRadius: 15,
-        borderWidth: 0,
-        backgroundColor: '#D9D9D9',
-    },
-
-    signUp:
-    {
-        alignSelf: 'flex-start',
-        paddingLeft: 5,
-        marginTop: 10
-    },
-    
-    signUpText:
-    {
-        fontSize: 40,
-        fontWeight: 'bold',
-    },
-
     button:
     {
         alignItems: 'center',

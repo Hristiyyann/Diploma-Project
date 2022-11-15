@@ -2,15 +2,16 @@ import React from 'react';
 import {TouchableWithoutFeedback, View, StyleSheet} from 'react-native';
 import {Input} from '@ui-kitten/components';
 import Icon from './Icon.Component';
+import GlobalStyles from '../GlobalStyles';
 
 export default function PasswordInputField({placeholder, iconName, onChange})
 {
     const [secureText, setSecureText] = React.useState(true);
 
     return(
-        <View style = {styles.container}>
+        <View style = {GlobalStyles.inputContainer}>
             <Input
-            style = {styles.input}
+            style = {GlobalStyles.input}
             placeholder = {placeholder}
             accessoryLeft = {<Icon iconName={iconName}/>}
             accessoryRight=
@@ -27,19 +28,3 @@ export default function PasswordInputField({placeholder, iconName, onChange})
         </View> 
     );    
 }
-
-const styles = StyleSheet.create(
-{
-    container: 
-    {
-        alignSelf: 'stretch',
-        marginTop:10,
-    },
-
-    input:
-    {
-        borderRadius: 15,
-        borderWidth: 0,
-        backgroundColor: '#D9D9D9',
-    }
-})
