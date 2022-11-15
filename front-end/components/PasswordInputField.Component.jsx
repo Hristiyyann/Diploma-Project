@@ -3,7 +3,7 @@ import {TouchableWithoutFeedback, View, StyleSheet} from 'react-native';
 import {Input} from '@ui-kitten/components';
 import Icon from './Icon.Component';
 
-export default function PasswordInputField({placeholder, iconName})
+export default function PasswordInputField({placeholder, iconName, onChange})
 {
     const [secureText, setSecureText] = React.useState(true);
 
@@ -21,6 +21,7 @@ export default function PasswordInputField({placeholder, iconName})
                     </View>
                 </TouchableWithoutFeedback>
             }
+            onChangeText = {(currentValue) => onChange(currentValue)}
             secureTextEntry={secureText}
             />
         </View> 
@@ -38,6 +39,7 @@ const styles = StyleSheet.create(
     input:
     {
         borderRadius: 15,
+        borderWidth: 0,
         backgroundColor: '#D9D9D9',
     }
 })
