@@ -8,7 +8,7 @@ export default GlobalStyles = StyleSheet.create(
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 15
+        margin: 20
     },
 
     inputContainer: 
