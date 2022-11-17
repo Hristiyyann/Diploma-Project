@@ -34,20 +34,29 @@ export default function Verification()
                 <Text>
                     <Icon iconName = {'call'} size = {45}/>
                 </Text>
-        
-                <Text category = 'h6'>
-                    via sms: +359000000000
-                </Text>
+                <View style = {styles.viaMethod}>
+                    <Text category = 'h6'>
+                        via sms:
+                    </Text>
+                    <Text category = 'h6'>
+                        +359000000000
+                    </Text>
+                </View>
             </TouchableOpacity>
 
             <TouchableOpacity style = {styles.optionContainer}>
                 <Text>
                     <Icon iconName = {'mail'} size = {45}/>
                 </Text>
-        
-                <Text category = 'h6'>
-                    via email: diplomasupport@abv.com
-                </Text>
+
+                <View style = {styles.viaMethod}>
+                    <Text category = 'h6'>
+                        via email: 
+                    </Text>
+                    <Text category = 'h6'>
+                        diplomasupport@abv.com
+                    </Text>
+                </View>
             </TouchableOpacity>
         </SafeAreaView>
     )    
@@ -66,4 +75,10 @@ const styles = StyleSheet.create(
         marginTop: 20,
         borderRadius: 15
     },
+
+    viaMethod:
+    {
+        flex: 0.8,
+        flexDirection:'column',
+    }
 })
