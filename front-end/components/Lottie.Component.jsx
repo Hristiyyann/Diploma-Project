@@ -20,7 +20,7 @@ export default function Animation({path, style})
     return(
        <View>
             <Lottie
-                style={styles.lottie}
+                style={style ? style : styles.lottie}
                 source={path}
                 ref={animation} 
             /> 
