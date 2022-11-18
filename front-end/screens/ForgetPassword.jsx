@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Text} from '@ui-kitten/components';
 import Animation from '../components/Lottie.Component';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
@@ -9,7 +9,7 @@ import GlobalStyles from '../GlobalStyles';
 export default function Verification()
 {
     return(
-        <SafeAreaView
+        <View
             style = {GlobalStyles.screenContainer}
         >
 
@@ -58,7 +58,7 @@ export default function Verification()
                     </Text>
                 </View>
             </TouchableOpacity>
-        </SafeAreaView>
+        </View>
     )    
 }
 

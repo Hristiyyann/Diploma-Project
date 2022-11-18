@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard} from 'react-native';
 import {Input, Text} from '@ui-kitten/components';
 import Icon from '../components/Icon.Component';
 import PasswordInputField from '../components/PasswordInputField.Component';
@@ -13,50 +13,53 @@ export default function SignIn()
     const [password, setPassword] = useState('');
 
     return(
-        <SafeAreaView style = {GlobalStyles.screenContainer}>
-
-            <Animation
-                path = {AnimationsPaths.signIn}
-            />
-
-            <View style = {GlobalStyles.method}>
-                <Text
-                    status = 'primary'
-                    style = {GlobalStyles.methodText}>Sign In
-                </Text>
-
-                <Text>Don't have an account?
-                    <Text status = 'primary'> Sign up</Text>
-                </Text>
-            </View>
-
-            <View style = {GlobalStyles.inputContainer}>
-                <Input
-                    style = {GlobalStyles.input}
-                    value = {email}
-                    placeholder = 'Email'
-                    accessoryLeft = {<Icon iconName = {'mail'}/>}
-                    onChangeText = {(currentValue) => setEmail(currentValue)}
+        <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
+            <KeyboardAvoidingView
+                style = {GlobalStyles.screenContainer}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            
+                <Animation
+                    path = {AnimationsPaths.signIn}
                 />
-            </View>
 
-            <PasswordInputField 
-                placeholder = {'Password'} 
-                iconName = {'lock-closed'}
-                onChange = {setPassword}
-            />
+                <View style = {GlobalStyles.method}>
+                    <Text
+                        status = 'primary'
+                        style = {GlobalStyles.methodText}>Sign In
+                    </Text>
 
-            <TouchableOpacity
-                style = {styles.forgoPassword}
-            >
-                <Text status = 'primary'>Forgot password?</Text>
-            </TouchableOpacity>
+                    <Text>Don't have an account?
+                        <Text status = 'primary'> Sign up</Text>
+                    </Text>
+                </View>
 
-            <TouchableOpacity style = {GlobalStyles.button}>
-                        <Text status = 'primary'>Sign in</Text>
-            </TouchableOpacity>
+                <View style = {GlobalStyles.inputContainer}>
+                    <Input
+                        style = {GlobalStyles.input}
+                        value = {email}
+                        placeholder = 'Email'
+                        accessoryLeft = {<Icon iconName = {'mail'}/>}
+                        onChangeText = {(currentValue) => setEmail(currentValue)}
+                    />
+                </View>
 
-        </SafeAreaView>
+                <PasswordInputField 
+                    placeholder = {'Password'} 
+                    iconName = {'lock-closed'}
+                    onChange = {setPassword}
+                />
+
+                <TouchableOpacity
+                    style = {styles.forgoPassword}
+                >
+                    <Text status = 'primary'>Forgot password?</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style = {GlobalStyles.button}>
+                    <Text status = 'primary'>Sign in</Text>
+                </TouchableOpacity>
+            </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>   
     )
 }
 
