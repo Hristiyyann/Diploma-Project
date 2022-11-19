@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {Text} from '@ui-kitten/components';
 import Animation from '../components/Lottie.Component';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
@@ -9,9 +10,12 @@ import GlobalStyles from '../GlobalStyles';
 export default function Verification()
 {
     return(
-        <View
-            style = {GlobalStyles.screenContainer}
+        <KeyboardAwareScrollView 
+            extraScrollHeight = {5}
+            contentContainerStyle = {{flexGrow: 1}}
         >
+
+            <View style = {GlobalStyles.screenContainer}>
 
             <Animation
                 path = {AnimationsPaths.forgotPassword}
@@ -59,6 +63,7 @@ export default function Verification()
                 </View>
             </TouchableOpacity>
         </View>
+    </KeyboardAwareScrollView>
     )    
 }
 

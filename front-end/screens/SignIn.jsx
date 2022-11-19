@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import {Input, Text} from '@ui-kitten/components';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Icon from '../components/Icon.Component';
 import PasswordInputField from '../components/PasswordInputField.Component';
 import Animation from '../components/Lottie.Component';
@@ -14,51 +15,55 @@ export default function SignIn()
 
     return(
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
-            <KeyboardAvoidingView
-                style = {GlobalStyles.screenContainer}
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            
-                <Animation
-                    path = {AnimationsPaths.signIn}
-                />
+            <KeyboardAwareScrollView 
+                extraScrollHeight = {5}
+                contentContainerStyle = {{flexGrow: 1}}
+            >
+                <View style = {GlobalStyles.screenContainer}>
 
-                <View style = {GlobalStyles.method}>
-                    <Text
-                        status = 'primary'
-                        style = {GlobalStyles.methodText}>Sign In
-                    </Text>
-
-                    <Text>Don't have an account?
-                        <Text status = 'primary'> Sign up</Text>
-                    </Text>
-                </View>
-
-                <View style = {GlobalStyles.inputContainer}>
-                    <Input
-                        style = {GlobalStyles.input}
-                        value = {email}
-                        placeholder = 'Email'
-                        accessoryLeft = {<Icon iconName = {'mail'}/>}
-                        onChangeText = {(currentValue) => setEmail(currentValue)}
+                    <Animation
+                        path = {AnimationsPaths.signIn}
                     />
+
+                    <View style = {GlobalStyles.method}>
+                        <Text
+                            status = 'primary'
+                            style = {GlobalStyles.methodText}>Sign In
+                        </Text>
+
+                        <Text>Don't have an account?
+                            <Text status = 'primary'> Sign up</Text>
+                        </Text>
+                    </View>
+
+                    <View style = {GlobalStyles.inputContainer}>
+                        <Input
+                            style = {GlobalStyles.input}
+                            value = {email}
+                            placeholder = 'Email'
+                            accessoryLeft = {<Icon iconName = {'mail'}/>}
+                            onChangeText = {(currentValue) => setEmail(currentValue)}
+                        />
+                    </View>
+        
+                    <PasswordInputField 
+                        placeholder = {'Password'} 
+                        iconName = {'lock-closed'}
+                        onChange = {setPassword}
+                    />
+        
+                    <TouchableOpacity
+                        style = {styles.forgoPassword}
+                    >
+                        <Text status = 'primary'>Forgot password?</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style = {GlobalStyles.button}>
+                        <Text status = 'primary'>Sign in</Text>
+                    </TouchableOpacity>
+                    
                 </View>
-
-                <PasswordInputField 
-                    placeholder = {'Password'} 
-                    iconName = {'lock-closed'}
-                    onChange = {setPassword}
-                />
-
-                <TouchableOpacity
-                    style = {styles.forgoPassword}
-                >
-                    <Text status = 'primary'>Forgot password?</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style = {GlobalStyles.button}>
-                    <Text status = 'primary'>Sign in</Text>
-                </TouchableOpacity>
-            </KeyboardAvoidingView>
+            </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>   
     )
 }
