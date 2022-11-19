@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import {Input, Text} from '@ui-kitten/components';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Header from '../components/Header.Component';
 import Icon from '../components/Icon.Component';
 import PasswordInputField from '../components/PasswordInputField.Component';
 import Animation from '../components/Lottie.Component';
@@ -25,16 +26,11 @@ export default function SignIn()
                         path = {AnimationsPaths.signIn}
                     />
 
-                    <View style = {GlobalStyles.method}>
-                        <Text
-                            status = 'primary'
-                            style = {GlobalStyles.methodText}>Sign In
-                        </Text>
-
-                        <Text>Don't have an account?
-                            <Text status = 'primary'> Sign up</Text>
-                        </Text>
-                    </View>
+                    <Header
+                        method = {'Sign In'}
+                        methodText = {'Don\'t have an account?'}
+                        endText = {'Sign up'}
+                    />
 
                     <View style = {GlobalStyles.inputContainer}>
                         <Input

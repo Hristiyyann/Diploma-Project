@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {Text} from '@ui-kitten/components';
+import Header from '../components/Header.Component';
 import Animation from '../components/Lottie.Component';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import Icon from '../components/Icon.Component';
@@ -17,53 +18,46 @@ export default function Verification()
 
             <View style = {GlobalStyles.screenContainer}>
 
-            <Animation
-                path = {AnimationsPaths.forgotPassword}
-            />
+                <Animation
+                    path = {AnimationsPaths.forgotPassword}
+                />
 
-            <View style = {GlobalStyles.method}>
-                <Text
-                    status = 'primary'
-                    style = {GlobalStyles.methodText}
-                >
-                    Forgot Password?
-                </Text>
+                <Header
+                    method = {'Forgot Password?'}
+                    methodText = {'Select whict contact detail should we use to reset your password?'}
+                />
+                
+                <TouchableOpacity style = {styles.optionContainer}>
+                    <Text>
+                        <Icon iconName = {'call'} size = {45}/>
+                    </Text>
+                    <View style = {styles.viaMethod}>
+                        <Text category = 'h6'>
+                            via sms:
+                        </Text>
+                        <Text category = 'h6'>
+                            +359000000000
+                        </Text>
+                    </View>
+                </TouchableOpacity>
 
-                <Text status = 'basic'>
-                    Select whict contact detail should we use to reset your password?
-                </Text>
+                <TouchableOpacity style = {styles.optionContainer}>
+                    <Text>
+                        <Icon iconName = {'mail'} size = {45}/>
+                    </Text>
+
+                    <View style = {styles.viaMethod}>
+                        <Text category = 'h6'>
+                            via email: 
+                        </Text>
+                        <Text category = 'h6'>
+                            diplomasupport@abv.com
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+
             </View>
-
-            <TouchableOpacity style = {styles.optionContainer}>
-                <Text>
-                    <Icon iconName = {'call'} size = {45}/>
-                </Text>
-                <View style = {styles.viaMethod}>
-                    <Text category = 'h6'>
-                        via sms:
-                    </Text>
-                    <Text category = 'h6'>
-                        +359000000000
-                    </Text>
-                </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity style = {styles.optionContainer}>
-                <Text>
-                    <Icon iconName = {'mail'} size = {45}/>
-                </Text>
-
-                <View style = {styles.viaMethod}>
-                    <Text category = 'h6'>
-                        via email: 
-                    </Text>
-                    <Text category = 'h6'>
-                        diplomasupport@abv.com
-                    </Text>
-                </View>
-            </TouchableOpacity>
-        </View>
-    </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
     )    
 }
 

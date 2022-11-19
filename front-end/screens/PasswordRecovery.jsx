@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Text, Input } from '@ui-kitten/components';
+import Header from '../components/Header.Component';
 import Animation from '../components/Lottie.Component';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import Icon from '../components/Icon.Component';
@@ -25,21 +26,10 @@ export default function ViaEmail({forEmail})
                         loop = {false}
                     />
 
-                    <View style = {GlobalStyles.method}>
-                        <Text
-                            status = 'primary'
-                            category = 'h2'
-                        >
-                            Password recovery
-                        </Text>    
-                        <Text 
-                            style = {styles.methodText}
-                            category = 'p1'
-                        >
-                            Enter your registered {forEmail ? 'email' : 'telephone number'} below to receive recovery code
-                        </Text>
-                    </View>
-
+                    <Header
+                        method = {'Password recovery'}
+                        methodText = {`Enter your registered ${forEmail == true ? `email` : `telephone number`} below to receive recovery code`}
+                    />
 
                     <View style = {GlobalStyles.inputContainer}>
                         <Input
@@ -54,6 +44,7 @@ export default function ViaEmail({forEmail})
                     <TouchableOpacity style = {GlobalStyles.button}>
                         <Text status = 'primary'>Send</Text>
                     </TouchableOpacity>
+                    
                 </View>
             </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>  

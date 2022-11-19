@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import Lottie from 'lottie-react-native';
 import {View, StyleSheet} from 'react-native';
 
-export default function Animation({path, style}) 
+export default function Animation({path, style, loop}) 
 {
     const animation = useRef();
    
@@ -23,6 +23,7 @@ export default function Animation({path, style})
                 style={style ? style : styles.lottie}
                 source={path}
                 ref={animation} 
+                loop = {loop == false ? loop : true}
             /> 
         </View>
     )

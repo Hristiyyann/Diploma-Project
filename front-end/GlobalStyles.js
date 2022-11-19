@@ -8,7 +8,7 @@ export default GlobalStyles = StyleSheet.create(
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 20
+        margin: 20,
     },
 
     inputContainer: 
@@ -22,19 +22,6 @@ export default GlobalStyles = StyleSheet.create(
         borderRadius: 15,
         borderWidth: 0,
         backgroundColor: '#D9D9D9',
-    },
-
-    method:
-    {
-        alignSelf: 'flex-start',
-        paddingLeft: 5,
-        marginTop: 15
-    },
-    
-    methodText:
-    {
-        fontSize: 40,
-        fontWeight: 'bold',
     },
 
     button:

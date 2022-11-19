@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { TouchableWithoutFeedback, View, Keyboard, TouchableOpacity } from 'react-native';
 import {Text} from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Header from '../components/Header.Component';
 import Animation from '../components/Lottie.Component';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
@@ -25,15 +26,10 @@ export default function ResetPassword({isForgotten})
                         path = {AnimationsPaths.newPassword}
                     />
 
-                    <View style = {GlobalStyles.method}>
-                        <Text
-                            status = 'primary'
-                            style = {GlobalStyles.methodText}>Reset password
-                        </Text>
-                        <Text>
-                            Set your new password so you can login
-                        </Text>
-                    </View>
+                    <Header
+                        method = {'Reset password'}
+                        methodText = {'Set your new password so you can login'}
+                    />
 
                     {
                         isForgotten && 

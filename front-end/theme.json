@@ -44,5 +44,6 @@
   "color-danger-700": "#7A0B29",
   "color-danger-800": "#620728",
   "color-danger-900": "#510427",
-  "text-basic-color": "#ec6165"
+  "text-basic-color": "#ec6165",
+  "text-hint-color" : "#73423F"
 }
