@@ -7,9 +7,9 @@ import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import Icon from '../components/Icon.Component';
 import GlobalStyles from '../GlobalStyles';
 
-export default function ViaEmail()
+export default function ViaEmail({forEmail})
 {
-    const [email, setEmail] = useState('');
+    const [value, setValue] = useState('');
 
     return(
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
@@ -36,7 +36,7 @@ export default function ViaEmail()
                             style = {styles.methodText}
                             category = 'p1'
                         >
-                            Enter your registered email below to receive recover code
+                            Enter your registered {forEmail ? 'email' : 'telephone number'} below to receive recovery code
                         </Text>
                     </View>
 
@@ -44,10 +44,10 @@ export default function ViaEmail()
                     <View style = {GlobalStyles.inputContainer}>
                         <Input
                             style = {GlobalStyles.input}
-                            value = {email}
-                            placeholder = 'Email'
-                            accessoryLeft = {<Icon iconName = {'mail'}/>}
-                            onChangeText = {(currentValue) => setEmail(currentValue)}
+                            value = {value}
+                            placeholder = {forEmail ? 'Email' : 'Telephone number'}
+                            accessoryLeft = {<Icon iconName = {forEmail ? 'mail' : 'call'}/>}
+                            onChangeText = {(currentValue) => setValue(currentValue)}
                         />
                     </View>
 
