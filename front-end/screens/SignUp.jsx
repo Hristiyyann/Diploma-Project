@@ -13,9 +13,10 @@ import send from '../requests/AxiosRequests';
 
 export default function SignIn()
 {
-    const phoneInput = useRef(null);
+    const phoneInput = useRef();
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
+    const [telephoneNumber, setTelephoneNumber] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -51,14 +52,15 @@ export default function SignIn()
                         defaultCode='BG'
                         placeholder = {'Telephone number'}
                         layout='first'
-                    /*  onChangeText={(text) => 
+                        onChangeText={(number) => 
                         {
-                            setValue(text);
-                        }} */
+                            setTelephoneNumber(number);
+                        }} 
                         withShadow
                         containerStyle = {styles.telephoneContainer}
                         textContainerStyle = {styles.telephoneText}
                         textInputStyle = {styles.inputColor}
+                        codeTextStyle = {styles.codeStyle}
                     />
 
                     <View style = {GlobalStyles.inputContainer}>
@@ -110,11 +112,15 @@ const styles = StyleSheet.create(
     {
         borderRadius: 15,
         backgroundColor: '#D9D9D9',
-        color: 'red'
     },
 
     inputColor:
     {
         color: '#ec6165',
+    },
+
+    codeStyle:
+    {
+        color: '#73423f'
     }
 });
