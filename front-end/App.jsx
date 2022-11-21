@@ -5,7 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import {getItemValue, saveItem} from './Utils';
 import { default as theme } from './theme.json'; 
-import SignUp from './screens/SignUp';
+import StackNavigation from './navigation/StackNavigation';
 
 
 export default function App() 
@@ -30,10 +30,10 @@ export default function App()
   return (
     <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
       <SafeAreaProvider>
-        <NavigationContainer>
-          <SafeAreaView style={{flex: 1}}>
-              <SignUp/>
-          </SafeAreaView> 
+        <NavigationContainer> 
+            <StackNavigation
+              isLoggedIn={false}
+            />
         </NavigationContainer>
       </SafeAreaProvider>
     </ApplicationProvider>
