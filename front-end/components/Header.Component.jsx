@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from '@ui-kitten/components';
 
-export default function Header({method, methodText, endText})
+export default function Header({method, methodText, endText, navigateTo})
 {
     return(
         <View style = {styles.method}>
@@ -17,7 +17,13 @@ export default function Header({method, methodText, endText})
                 category = 'p1'
             >
                 {methodText}
-                {endText && <Text status = 'primary'> {endText}</Text>}
+                {
+                    endText &&  
+                    <Text 
+                        onPress = {navigateTo}
+                        status = 'primary'> {endText}
+                    </Text>
+                }
             </Text>
         </View>
     )

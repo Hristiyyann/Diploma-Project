@@ -9,7 +9,7 @@ import Animation from '../components/Lottie.Component';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-export default function SignIn()
+export default function SignIn({navigation})
 {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -30,8 +30,9 @@ export default function SignIn()
                         method = {'Sign In'}
                         methodText = {'Don\'t have an account?'}
                         endText = {'Sign up'}
+                        navigateTo = {() => navigation.navigate('Sign Up')}
                     />
-
+            
                     <View style = {GlobalStyles.inputContainer}>
                         <Input
                             style = {GlobalStyles.input}
@@ -50,6 +51,7 @@ export default function SignIn()
         
                     <TouchableOpacity
                         style = {styles.forgoPassword}
+                        onPress = {() => navigation.navigate('Forget password')}
                     >
                         <Text status = 'primary'>Forgot password?</Text>
                     </TouchableOpacity>

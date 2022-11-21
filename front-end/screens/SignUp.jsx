@@ -11,7 +11,7 @@ import GlobalStyles from '../GlobalStyles';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import send from '../requests/AxiosRequests';
 
-export default function SignIn()
+export default function SignUp({navigation})
 {
     const phoneInput = useRef();
     const [fullName, setFullName] = useState('');
@@ -35,6 +35,7 @@ export default function SignIn()
                         method = {'Sign Up'}
                         methodText = {'Already have an account?'}
                         endText = {'Sign in'}
+                        navigateTo = {() => navigation.navigate('Sign In')}
                     />
 
                     <View style = {GlobalStyles.inputContainer}>
@@ -86,12 +87,11 @@ export default function SignIn()
                     />
                     
                     <TouchableOpacity 
-                        onPress = {send}
                         style = {GlobalStyles.button}>
                         <Text status = 'primary'>Continue</Text>
                     </TouchableOpacity>
 
-                    <Text status = 'primary'>Terms and conditions</Text>
+                    <Text>Terms and conditions</Text>
                 </View>
             </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>   

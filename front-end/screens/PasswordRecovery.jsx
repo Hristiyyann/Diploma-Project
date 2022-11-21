@@ -8,9 +8,10 @@ import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import Icon from '../components/Icon.Component';
 import GlobalStyles from '../GlobalStyles';
 
-export default function ViaEmail({forEmail})
+export default function ViaEmail({route, navigation})
 {
     const [value, setValue] = useState('');
+    const {forEmail} = route.params;
 
     return(
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>

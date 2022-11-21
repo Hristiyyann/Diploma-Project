@@ -8,7 +8,7 @@ import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import Icon from '../components/Icon.Component';
 import GlobalStyles from '../GlobalStyles';
 
-export default function Verification()
+export default function Verification({navigation})
 {
     return(
         <KeyboardAwareScrollView 
@@ -27,7 +27,12 @@ export default function Verification()
                     methodText = {'Select whict contact detail should we use to reset your password?'}
                 />
                 
-                <TouchableOpacity style = {styles.optionContainer}>
+                <TouchableOpacity 
+                    onPress = {() => navigation.navigate('Password recovery',
+                    {
+                        forEmail: false
+                    })}
+                    style = {styles.optionContainer}>
                     <Text>
                         <Icon iconName = {'call'} size = {45}/>
                     </Text>
@@ -41,7 +46,12 @@ export default function Verification()
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style = {styles.optionContainer}>
+                <TouchableOpacity 
+                    onPress = {() => navigation.navigate('Password recovery',
+                    {
+                        forEmail: true,
+                    })}
+                    style = {styles.optionContainer}>
                     <Text>
                         <Icon iconName = {'mail'} size = {45}/>
                     </Text>
