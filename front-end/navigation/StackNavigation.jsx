@@ -1,3 +1,5 @@
+import React, {useContext} from 'react';
+import { usePermissions } from '../contexts/PermissionContext';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUp from '../screens/SignUp';
 import SignIn from '../screens/SignIn';
@@ -9,8 +11,10 @@ import Home from '../screens/Home';
 
 const Stack = createNativeStackNavigator();
 
-export default function StackNavigation({isLoggedIn}) 
+export default function StackNavigation() 
 {
+    const {isLoggedIn} = usePermissions();
+    
     return(
         <Stack.Navigator
             screenOptions=
