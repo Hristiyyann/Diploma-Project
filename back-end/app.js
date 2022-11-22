@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 require('express-async-errors');
 const database = require('./utils/database-connection');
 const models = require('./utils/models');
@@ -10,6 +11,7 @@ const sitterRouter = require('./routes/sitters.route');
 const adminRouter = require('./routes/admin.route');
 const userRouter = require('./routes/user.route');
 
+app.use(cors());
 app.use(express.json());
 
 app.use('/auth', authRouter);
