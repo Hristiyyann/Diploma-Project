@@ -1,11 +1,9 @@
-import React, {useState} from 'react';
-import {View, TouchableWithoutFeedback, TouchableOpacity, Keyboard} from 'react-native';
-import {Input, Text} from '@ui-kitten/components';
+import React, { useState } from 'react';
+import { View, TouchableWithoutFeedback, TouchableOpacity, Keyboard } from 'react-native';
+import { Input, Text } from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Header from '../components/Header.Component';
-import Animation from '../components/Lottie.Component';
+import { Header, Icon, Animation } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
-import Icon from '../components/Icon.Component';
 import GlobalStyles from '../GlobalStyles';
 
 export default function Verification()

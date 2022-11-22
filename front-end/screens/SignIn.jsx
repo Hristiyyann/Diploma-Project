@@ -1,11 +1,8 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard} from 'react-native';
-import {Input, Text} from '@ui-kitten/components';
+import React, { useState } from 'react';
+import { View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Input, Text } from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Header from '../components/Header.Component';
-import Icon from '../components/Icon.Component';
-import PasswordInputField from '../components/PasswordInputField.Component';
-import Animation from '../components/Lottie.Component';
+import { Header, Icon, Animation, PasswordInputField } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
@@ -50,13 +47,14 @@ export default function SignIn({navigation})
                     />
         
                     <TouchableOpacity
-                        style = {styles.forgoPassword}
+                        style = {styles.forgetPassword}
                         onPress = {() => navigation.navigate('Forget password')}
                     >
                         <Text status = 'primary'>Forgot password?</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style = {GlobalStyles.button}>
+                    <TouchableOpacity 
+                        style = {GlobalStyles.button}>
                         <Text status = 'primary'>Sign in</Text>
                     </TouchableOpacity>
                     
@@ -68,7 +66,7 @@ export default function SignIn({navigation})
 
 const styles = StyleSheet.create(
 {
-    forgoPassword:
+    forgetPassword:
     {
         alignSelf: 'flex-end',
         paddingRight: 5,

@@ -1,12 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { TouchableWithoutFeedback, View, Keyboard, TouchableOpacity } from 'react-native';
-import {Text} from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Header from '../components/Header.Component';
-import Animation from '../components/Lottie.Component';
+import { Header, Animation, PasswordInputField } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
-import PasswordInputField from '../components/PasswordInputField.Component';
 
 export default function ResetPassword({isForgotten})
 {

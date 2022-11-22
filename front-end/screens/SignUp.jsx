@@ -1,15 +1,11 @@
-import React, {useState, useRef} from 'react';
-import {StyleSheet, View, Keyboard, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
-import {Text, Input} from '@ui-kitten/components';
+import React, { useState, useRef } from 'react';
+import { StyleSheet, View, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { Text, Input } from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import PhoneInput from 'react-native-phone-number-input';
-import Header from '../components/Header.Component';
-import Animation from '../components/Lottie.Component';
-import PasswordInputField from '../components/PasswordInputField.Component';
-import Icon from '../components/Icon.Component';
-import GlobalStyles from '../GlobalStyles';
+import { Header, Icon, Animation, PasswordInputField } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
-import send from '../requests/AxiosRequests';
+import GlobalStyles from '../GlobalStyles';
 
 export default function SignUp({navigation})
 {

@@ -1,11 +1,9 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Text, Input } from '@ui-kitten/components';
-import Header from '../components/Header.Component';
-import Animation from '../components/Lottie.Component';
+import { Header, Icon, Animation } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
-import Icon from '../components/Icon.Component';
 import GlobalStyles from '../GlobalStyles';
 
 export default function ViaEmail({route, navigation})

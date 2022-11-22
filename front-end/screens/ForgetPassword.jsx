@@ -1,11 +1,9 @@
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import {Text} from '@ui-kitten/components';
-import Header from '../components/Header.Component';
-import Animation from '../components/Lottie.Component';
+import { Text } from '@ui-kitten/components';
+import { Header, Icon, Animation } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
-import Icon from '../components/Icon.Component';
 import GlobalStyles from '../GlobalStyles';
 
 export default function Verification({navigation})

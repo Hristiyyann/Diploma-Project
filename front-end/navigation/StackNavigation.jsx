@@ -1,13 +1,7 @@
 import React, {useContext} from 'react';
-import { usePermissions } from '../contexts/PermissionContext';
+import { usePermissions } from '../contexts/index';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SignUp from '../screens/SignUp';
-import SignIn from '../screens/SignIn';
-import ForgetPassword from '../screens/ForgetPassword';
-import PasswordRecovery from '../screens/PasswordRecovery';
-import ResetPassword from '../screens/ResetPassword';
-import Verification from '../screens/Verification';
-import Home from '../screens/Home';
+import { SignUp, SignIn, ForgetPassword, PasswordRecovery, ResetPassword, Verification, Home } from '../screens/index';
 
 const Stack = createNativeStackNavigator();
 
