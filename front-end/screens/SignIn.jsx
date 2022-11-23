@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { Input, Text } from '@ui-kitten/components';
+import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Header, Icon, Animation, PasswordInputField } from '../components/index';
+import { Header, Animation, SignInForm } from '../components/index';
 import { useLoading, usePermissions } from '../contexts/index';
-import { post } from '../requests/AxiosRequests';
 import Loading  from './Loading';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
@@ -26,7 +24,6 @@ export default function SignIn({navigation})
                     contentContainerStyle = {{flexGrow: 1}}
                 >
                     <View style = {GlobalStyles.screenContainer}>
-
                         <Animation
                             path = {AnimationsPaths.signIn}
                         />
@@ -37,36 +34,10 @@ export default function SignIn({navigation})
                             endText = {'Sign up'}
                             navigateTo = {() => navigation.navigate('Sign Up')}
                         />
-                
-                        <View style = {GlobalStyles.inputContainer}>
-                            <Input
-                                style = {GlobalStyles.input}
-                                textStyle={GlobalStyles.textInputStyle}
-                                value = {email}
-                                placeholder = 'Email'
-                                accessoryLeft = {<Icon iconName = {'mail'}/>}
-                                onChangeText = {(currentValue) => setEmail(currentValue)}
-                            />
-                        </View>
-            
-                        <PasswordInputField 
-                            placeholder = {'Password'} 
-                            iconName = {'lock-closed'}
-                            onChange = {setPassword}
-                        />
-            
-                        <TouchableOpacity
-                            style = {styles.forgetPassword}
-                            onPress = {() => navigation.navigate('Forget password')}
-                        >
-                            <Text status = 'primary'>Forgot password?</Text>
-                        </TouchableOpacity>
 
-                        <TouchableOpacity 
-                            style = {GlobalStyles.button}>
-                            <Text status = 'primary'>Sign in</Text>
-                        </TouchableOpacity>
-                        
+                        <SignInForm
+                            navigation = {navigation}
+                        />
                     </View>
                 </KeyboardAwareScrollView>
             </TouchableWithoutFeedback>
@@ -74,13 +45,3 @@ export default function SignIn({navigation})
         </>  
     )
 }
-
-const styles = StyleSheet.create(
-{
-    forgetPassword:
-    {
-        alignSelf: 'flex-end',
-        paddingRight: 5,
-        marginTop: 10
-    },
-})
