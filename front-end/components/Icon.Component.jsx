@@ -6,7 +6,8 @@ export default function Icon({iconName, size})
     return(
         <Ionicons 
             name = {iconName} 
-            size={size ? size : 36} 
-            color='#EC6165' />
+            size={size ? size : 32} 
+            color='#ec6165' 
+        />
     );
 }

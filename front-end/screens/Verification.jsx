@@ -31,6 +31,7 @@ export default function Verification()
                     <View style = {GlobalStyles.inputContainer}>
                         <Input
                             style = {GlobalStyles.input}
+                            textStyle={GlobalStyles.textInputStyle}
                             value = {code}
                             placeholder = 'Code'
                             accessoryLeft = {<Icon iconName = {'checkmark-circle'}/>}

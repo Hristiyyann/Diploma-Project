@@ -12,6 +12,7 @@ export default function PasswordInputField({placeholder, iconName, onChange})
         <View style = {GlobalStyles.inputContainer}>
             <Input
             style = {GlobalStyles.input}
+            textStyle={GlobalStyles.textInputStyle}
             placeholder = {placeholder}
             accessoryLeft = {<Icon iconName={iconName}/>}
             accessoryRight=

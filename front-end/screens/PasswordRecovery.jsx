@@ -33,6 +33,7 @@ export default function ViaEmail({route, navigation})
                     <View style = {GlobalStyles.inputContainer}>
                         <Input
                             style = {GlobalStyles.input}
+                            textStyle={GlobalStyles.textInputStyle}
                             value = {value}
                             placeholder = {forEmail ? 'Email' : 'Telephone number'}
                             accessoryLeft = {<Icon iconName = {forEmail ? 'mail' : 'call'}/>}

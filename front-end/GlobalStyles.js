@@ -24,6 +24,11 @@ export default GlobalStyles = StyleSheet.create(
         backgroundColor: '#D9D9D9',
     },
 
+    textInputStyle:
+    {
+        minHeight: 40
+    },
+
     button:
     {
         alignItems: 'center',

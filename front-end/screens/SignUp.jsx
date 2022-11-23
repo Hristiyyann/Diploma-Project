@@ -37,6 +37,7 @@ export default function SignUp({navigation})
                     <View style = {GlobalStyles.inputContainer}>
                         <Input
                             style = {GlobalStyles.input}
+                            textStyle={GlobalStyles.textInputStyle}
                             value = {fullName}
                             placeholder = 'Full name'
                             accessoryLeft = {<Icon iconName = {'person'}/>}
@@ -53,7 +54,6 @@ export default function SignUp({navigation})
                         {
                             setTelephoneNumber(number);
                         }} 
-                        withShadow
                         containerStyle = {styles.telephoneContainer}
                         textContainerStyle = {styles.telephoneText}
                         textInputStyle = {styles.inputColor}
@@ -63,6 +63,7 @@ export default function SignUp({navigation})
                     <View style = {GlobalStyles.inputContainer}>
                         <Input
                             style = {GlobalStyles.input}
+                            textStyle={GlobalStyles.textInputStyle}
                             value = {email}
                             placeholder = 'Email'
                             accessoryLeft = {<Icon iconName = {'mail'}/>}

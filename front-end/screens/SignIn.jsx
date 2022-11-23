@@ -3,8 +3,9 @@ import { View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard 
 import { Input, Text } from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Header, Icon, Animation, PasswordInputField } from '../components/index';
+import { useLoading, usePermissions } from '../contexts/index';
+import { post } from '../requests/AxiosRequests';
 import Loading  from './Loading';
-import { useLoading } from '../contexts/LoadingContext';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
@@ -13,6 +14,7 @@ export default function SignIn({navigation})
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { isLoading, setLoading } = useLoading();
+    const { setIsLoggedIn } = usePermissions();
 
     return(
         <>
@@ -39,6 +41,7 @@ export default function SignIn({navigation})
                         <View style = {GlobalStyles.inputContainer}>
                             <Input
                                 style = {GlobalStyles.input}
+                                textStyle={GlobalStyles.textInputStyle}
                                 value = {email}
                                 placeholder = 'Email'
                                 accessoryLeft = {<Icon iconName = {'mail'}/>}
