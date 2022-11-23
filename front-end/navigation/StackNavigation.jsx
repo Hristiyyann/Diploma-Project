@@ -1,11 +1,12 @@
 import React, {useContext} from 'react';
 import { usePermissions } from '../contexts/index';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SignUp, SignIn, ForgetPassword, PasswordRecovery, ResetPassword, Verification, Home } from '../screens/index';
+import { SignUp, SignIn, ForgetPassword, PasswordRecovery, ResetPassword, Verification } from '../screens/index';
+import BottomTabNavigation  from './BottomNavigation';
 
 const Stack = createNativeStackNavigator();
 
-export default function StackNavigation() 
+export default function Navigator() 
 {
     const {isLoggedIn} = usePermissions();
     
@@ -15,9 +16,9 @@ export default function StackNavigation()
             {{
                 headerStyle: 
                 {
-                    backgroundColor: '#D9D9D9',
+                    backgroundColor: '#73423f',
                 },
-                headerTintColor: '#73423f',
+                headerTintColor: '#ec6165',
                 headerTitleStyle:
                 {
                     fontWeight: 'bold',
@@ -27,8 +28,9 @@ export default function StackNavigation()
             (
                 <>
                     <Stack.Screen 
-                        name = 'Home' 
-                        component = {Home}
+                        options={{ headerShown: false }}
+                        name = 'Root' 
+                        component = {BottomTabNavigation}
                     />
                 </>
             ) 

@@ -5,6 +5,7 @@ import ForgetPassword from './ForgetPassword';
 import PasswordRecovery from './PasswordRecovery';
 import ResetPassword from './ResetPassword';
 import Verification from './Verification';
-import Home from './Home';
+import Search from './Search';
+import Profile from './Profile';
 
-export { SignUp, SignIn, Loading, ForgetPassword, PasswordRecovery, ResetPassword, Verification, Home };
+export { SignUp, SignIn, Loading, ForgetPassword, PasswordRecovery, ResetPassword, Verification, Search, Profile };
