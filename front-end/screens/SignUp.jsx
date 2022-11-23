@@ -18,7 +18,7 @@ export default function SignUp({navigation})
                     <Animation
                         path={AnimationsPaths.signUp}
                     />
-                    
+
                     <Header
                         method = {'Sign Up'}
                         methodText = {'Already have an account?'}
