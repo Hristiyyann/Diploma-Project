@@ -2,7 +2,9 @@ import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Text, Input } from '@ui-kitten/components';
 import { Formik, Field } from 'formik';
+import { useLoading, usePermissions } from '../contexts/index';
 import { SignInSchema } from '../validations/index';
+import { signIn } from '../requests/Auth';
 import Icon from './Icon.Component';
 import ValidationError from './ValidationError.Component';
 import PasswordInputField from './PasswordInputField.Component';
@@ -10,17 +12,31 @@ import GlobalStyles from '../GlobalStyles';
 
 export default function SignInForm({navigation})
 {
+    const { isLoading, setLoading } = useLoading();
+    const { setIsLoggedIn, setRoles } = usePermissions();
+
     return(
         <Formik
             initialValues = {
             {
-                email: '',
+                emailAddress: '',
                 password: ''
             }}
             validationSchema = {SignInSchema}
-            onSubmit = {(values) => 
+            onSubmit = {async (values) => 
             {
-                console.log(values);
+                setLoading(true);
+
+                const { roles, error } = await signIn(values);
+
+                if(!error)
+                {
+                    setLoading(false);
+                    setRoles(roles);
+                    setIsLoggedIn(true);
+                }
+
+                setLoading(false);
             }}
         >
             {(props) => 
@@ -32,11 +48,11 @@ export default function SignInForm({navigation})
                         textStyle={GlobalStyles.textInputStyle}
                         placeholder = 'Email'
                         accessoryLeft = {<Icon iconName = {'mail'}/>}
-                        onChangeText = {props.handleChange('email')}
+                        onChangeText = {props.handleChange('emailAddress')}
                     />
                 </View>
 
-                { props.touched.email && props.errors.email && <ValidationError message = {props.errors.email}/> }
+                { props.touched.emailAddress && props.errors.emailAddress && <ValidationError message = {props.errors.emailAddress} /> }
                 
                 <Field
                     name = 'password'

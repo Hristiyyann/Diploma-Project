@@ -7,20 +7,19 @@ import { default as theme } from './theme.json';
 import Navigator from './navigation/StackNavigation';
 import { LoadingContextProvider, PermissionsContextProvider } from './contexts/index';
 
-
 export default function App() 
 {
   return (
     <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
-      <PermissionsContextProvider>
-         <LoadingContextProvider>
+      <LoadingContextProvider>
+        <PermissionsContextProvider>
           <SafeAreaProvider>
             <NavigationContainer> 
               <Navigator/>
             </NavigationContainer>
           </SafeAreaProvider>
-        </LoadingContextProvider>  
-      </PermissionsContextProvider>  
+        </PermissionsContextProvider>  
+      </LoadingContextProvider>  
     </ApplicationProvider>
   );
 }
