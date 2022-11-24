@@ -5,5 +5,6 @@ import PasswordInputField from './PasswordInputField.Component';
 import SignUpForm from './SignUpForm.Component';
 import SignInForm from './SignInForm.Component';
 import ValidationError from './ValidationError.Component';
+import LoadingModal from './LoadingModal.Component';
 
-export { Header, Icon, Animation, PasswordInputField, SignUpForm, SignInForm, ValidationError }
+export { Header, Icon, Animation, PasswordInputField, SignUpForm, SignInForm, ValidationError, LoadingModal }

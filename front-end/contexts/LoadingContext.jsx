@@ -9,10 +9,10 @@ function useLoading()
 
 function LoadingContextProvider({children})
 {
-    const [isLoading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     return(
-        <LoadingContext.Provider value = {{isLoading, setLoading}}>
+        <LoadingContext.Provider value = {{isLoading, setIsLoading}}>
             {children}
         </LoadingContext.Provider>
     )
