@@ -3,11 +3,8 @@ const messages =
     userIdNotProvided:'User id is required',
     userIdNotUUID: 'User id must be UUID',
 
-    fnameNotProvided: 'First name is required',
-    fnameOnlyLetters: 'First name must contain only letters',
-
-    lnameNotProvided: 'Last name is required',
-    lnameOnlyLetters: 'Last name must contain only letters',
+    nameNotProvided: 'Name is required',
+    nameOnlyLetters: 'Name must contain only letters',
 
     emailNotProvided: 'Email address is required',
     emailNotValid: 'This is not valid email address',

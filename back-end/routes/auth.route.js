@@ -10,15 +10,10 @@ const { throwError } = require('../utils/helpers');
 router.route('/signup')
     .post( 
     [
-        body('firstName', messages.fnameNotProvided)
+        body('fullName', messages.nameNotProvided)
         .exists().bail()
-        .trim()
-        .isAlpha().withMessage(messages.fnameOnlyLetters),
-
-        body('lastName', messages.lnameNotProvided)
-        .exists().bail()
-        .trim()
-        .isAlpha().withMessage(messages.lnameOnlyLetters),
+        .trim(),
+        //.isAlpha().withMessage(messages.nameOnlyLetters),
 
         body('emailAddress', messages.emailNotProvided)
         .exists().bail()

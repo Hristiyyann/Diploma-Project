@@ -12,8 +12,8 @@ export default function SignUp({navigation})
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
             <KeyboardAwareScrollView 
                 extraScrollHeight = {10}
-                contentContainerStyle = {{flexGrow: 1}}>
-                    
+                contentContainerStyle = {{flexGrow: 1}}
+            >   
                 <View style = {GlobalStyles.screenContainer}>
                     <Animation
                         path={AnimationsPaths.signUp}
@@ -26,7 +26,9 @@ export default function SignUp({navigation})
                         navigateTo = {() => navigation.navigate('Sign In')}
                     />
 
-                    <SignUpForm/>
+                    <SignUpForm
+                        navigation = {navigation}
+                    />
 
                     <Text>Terms and conditions</Text>
                 </View>

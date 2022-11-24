@@ -11,7 +11,7 @@ async function signUp(req, res)
 {
     throwError(req);
     
-    const {firstName, lastName, emailAddress, password, telephoneNumber} = req.body;
+    const {fullName, emailAddress, password, telephoneNumber} = req.body;
 
     const user = await User.findOne(
     {
@@ -33,14 +33,14 @@ async function signUp(req, res)
 
     const newUser = await User.create(
     {
-        firstName,
-        lastName,
+        firstName: fullName.split(' ')[0],
+        lastName: fullName.split(' ')[1],
         emailAddress,
         password: hashedPassword,
         telephoneNumber
     })
 
-    await verification.sendOTP();
+    //await verification.sendOTP();
 
     console.log(JSON.stringify(newUser));
     res.status(200).send({success: true, userId: newUser.id});

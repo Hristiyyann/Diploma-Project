@@ -17,4 +17,19 @@ async function signIn(data)
     }
 }
 
-export { signIn };
+async function signUp(data)
+{
+    try
+    {
+        console.log(data);
+        const response = await appAxios.post('auth/signup', data);
+        await saveItem('userId', response.data.userId);
+        return true;
+    }
+    catch (error)
+    {
+        return error
+    }
+}
+
+export { signIn, signUp };

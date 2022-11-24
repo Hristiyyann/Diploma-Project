@@ -4,7 +4,7 @@ const SignUpSchema = yup.object
 ({
     fullName: yup.string()
         .required('This field is required'),
-    email: yup.string()
+    emailAddress: yup.string()
         .email('Enter valid email address')
         .required('This field is required'),
     telephoneNumber: yup.string()

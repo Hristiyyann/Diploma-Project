@@ -4,12 +4,13 @@ import { Text, Input } from '@ui-kitten/components';
 import { Formik, Field } from 'formik';
 import PhoneInput from 'react-native-phone-number-input';
 import { SignUpSchema } from '../validations/index';
+import { signUp } from '../requests/Auth';
 import Icon from './Icon.Component';
 import ValidationError from './ValidationError.Component';
 import PasswordInputField from './PasswordInputField.Component';
 import GlobalStyles from '../GlobalStyles';
 
-export default function SignUpForm()
+export default function SignUpForm({navigation})
 {
     const phoneInput = useRef();
 
@@ -18,16 +19,25 @@ export default function SignUpForm()
             initialValues = {
             {
                 fullName: '',
-                email: '',
+                emailAddress: '',
                 telephoneNumber: '',
                 password: '',
                 confirmPassword: '',
 
             }}
             validationSchema = {SignUpSchema}
-            onSubmit = {(values) => 
+            onSubmit = {async (values) => 
             {
-                console.log(values);
+                const response = await signUp(values);
+                console.log(response);
+                if(response == true)
+                {
+                    navigation.replace('Verification')
+                }
+                else
+                {
+                    console.log(response.response.data.message);
+                }
             }}
         >
             {(props) => 
@@ -65,11 +75,11 @@ export default function SignUpForm()
                         textStyle={GlobalStyles.textInputStyle}
                         placeholder = 'Email'
                         accessoryLeft = {<Icon iconName = {'mail'}/>}
-                        onChangeText = {props.handleChange('email')}
+                        onChangeText = {props.handleChange('emailAddress')}
                     />
                 </View>
 
-                { props.touched.email && props.errors.email && <ValidationError message = {props.errors.email}/> }
+                { props.touched.emailAddress && props.errors.emailAddress && <ValidationError message = {props.errors.emailAddress}/> }
                 
                 <Field
                     name = 'password'
