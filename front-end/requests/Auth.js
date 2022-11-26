@@ -1,35 +1,21 @@
 import { appAxios } from './AxiosInstance';
 import { saveItem } from '../Utils';
 
-async function signIn(data)
+async function signIn(data, setRoles, setIsLoggedIn)
 {
-    try
-    {
-        const response = await appAxios.post('auth/signin', data);
-        await saveItem('accessToken', response.data.accessToken);
-        await saveItem('refreshToken', response.data.refreshToken);
-        const roles = response.data.roles;
-        return {roles};
-    }
-    catch (error)
-    {
-        return {error};
-    }
+    const response = await appAxios.post('auth/signin', data);
+
+    await saveItem('accessToken', response.data.accessToken);
+    await saveItem('refreshToken', response.data.refreshToken);
+    setRoles(response.data.roles);
+    setIsLoggedIn(true);
 }
 
 async function signUp(data)
 {
-    try
-    {
-        console.log(data);
-        const response = await appAxios.post('auth/signup', data);
-        await saveItem('userId', response.data.userId);
-        return true;
-    }
-    catch (error)
-    {
-        return error
-    }
+    const response = await appAxios.post('auth/signup', data);
+    await saveItem('userId', response.data.userId);
+    return true;
 }
 
 export { signIn, signUp };

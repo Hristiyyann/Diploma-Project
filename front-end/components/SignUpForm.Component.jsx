@@ -3,18 +3,23 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Text, Input } from '@ui-kitten/components';
 import { Formik, Field } from 'formik';
 import PhoneInput from 'react-native-phone-number-input';
+import { useLoading } from '../contexts/index';
 import { SignUpSchema } from '../validations/index';
 import { signUp } from '../requests/Auth';
+import { apiWrapper } from '../requests/AxiosInstance'
 import Icon from './Icon.Component';
 import ValidationError from './ValidationError.Component';
 import PasswordInputField from './PasswordInputField.Component';
+import LoadingModal from './LoadingModal.Component';
 import GlobalStyles from '../GlobalStyles';
 
 export default function SignUpForm({navigation})
 {
     const phoneInput = useRef();
+    const { setIsLoading } = useLoading();
 
     return(
+        <>
         <Formik
             initialValues = {
             {
@@ -28,16 +33,8 @@ export default function SignUpForm({navigation})
             validationSchema = {SignUpSchema}
             onSubmit = {async (values) => 
             {
-                const response = await signUp(values);
-                console.log(response);
-                if(response == true)
-                {
-                    navigation.replace('Verification')
-                }
-                else
-                {
-                    console.log(response.response.data.message);
-                }
+                const response = await apiWrapper(setIsLoading, () => signUp(values));   
+                if(response == true) { navigation.replace('Verification'); }
             }}
         >
             {(props) => 
@@ -105,6 +102,8 @@ export default function SignUpForm({navigation})
                 </>
             )}
         </Formik>
+        <LoadingModal/>
+        </>
     )
 }
 

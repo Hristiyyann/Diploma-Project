@@ -5,17 +5,20 @@ import { Formik, Field } from 'formik';
 import { useLoading, usePermissions } from '../contexts/index';
 import { SignInSchema } from '../validations/index';
 import { signIn } from '../requests/Auth';
+import { apiWrapper } from '../requests/AxiosInstance'
 import Icon from './Icon.Component';
 import ValidationError from './ValidationError.Component';
 import PasswordInputField from './PasswordInputField.Component';
+import LoadingModal from './LoadingModal.Component';
 import GlobalStyles from '../GlobalStyles';
 
 export default function SignInForm({navigation})
 {
-    const { isLoading, setLoading } = useLoading();
+    const { setIsLoading } = useLoading();
     const { setIsLoggedIn, setRoles } = usePermissions();
 
     return(
+        <>
         <Formik
             initialValues = {
             {
@@ -25,18 +28,7 @@ export default function SignInForm({navigation})
             validationSchema = {SignInSchema}
             onSubmit = {async (values) => 
             {
-                setLoading(true);
-
-                const { roles, error } = await signIn(values);
-
-                if(!error)
-                {
-                    setLoading(false);
-                    setRoles(roles);
-                    setIsLoggedIn(true);
-                }
-
-                setLoading(false);
+                await apiWrapper(setIsLoading, () => signIn(values, setRoles, setIsLoggedIn));   
             }}
         >
             {(props) => 
@@ -78,6 +70,8 @@ export default function SignInForm({navigation})
                 </>
             )}
         </Formik>
+        <LoadingModal/>
+        </>
     )
 }
 
