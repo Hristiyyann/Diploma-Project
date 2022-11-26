@@ -3,12 +3,27 @@ import { View, TouchableWithoutFeedback, TouchableOpacity, Keyboard } from 'reac
 import { Input, Text } from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Header, Icon, Animation } from '../components/index';
+import { useLoading, usePermissions } from '../contexts/index';
+import { apiWrapper } from '../requests/AxiosConfiguration';
+import { verification, resendVerificationCode } from '../requests/Auth';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
 export default function Verification()
 {
     const [code, setCode] = useState('');
+    const { setIsLoading } = useLoading();
+    const { setIsLoggedIn, setRoles } = usePermissions();
+
+    async function sendCode()
+    {
+        const response = await apiWrapper(setIsLoading, () => verification(code, setRoles, setIsLoggedIn));   
+    }
+
+    async function resendCode()
+    {
+        await apiWrapper(setIsLoading, () => resendVerificationCode());
+    }
 
     return(
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
@@ -40,11 +55,17 @@ export default function Verification()
                     </View>
 
                     <TouchableOpacity 
-                        style = {GlobalStyles.button}>
+                        onPress = {sendCode}
+                        style = {GlobalStyles.button}
+                    >
                         <Text status = 'primary'>Continue</Text>
                     </TouchableOpacity>
 
-                    <Text status = 'primary'>Don't receive code? Resend Again</Text>
+                    <TouchableOpacity
+                        onPress = {resendCode}    
+                    >
+                        <Text status = 'primary'>Don't receive code? Resend Again</Text>
+                    </TouchableOpacity>
                 </View>
             </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>  

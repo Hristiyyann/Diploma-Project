@@ -79,7 +79,10 @@ router.route('/verify')
         .exists().bail()
         .trim()
         .isUUID().withMessage(messages.userIdNotUUID)
-    ],authController.verify); 
+    ],authController.verify);
+    
+router.route('/resend')
+    .post(authController.resend);
     
 router.route('/refresh')    
     .post(

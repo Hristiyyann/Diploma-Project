@@ -40,7 +40,7 @@ async function signUp(req, res)
         telephoneNumber
     })
 
-    //await verification.sendOTP();
+    await verification.sendOTP();
 
     console.log(JSON.stringify(newUser));
     res.status(200).send({success: true, userId: newUser.id});
@@ -61,7 +61,7 @@ async function signIn(req, res)
     if(!user) throw new ResourceError('Password or email address do not match', 400);
     else if(user && !user.isVerified)  
     {
-        await verification.sendOTP();
+        //await verification.sendOTP();
         throw new ValidationError('You have to verify your telephone number', 403);
     }    
     
@@ -101,10 +101,16 @@ async function verify(req, res)
     const refreshToken = signRefreshToken(userId);
     addTokensToDB(userId, accessToken, refreshToken);
 
-    res.status(200).send({role: [records.role], accessToken, refreshToken});
+    res.status(200).send({roles: [records.role], accessToken, refreshToken});
 }
 
-async function refreshToken(req,res)
+async function resend(req, res)
+{
+    await verification.sendOTP();
+    res.status(200).send({success: true})
+}
+
+async function refreshToken(req, res)
 {
     throwError(req);
 
@@ -166,6 +172,7 @@ module.exports =
     signUp,
     signIn,
     verify,
+    resend,
     refreshToken,
     logOut,
 };

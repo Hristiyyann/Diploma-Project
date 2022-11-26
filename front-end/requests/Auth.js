@@ -1,5 +1,5 @@
-import { appAxios } from './AxiosInstance';
-import { saveItem } from '../Utils';
+import { appAxios } from './AxiosConfiguration';
+import { saveItem, getItemValue } from '../Utils';
 
 async function signIn(data, setRoles, setIsLoggedIn)
 {
@@ -18,4 +18,18 @@ async function signUp(data)
     return true;
 }
 
-export { signIn, signUp };
+async function verification(smsCode, setRoles, setIsLoggedIn)
+{
+    const userId = await getItemValue('userId');
+    const data = {userId, smsCode};
+    const response = await appAxios.post('auth/verify', data);
+    setRoles(response.data.roles);
+    setIsLoggedIn(true);
+}
+
+async function resendVerificationCode()
+{
+    await appAxios.post('auth/resend');
+}
+
+export { signIn, signUp, verification, resendVerificationCode };
