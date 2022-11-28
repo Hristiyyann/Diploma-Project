@@ -7,7 +7,7 @@ const messages = require('../utils/validation-error-messages');
 const {ValidationError} = require('../utils/errors');
 const { throwError } = require('../utils/helpers');
 
-router.route('/signup')
+router.route('/sign-up')
     .post( 
     [
         body('fullName', messages.nameNotProvided)
@@ -49,7 +49,7 @@ router.route('/signup')
 
     ],authController.signUp);
 
-router.route('/signin')
+router.route('/sign-in')
     .post(
     [
         body('telephoneNumber', messages.telephoneOnlyDigits)
@@ -93,7 +93,10 @@ router.route('/refresh')
         .isJWT().withMessage(messages.tokenNotJWT)
     ],authController.refreshToken);
 
-router.route('/logout')
+router.route('/change-password')
+    .put(verifyToken, authController.changePassword);
+
+router.route('/log-out')
     .post(
     [
         verifyToken,

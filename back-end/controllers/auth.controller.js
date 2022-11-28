@@ -151,6 +151,30 @@ async function refreshToken(req, res)
     return res.status(200).send({success: true, roles, accessToken: newAccessToken, refreshToken: newRefreshToken});
 }
 
+async function changePassword(req, res)
+{
+    const {currentPassword, newPassword} = req.body;
+    const userId = req.userData.userId;
+
+    const user = await User.findByPk(userId);
+
+    if(!user) throw new ResourceError('This user does not exist', 400);
+
+    if(currentPassword)
+    {
+        const result = await bcrypt.compare(currentPassword, user.password);
+        if(!result) throw new ValidationError('Current password is wrong', 400); 
+    }
+
+    const passwordSalt = await bcrypt.genSalt(12);
+    const hashedNewPassword = await bcrypt.hash(newPassword, passwordSalt);
+
+    user.password = hashedNewPassword;
+    user.save();
+
+    res.status(200).send({success: true});
+}
+
 async function logOut(req, res)
 {
     throwError(req);
@@ -174,5 +198,6 @@ module.exports =
     verify,
     resend,
     refreshToken,
+    changePassword,
     logOut,
 };
