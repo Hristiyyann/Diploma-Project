@@ -32,4 +32,12 @@ async function resendVerificationCode()
     await appAxios.post('auth/resend');
 }
 
-export { signIn, signUp, verification, resendVerificationCode };
+async function refresh(refreshToken, setRoles)
+{
+    const response = await appAxios.post('auth/refresh', { refreshToken });
+    await saveItem('accessToken', response.data.accessToken);
+    await saveItem('refreshToken', response.data.refreshToken);
+    setRoles(response.data.roles);
+}
+
+export { signIn, signUp, verification, resendVerificationCode, refresh };
