@@ -24,7 +24,7 @@ async function signUp(req, res)
     if(user && !user.isVerified) 
     {
         await verification.sendOTP();
-        throw new ValidationError('You have to verify your telephone number!', 403)
+        throw new ValidationError('You have to verify your telephone number', 403)
     }
     else if(user) throw new ValidationError('You have to log in', 401); 
 

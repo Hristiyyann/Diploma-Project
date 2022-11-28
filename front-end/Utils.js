@@ -17,8 +17,9 @@ async function hasTokens()
 {
   const accessToken = await getItemValue('accessToken');
   const refreshToken = await getItemValue('refreshToken');
-  
+
   if(accessToken == null || refreshToken == null) { return false; }
+  return refreshToken;
 }
 
 export { saveItem, getItemValue, hasTokens }

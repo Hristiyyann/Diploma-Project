@@ -33,8 +33,11 @@ export default function SignUpForm({navigation})
             validationSchema = {SignUpSchema}
             onSubmit = {async (values) => 
             {
-                const response = await apiWrapper(setIsLoading, () => signUp(values));   
-                if(response == true) { navigation.replace('Verification'); }
+                const returnedObject = await apiWrapper(setIsLoading, () => signUp(values));   
+                if(returnedObject?.success == true || returnedObject?.goToVerification == true) 
+                { 
+                    navigation.replace('Verification'); 
+                }
             }}
         >
             {(props) => 

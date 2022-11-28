@@ -1,5 +1,7 @@
 import React, {createContext, useState, useEffect, useContext} from 'react';
 import { hasTokens, getItemValue } from '../Utils';
+import { refresh } from '../requests/Auth';
+import { apiWrapper } from '../requests/AxiosConfiguration';
 import { useLoading } from './LoadingContext';
 
 const PermissionsContext = createContext();
@@ -11,22 +13,25 @@ function usePermissions()
 
 function PermissionsContextProvider({children})
 {
-    const [isLoggedIn, setIsLoggedIn] = useState();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [roles, setRoles] = useState();
-    const { setLoading } = useLoading();
+    const { setIsLoading } = useLoading();
 
     useEffect(() =>
     {
         async function checkTokens()
         {
-            const result = await hasTokens();
-            if(result == false) 
+            const refreshToken = await hasTokens();
+            if(refreshToken != false) 
             {
-                setIsLoggedIn(false); 
-                return;
+                const returnedObject = await apiWrapper(setIsLoading, () => refresh(refreshToken))
+                if(returnedObject?.goToSignIn)
+                {
+                    setIsLoggedIn(false);
+                    return;
+                }
+                setIsLoggedIn(true); 
             }
-
-            const refreshToken = await getItemValue('refreshToken');
         }
         checkTokens();
     }, []);

@@ -7,18 +7,33 @@ const appAxios = axios.create(
 
 async function apiWrapper(setIsLoading, apiFunction)
 {
+    const returnedObject = {};
+
     try
     {
         setIsLoading(true);
         await apiFunction();
         setIsLoading(false);
-        return true;
+        returnedObject.success = true;
+        return returnedObject;
     }
     catch(error)
     {
         setIsLoading(false);
-        console.log(error);
-        return false;
+        if(error.message == 'Access denied')
+        {
+            returnedObject.goToSignIn = true;
+        }
+        else if(error.message == 'You have to verify your telephone number')
+        {
+            returnedObject.goToVerification = true;
+        }
+        else
+        {
+            console.log(error);
+            return false;
+        }
+        return returnedObject;
     }
 }
 
@@ -29,8 +44,11 @@ function (response)
 }, 
 function (error) 
 {
-    console.log(error.response.data.message);
-    return Promise.reject(error.response.data.message);
+    const errorObject = {};
+    errorObject.status = error.response.status;
+    errorObject.message = error.response.data.message;
+    console.log(errorObject);
+    return Promise.reject(errorObject);
 }); 
 
 export { appAxios, apiWrapper }

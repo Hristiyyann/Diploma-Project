@@ -28,7 +28,11 @@ export default function SignInForm({navigation})
             validationSchema = {SignInSchema}
             onSubmit = {async (values) => 
             {
-                await apiWrapper(setIsLoading, () => signIn(values, setRoles, setIsLoggedIn));   
+                const returnedObject = await apiWrapper(setIsLoading, () => signIn(values, setRoles, setIsLoggedIn));   
+                if(returnedObject?.goToVerification == true)
+                {
+                    navigation.navigate('Verification');
+                }
             }}
         >
             {(props) => 
