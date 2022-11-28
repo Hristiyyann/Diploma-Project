@@ -13,6 +13,11 @@ async function getItemValue(key)
   else { return null }
 }
 
+async function deleteItem(key) 
+{
+  await SecureStore.deleteItemAsync(key);
+}
+
 async function hasTokens()  
 {
   const accessToken = await getItemValue('accessToken');
@@ -22,4 +27,4 @@ async function hasTokens()
   return refreshToken;
 }
 
-export { saveItem, getItemValue, hasTokens }
+export { saveItem, getItemValue, deleteItem, hasTokens }

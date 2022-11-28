@@ -146,7 +146,7 @@ async function refreshToken(req, res)
     
     const newAccessToken = signAccessToken(user.userId, roles);
     const newRefreshToken = signRefreshToken(user.userId);
-    addTokensToDB(user.userId, newRefreshToken, newRefreshToken);
+    addTokensToDB(user.userId, newAccessToken, newRefreshToken);
 
     return res.status(200).send({success: true, roles, accessToken: newAccessToken, refreshToken: newRefreshToken});
 }

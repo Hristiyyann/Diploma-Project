@@ -3,11 +3,11 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import Icon from './Icon.Component';
 
-export default function ProfileOption({iconName, text, navigateTo})
+export default function ProfileOption({iconName, text, onPress})
 {
     return(
         <TouchableOpacity
-            onPress = {navigateTo}
+            onPress = {onPress}
         >
             <View style = {styles.option}>
                 <Icon iconName = {iconName} size = {30}/>

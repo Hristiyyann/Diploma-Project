@@ -1,5 +1,5 @@
 import { appAxios } from './AxiosConfiguration';
-import { saveItem, getItemValue } from '../Utils';
+import { saveItem, getItemValue, deleteItem } from '../Utils';
 
 async function signIn(data, setRoles, setIsLoggedIn)
 {
@@ -40,4 +40,14 @@ async function refresh(refreshToken, setRoles)
     setRoles(response.data.roles);
 }
 
-export { signIn, signUp, verification, resendVerificationCode, refresh };
+async function logOut(setRoles, setIsLoggedIn)
+{
+    const accessToken = await getItemValue('accessToken');
+    const refreshToken = await getItemValue('refreshToken');
+    await appAxios.post('auth/logout', {accessToken, refreshToken});
+    await deleteItem('accessToken');
+    await deleteItem('refreshToken');
+    setRoles('');
+    setIsLoggedIn(false);
+}
+export { signIn, signUp, verification, resendVerificationCode, refresh, logOut };

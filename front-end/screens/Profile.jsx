@@ -1,10 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Image, StyleSheet, ScrollView } from 'react-native';
 import { Text, Divider } from '@ui-kitten/components';
+import { useLoading, usePermissions } from '../contexts';
+import { apiWrapper } from '../requests/AxiosConfiguration';
+import { logOut } from '../requests/Auth';
 import { ProfileOption } from '../components/index';
 
 export default function Profile({navigation})
 {
+    const { setIsLoading } = useLoading();
+    const { setIsLoggedIn, setRoles } = usePermissions();
+
     return( 
         <ScrollView>
             <View style={styles.welcomeSection}>       
@@ -38,7 +44,7 @@ export default function Profile({navigation})
                 <ProfileOption
                     iconName = {'cog'}
                     text = {'Change your password'}
-                    navigateTo = {() => navigation.navigate('Change password', { isForgotten: false })}
+                    onPress = {() => navigation.navigate('Change password', { isForgotten: false })}
                 />
 
                 <ProfileOption
@@ -54,6 +60,7 @@ export default function Profile({navigation})
                 <ProfileOption
                     iconName = {'log-out'}
                     text = {'Log out'}
+                    onPress = {async () => await apiWrapper(setIsLoading, () => logOut(setRoles, setIsLoggedIn))}
                 />
             </View>
         </ScrollView>
