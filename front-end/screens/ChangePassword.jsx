@@ -6,11 +6,12 @@ import { Header, Animation, PasswordInputField } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-export default function ResetPassword({isForgotten})
+export default function ChangePassword({route})
 {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
+    const { isForgotten } = route.params;
 
     return(
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
@@ -25,12 +26,12 @@ export default function ResetPassword({isForgotten})
                     />
 
                     <Header
-                        method = {'Reset password'}
-                        methodText = {'Set your new password so you can login'}
+                        method = {'Change password'}
+                        methodText = {`Set your new password ${!isForgotten ? '' : 'so you can login'}`}
                     />
 
                     {
-                        isForgotten && 
+                        !isForgotten && 
                         <PasswordInputField 
                             placeholder = {'Current password'} 
                             iconName = {'lock-closed'}

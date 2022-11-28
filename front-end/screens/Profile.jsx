@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, ScrollView } from 'react-native';
 import { Text, Divider } from '@ui-kitten/components';
 import { ProfileOption } from '../components/index';
 
-export default function Profile()
+export default function Profile({navigation})
 {
     return( 
         <ScrollView>
@@ -34,25 +34,28 @@ export default function Profile()
                 style = {styles.dividerStyle}
             />
             
-            <ProfileOption
-                iconName = {'cog'}
-                text = {'Change your data'}
-            />
+            <View style = {styles.options}>
+                <ProfileOption
+                    iconName = {'cog'}
+                    text = {'Change your password'}
+                    navigateTo = {() => navigation.navigate('Change password', { isForgotten: false })}
+                />
 
-            <ProfileOption
-                iconName = {'time'}
-                text = {'See your bookings'}
-            />
+                <ProfileOption
+                    iconName = {'time'}
+                    text = {'See your bookings'}
+                />
 
-            <ProfileOption
-                iconName = {'body'}
-                text = {'Become a sitter!'}
-            />
+                <ProfileOption
+                    iconName = {'body'}
+                    text = {'Become a sitter!'}
+                />
 
-            <ProfileOption
-                iconName = {'log-out'}
-                text = {'Log out'}
-            />
+                <ProfileOption
+                    iconName = {'log-out'}
+                    text = {'Log out'}
+                />
+            </View>
         </ScrollView>
     )
 }
@@ -84,6 +87,12 @@ const styles = StyleSheet.create(
     {
         height: 2,
         backgroundColor: '#ec6165',
-        marginBottom: 20,
+    },
+
+    options:
+    {
+        flex: 1,
+        flexDirection: 'column',
+        margin: 10,
     }
 })
