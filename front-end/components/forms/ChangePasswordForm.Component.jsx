@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { Formik, Field } from 'formik';
-import { ChangePasswordSchema } from '../../validations/index';
+import { basePasswordSchema, allPasswordSchema } from '../../validations/index';
 import { changePassword } from '../../requests/Auth';
 import { apiWrapper } from '../../requests/AxiosConfiguration';
 import { useLoading } from '../../contexts/index';
@@ -20,12 +20,13 @@ export default function ChangePassworForm({isForgotten, navigation})
                 newPassword: '', 
                 confirmNewPassword: ''
             }}
-            validationSchema = {ChangePasswordSchema}
+            validationSchema = {!isForgotten ? allPasswordSchema : basePasswordSchema}
             onSubmit = {async (values) =>
             {
                 let body = {};
                 if(!isForgotten) {body = {...body, currentPassword: values.currentPassword}}
                 body = {...body, newPassword: values.newPassword, confrimNewPassword: values.confirmNewPassword};
+                console.log(body);
 
                 const returnedObject = await apiWrapper(setIsLoading, () => changePassword(body));
                 if(returnedObject?.success == true)
