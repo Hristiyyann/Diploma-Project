@@ -11,7 +11,10 @@ export default function ProfileOption({iconName, text, onPress})
         >
             <View style = {styles.option}>
                 <Icon iconName = {iconName} size = {30}/>
-                <Text category = 'h6'> {text}</Text>
+                <Text 
+                    status = 'primary'
+                    category = 'h6'
+                > {text}</Text>
             </View>
         </TouchableOpacity>
     )

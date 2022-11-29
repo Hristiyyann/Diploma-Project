@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
-import { TouchableWithoutFeedback, View, Keyboard, TouchableOpacity } from 'react-native';
-import { Text } from '@ui-kitten/components';
+import React from 'react';
+import { TouchableWithoutFeedback, View, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Header, Animation, PasswordInputField } from '../components/index';
+import { Header, Animation, ChangePasswordForm } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
 export default function ChangePassword({route})
 {
-    const [currentPassword, setCurrentPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const { isForgotten } = route.params;
 
     return(
@@ -30,31 +26,9 @@ export default function ChangePassword({route})
                         methodText = {`Set your new password ${!isForgotten ? '' : 'so you can login'}`}
                     />
 
-                    {
-                        !isForgotten && 
-                        <PasswordInputField 
-                            placeholder = {'Current password'} 
-                            iconName = {'lock-closed'}
-                            onChange = {setCurrentPassword}
-                        />
-                    }
-
-                    <PasswordInputField 
-                        placeholder = {'New password'} 
-                        iconName = {'lock-closed'}
-                        onChange = {setNewPassword}
+                    <ChangePasswordForm
+                        isForgotten={isForgotten}
                     />
-
-                    <PasswordInputField 
-                        placeholder = {'Confirm new password'} 
-                        iconName = {'lock-closed'}
-                        onChange = {setConfirmNewPassword}
-                    />
-
-                    <TouchableOpacity 
-                        style = {GlobalStyles.button}>
-                        <Text status = 'primary'>Apply changes</Text>
-                    </TouchableOpacity>
                 </View>
             </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>   
