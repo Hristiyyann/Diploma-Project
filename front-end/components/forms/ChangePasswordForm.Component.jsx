@@ -30,7 +30,11 @@ export default function ChangePassworForm({isForgotten, navigation})
                 const returnedObject = await apiWrapper(setIsLoading, () => changePassword(body));
                 if(returnedObject?.success == true)
                 {
-                    navigation.replace('Successfull');
+                    navigation.reset(
+                    {
+                        index: 0,
+                        routes: [{ name: 'Successfull' }],
+                    });
                 }
             }}
         >

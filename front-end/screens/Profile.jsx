@@ -29,6 +29,7 @@ export default function Profile({navigation})
                     </Text>
 
                     <Text
+                        status = 'primary'
                         category = 'h5'
                     >
                         Harold Wilshere
@@ -56,7 +57,7 @@ export default function Profile({navigation})
                     iconName = {'body'}
                     text = {'Become a sitter!'}
                 />
-
+               
                 <ProfileOption
                     iconName = {'log-out'}
                     text = {'Log out'}
@@ -87,7 +88,7 @@ const styles = StyleSheet.create(
     {
         width: 100,
         height: 100,
-        borderRadius: '50%'
+        borderRadius: 50
     },
 
     dividerStyle:

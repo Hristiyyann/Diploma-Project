@@ -21,10 +21,11 @@ export default function Verification({navigation})
                 />
 
                 <Header
-                    method = {'Forgot Password?'}
+                    method = {'Forget Password?'}
                     methodText = {'Select whict contact detail should we use to reset your password?'}
                 />
-                
+                <View style = {styles.options}>
+
                 <TouchableOpacity 
                     onPress = {() => navigation.navigate('Password recovery',
                     {
@@ -36,13 +37,12 @@ export default function Verification({navigation})
                     </Text>
                     <View style = {styles.viaMethod}>
                         <Text category = 'h6'>
-                            via sms:
-                        </Text>
-                        <Text category = 'h6'>
-                            +359000000000
+                            via sms
                         </Text>
                     </View>
                 </TouchableOpacity>
+
+                <Text> OR </Text>
 
                 <TouchableOpacity 
                     onPress = {() => navigation.navigate('Password recovery',
@@ -56,13 +56,11 @@ export default function Verification({navigation})
 
                     <View style = {styles.viaMethod}>
                         <Text category = 'h6'>
-                            via email: 
-                        </Text>
-                        <Text category = 'h6'>
-                            diplomasupport@abv.com
+                            via email 
                         </Text>
                     </View>
                 </TouchableOpacity>
+                </View>
 
             </View>
         </KeyboardAwareScrollView>
@@ -71,21 +69,30 @@ export default function Verification({navigation})
 
 const styles = StyleSheet.create(
 {
-    optionContainer:
+    options:
     {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',
+        marginTop: 10,
+    },
+
+    optionContainer:
+    {
+        flex: 0.5,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
         alignSelf: 'stretch',
         height: 110,
         backgroundColor: '#D9D9D9',
-        marginTop: 20,
+        margin: 10,
         borderRadius: 15
     },
 
-    viaMethod:
+   /*  viaMethod:
     {
         flex: 0.8,
         flexDirection:'column',
-    }
+    } */
 })
