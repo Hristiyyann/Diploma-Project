@@ -6,5 +6,9 @@ import ChangePassword from './ChangePassword';
 import Verification from './Verification';
 import Search from './Search';
 import Profile from './Profile';
+import Successfull from './Successfull';
 
-export { SignUp, SignIn, ForgetPassword, PasswordRecovery, ChangePassword, Verification, Search, Profile };
+export { 
+        SignUp, SignIn, ForgetPassword, PasswordRecovery, ChangePassword, 
+        Verification, Search, Profile, Successfull
+       };

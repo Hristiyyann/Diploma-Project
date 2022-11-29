@@ -8,6 +8,7 @@ const animations =
     newPassword: require('./newpassword.json'),
     otp: require('./otp.json'),
     loading: require('./loading.json'),
+    success: require('./successfully.json'),
 }
 
 export default animations;

@@ -2,11 +2,16 @@ import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { Formik, Field } from 'formik';
 import { ChangePasswordSchema } from '../../validations/index';
+import { changePassword } from '../../requests/Auth';
+import { apiWrapper } from '../../requests/AxiosConfiguration';
+import { useLoading } from '../../contexts/index';
 import PasswordInputField from '../PasswordInputField.Component';
 import ValidationError from '../ValidationError.Component';
 
-export default function ChangePassworForm({isForgotten})
+export default function ChangePassworForm({isForgotten, navigation})
 {
+    const { setIsLoading } = useLoading();
+
     return(
         <Formik
             initialValues = {
@@ -16,9 +21,17 @@ export default function ChangePassworForm({isForgotten})
                 confirmNewPassword: ''
             }}
             validationSchema = {ChangePasswordSchema}
-            onSubmit = {(values) =>
+            onSubmit = {async (values) =>
             {
-                console.log(values);
+                let body = {};
+                if(!isForgotten) {body = {...body, currentPassword: values.currentPassword}}
+                body = {...body, newPassword: values.newPassword, confrimNewPassword: values.confirmNewPassword};
+
+                const returnedObject = await apiWrapper(setIsLoading, () => changePassword(body));
+                if(returnedObject?.success == true)
+                {
+                    navigation.replace('Successfull');
+                }
             }}
         >
             {(props) =>

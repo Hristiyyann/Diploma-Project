@@ -34,7 +34,7 @@ export default GlobalStyles = StyleSheet.create(
     {
         alignItems: 'center',
         width: '80%',
-        padding: 10,
+        padding: 12,
         marginTop: 20,
         marginBottom: 10,
         borderRadius: 15,
