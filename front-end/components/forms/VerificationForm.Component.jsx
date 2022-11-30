@@ -43,7 +43,7 @@ export default function VerificationForm({channel, isForPasswordRecovery, naviga
                     return;
                 }
 
-                await apiWrapper(setIsLoading, () => verification(code, setRoles, setIsLoggedIn));
+                await apiWrapper(setIsLoading, () => verification(values.code, setRoles, setIsLoggedIn));
             }}
         >
             {(props) =>

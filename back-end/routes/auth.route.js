@@ -70,7 +70,7 @@ router.route('/sign-in')
 router.route('/verify')
     .post(
     [
-        body('smsCode', messages.smsCodeNotProvided)
+        body('code', messages.smsCodeNotProvided)
         .exists().bail()
         .trim()
         .isNumeric().withMessage(messages.smsCodeNotValid),

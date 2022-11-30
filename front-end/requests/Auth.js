@@ -23,6 +23,8 @@ async function verification(code, setRoles, setIsLoggedIn)
     const userId = await getItemValue('userId');
     const data = {userId, code};
     const response = await appAxios.post('auth/verify', data);
+    await saveItem('accessToken', response.data.accessToken);
+    await saveItem('refreshToken', response.data.refreshToken);
     await deleteItem('userId');
     setRoles(response.data.roles);
     setIsLoggedIn(true);

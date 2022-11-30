@@ -41,7 +41,7 @@ async function signUp(req, res)
         telephoneNumber
     })
 
-    //await verification.sendOTP();
+    await verification.sendOTP();
 
     console.log(JSON.stringify(newUser));
     res.status(200).send({ success: true, userId: newUser.id });
@@ -154,7 +154,7 @@ async function refreshToken(req, res)
 
 async function changePassword(req, res)
 {
-    const { currentPassword, newPassword } = req.body;
+    const { currentPassword, password } = req.body;
     const userId = req.userData.userId;
 
     const user = await User.findByPk(userId);
@@ -168,9 +168,9 @@ async function changePassword(req, res)
     }
 
     const passwordSalt = await bcrypt.genSalt(12);
-    const hashedNewPassword = await bcrypt.hash(newPassword, passwordSalt);
+    const hashedPassword = await bcrypt.hash(password, passwordSalt);
 
-    user.password = hashedNewPassword;
+    user.password = hashedPassword;
     user.save();
 
     res.status(200).send({success: true});
