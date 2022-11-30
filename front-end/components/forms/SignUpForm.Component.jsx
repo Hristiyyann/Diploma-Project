@@ -39,10 +39,11 @@ export default function SignUpForm({navigation})
                 const returnedObject = await apiWrapper(setIsLoading, () => signUp(values));   
                 if(returnedObject?.success == true || returnedObject?.goToVerification == true) 
                 { 
+                    const channel = {...channel, telephoneNumber: values.telephoneNumber};
                     navigation.replace('Verification',
                     {
-                        value: values.telephoneNumber,
-                        forPasswordRecovery: false
+                        channel,
+                        isForPasswordRecovery: false
                     }); 
                 }
             }}

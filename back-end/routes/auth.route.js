@@ -97,7 +97,13 @@ router.route('/change-password')
     .put(verifyToken, authController.changePassword);
 
 router.route('/password-recovery')
-    .post(authController.passwordRecovery)
+    .post(authController.passwordRecovery);
+
+router.route('/forget-password')
+    .post(authController.forgetPassword);
+
+ router.route('/check-code')
+    .post(authController.checkCode);
 
 router.route('/log-out')
     .post(

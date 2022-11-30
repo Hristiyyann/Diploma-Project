@@ -72,6 +72,11 @@ export default function Navigator()
                         name = 'Verification' 
                         component = {Verification}
                     />
+                    <Stack.Screen 
+                        options = {{headerShown: false}}
+                        name = 'Successfull' 
+                        component = {Successfull}
+                    />
                 </>
             )}
         </Stack.Navigator>

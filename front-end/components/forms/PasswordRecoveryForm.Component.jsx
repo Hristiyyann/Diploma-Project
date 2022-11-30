@@ -31,14 +31,13 @@ export default function PasswordRecoveryForm({forEmail, navigation})
                 }
 
                 const returnedObject = await apiWrapper(setIsLoading, () => passwordRecovery(values));
-                const value = values?.telephoneNumber || values?.emailAddress;
-                console.log(value);   
+                  
                 if(returnedObject?.success == true)
                 {
                     navigation.navigate('Verification',
                     {
-                        value,
-                        forPasswordRecovery: true
+                        channel: values,
+                        isForPasswordRecovery: true
                     });
                 }
             }}

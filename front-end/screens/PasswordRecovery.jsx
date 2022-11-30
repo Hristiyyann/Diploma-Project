@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { Text, Input } from '@ui-kitten/components';
-import { Header, Icon, Animation, PasswordRecoveryForm } from '../components/index';
+import { Header, Animation, PasswordRecoveryForm } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
 export default function ViaEmail({route, navigation})
 {
-    const [value, setValue] = useState('');
     const { forEmail } = route.params;
 
     return(

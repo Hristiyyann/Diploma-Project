@@ -2,33 +2,35 @@ import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { Formik, Field } from 'formik';
 import { baseChangePasswordSchema, fullChangePasswordSchema } from '../../validations/Schemes';
-import { changePassword } from '../../requests/Auth';
+import { changePassword, forgetPassword } from '../../requests/Auth';
 import { apiWrapper } from '../../requests/AxiosConfiguration';
 import { useLoading } from '../../contexts/index';
 import PasswordInputField from '../PasswordInputField.Component';
 import ValidationError from '../ValidationError.Component';
 
-export default function ChangePassworForm({isForgotten, navigation})
+export default function ChangePassworForm({isForgotten, channel, navigation})
 {
     const { setIsLoading } = useLoading();
+    let initialValues = {password: '', confirmPassword: ''};
+    if(!isForgotten) { initialValues = {...initialValues, currentPassword: ''}};
 
     return(
         <Formik
-            initialValues = {
-            {
-                currentPassword: '', 
-                password: '', 
-                confirmPassword: ''
-            }}
+            initialValues = {initialValues}
             validationSchema = {!isForgotten ? fullChangePasswordSchema : baseChangePasswordSchema}
             onSubmit = {async (values) =>
             {
-                let body = {};
-                if(!isForgotten) {body = {...body, currentPassword: values.currentPassword}}
-                body = {...body, newPassword: values.newPassword, confrimNewPassword: values.confirmNewPassword};
-                console.log(body);
+                let returnedObject;
 
-                const returnedObject = await apiWrapper(setIsLoading, () => changePassword(body));
+                if(channel != null) 
+                {
+                    returnedObject = await apiWrapper(setIsLoading, () => forgetPassword({...channel, ...values}));
+                }
+                else
+                {
+                    returnedObject = await apiWrapper(setIsLoading, () => changePassword(values));
+                }
+                
                 if(returnedObject?.success == true)
                 {
                     navigation.reset(
@@ -36,7 +38,7 @@ export default function ChangePassworForm({isForgotten, navigation})
                         index: 0,
                         routes: [{ name: 'Successfull' }],
                     });
-                }
+                } 
             }}
         >
             {(props) =>

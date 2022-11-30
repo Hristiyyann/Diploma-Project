@@ -7,7 +7,7 @@ import GlobalStyles from '../GlobalStyles';
 
 export default function ChangePassword({route, navigation})
 {
-    const { isForgotten } = route.params;
+    const { isForgotten, channel } = route.params;
 
     return(
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
@@ -27,7 +27,8 @@ export default function ChangePassword({route, navigation})
                     />
 
                     <ChangePasswordForm
-                        isForgotten={isForgotten}
+                        isForgotten = {isForgotten}
+                        channel = {channel}
                         navigation = {navigation}
                     />
                 </View>

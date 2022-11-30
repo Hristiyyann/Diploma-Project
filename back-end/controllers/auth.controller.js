@@ -41,7 +41,7 @@ async function signUp(req, res)
         telephoneNumber
     })
 
-    await verification.sendOTP();
+    //await verification.sendOTP();
 
     console.log(JSON.stringify(newUser));
     res.status(200).send({ success: true, userId: newUser.id });
@@ -176,23 +176,57 @@ async function changePassword(req, res)
     res.status(200).send({success: true});
 }
 
+async function forgetPassword(req, res)
+{
+    const { password, telephoneNumber, emailAddress } = req.body;
+    const conditions = {}
+
+    if(telephoneNumber) { conditions.where = {...conditions.where, telephoneNumber}; }
+    else if(emailAddress) { conditions.where = {...conditions.where, emailAddress}; }
+
+    const user = await User.findOne(conditions);
+    console.log(user.id);
+    if(!user) { throw new ResourceError(messages.userNotExists, 400); }
+    
+    const passwordSalt = await bcrypt.genSalt(12);
+    const hashedPassword = await bcrypt.hash(password, passwordSalt);
+
+    user.password = hashedPassword;
+    user.save();
+
+    res.status(200).send({success: true});
+}
+
 async function passwordRecovery(req, res)
 {
     const { telephoneNumber, emailAddress } = req.body;
+    let conditions = {};
 
-    if(emailAddress) { channel = 'email'; }
-    else if(telephoneNumber) { channel = 'sms'; }
+    if(emailAddress) 
+    { 
+        channel = 'email'; 
+        conditions.where = {...conditions.where, emailAddress};
+    }
+    else if(telephoneNumber) 
+    {
+        channel = 'sms'; 
+        conditions.where = {...conditions.where, telephoneNumber};
+    }
     else { throw new ResourceError(messages.noData, 400); } 
 
-    //await verification.sendOTP();
+    const user = await User.findOne(conditions);
+    if(!user) { throw new ResourceError(messages.userNotExists, 400); }
+
+    await verification.sendOTP();
 
     res.status(200).send({ success: true });
 }
 
 async function checkCode(req, res)
 {
-    const { code } = req.body;
-
+    const { code, emailAddress, telephoneNumber } = req.body;
+    console.log(code, emailAddress, telephoneNumber);
+   
     if(!(await verification.checkOTP(code))) throw new ValidationError(messages.incorrectCode, 400);
     
     res.status(200).send({ success: true });
@@ -217,5 +251,5 @@ async function logOut(req, res)
 module.exports = 
 {
     signUp, signIn, verify, resend, refreshToken, changePassword,
-    passwordRecovery, checkCode, logOut,
+    forgetPassword, passwordRecovery, checkCode, logOut,
 };
