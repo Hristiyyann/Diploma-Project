@@ -18,10 +18,10 @@ async function signUp(data)
     return true;
 }
 
-async function verification(smsCode, setRoles, setIsLoggedIn)
+async function verification(code, setRoles, setIsLoggedIn)
 {
     const userId = await getItemValue('userId');
-    const data = {userId, smsCode};
+    const data = {userId, code};
     const response = await appAxios.post('auth/verify', data);
     setRoles(response.data.roles);
     setIsLoggedIn(true);
@@ -46,6 +46,11 @@ async function changePassword(data)
     await appAxios.put('auth/change-password', {...data, accessToken});
 }
 
+async function passwordRecovery(data)
+{
+    await appAxios.post('auth/password-recovery', data);
+}
+
 async function logOut(setRoles, setIsLoggedIn)
 {
     const accessToken = await getItemValue('accessToken');
@@ -56,4 +61,9 @@ async function logOut(setRoles, setIsLoggedIn)
     setRoles('');
     setIsLoggedIn(false);
 }
-export { signIn, signUp, verification, resendVerificationCode, refresh, changePassword, logOut };
+
+export 
+{ 
+    signIn, signUp, verification, resendVerificationCode, 
+    refresh, changePassword, passwordRecovery, logOut 
+};

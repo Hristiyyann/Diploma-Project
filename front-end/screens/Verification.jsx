@@ -9,15 +9,16 @@ import { verification, resendVerificationCode } from '../requests/Auth';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-export default function Verification()
+export default function Verification({route})
 {
     const [code, setCode] = useState('');
     const { setIsLoading } = useLoading();
     const { setIsLoggedIn, setRoles } = usePermissions();
+    const { value, forPasswordRecovery } = route.params;
 
     async function sendCode()
     {
-        const response = await apiWrapper(setIsLoading, () => verification(code, setRoles, setIsLoggedIn));   
+        await apiWrapper(setIsLoading, () => verification(code, setRoles, setIsLoggedIn));   
     }
 
     async function resendCode()
@@ -40,7 +41,7 @@ export default function Verification()
                     />
                     <Header
                         method = {'Verification code'}
-                        methodText = {'Enter the 6 digit code number that we send to +3590000000'}
+                        methodText = {`Enter the 6 digit code number that we send to ${value}`}
                     />
 
                     <View style = {GlobalStyles.inputContainer}>

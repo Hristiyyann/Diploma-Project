@@ -80,13 +80,13 @@ async function verify(req, res)
 {
     throwError(req);
 
-    const{smsCode, userId} = req.body;
+    const{code, userId} = req.body;
     
     const user = await User.findByPk(userId);
     
     if(!user) throw new ResourceError('This user does not exist', 400);
     else if(user.isVerified)  throw new ValidationError('This user is already verified!', 400);
-    else if(!(await verification.checkOTP(smsCode))) throw new ValidationError('This code is incorrect', 400);
+    else if(!(await verification.checkOTP(code))) throw new ValidationError('This code is incorrect', 400);
 
     user.isVerified = true
     user.save(); 
@@ -175,6 +175,28 @@ async function changePassword(req, res)
     res.status(200).send({success: true});
 }
 
+async function passwordRecovery(req, res)
+{
+    const { telephoneNumber, emailAddress } = req.body;
+
+    if(emailAddress) { channel = 'email'; }
+    else if(telephoneNumber) { channel = 'sms'; }
+    else { throw new ResourceError('There is no provided data', 400); } 
+
+    //await verification.sendOTP();
+
+    res.status(200).send({success: true});
+}
+
+async function checkCode(req, res)
+{
+    const {code} = req.body;
+
+    if(!(await verification.checkOTP(code))) throw new ValidationError('This code is incorrect', 400);
+    
+    res.status(200).send({success: true});
+}
+
 async function logOut(req, res)
 {
     throwError(req);
@@ -193,11 +215,6 @@ async function logOut(req, res)
 
 module.exports = 
 {
-    signUp,
-    signIn,
-    verify,
-    resend,
-    refreshToken,
-    changePassword,
-    logOut,
+    signUp, signIn, verify, resend, refreshToken, changePassword,
+    passwordRecovery, checkCode, logOut,
 };

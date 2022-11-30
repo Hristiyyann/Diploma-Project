@@ -25,7 +25,7 @@ router.route('/sign-up')
         .exists().bail()
         .trim()
         .isNumeric().withMessage(messages.telephoneOnlyDigits).bail()
-        .isMobilePhone().withMessage(messages.telephoneNotValid),
+        .isMobilePhone(locale = 'any', strictMode = true).withMessage(messages.telephoneNotValid),
 
         body('password', messages.passwordNotProvided)
         .exists()
@@ -95,6 +95,9 @@ router.route('/refresh')
 
 router.route('/change-password')
     .put(verifyToken, authController.changePassword);
+
+router.route('/password-recovery')
+    .post(authController.passwordRecovery)
 
 router.route('/log-out')
     .post(

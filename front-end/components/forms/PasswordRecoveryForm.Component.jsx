@@ -4,6 +4,9 @@ import { Text, Input } from '@ui-kitten/components';
 import PhoneInput from 'react-native-phone-number-input';
 import { Formik } from 'formik';
 import { emailValidation, telephoneValidation } from '../../validations/GlobalValidations';
+import { useLoading } from '../../contexts/index';
+import { passwordRecovery } from '../../requests/Auth';
+import { apiWrapper } from '../../requests/AxiosConfiguration';
 import Icon from '../Icon.Component';
 import ValidationError from '../ValidationError.Component';
 import GlobalStyles from '../../GlobalStyles';
@@ -11,6 +14,7 @@ import GlobalStyles from '../../GlobalStyles';
 export default function PasswordRecoveryForm({forEmail, navigation})
 {
     const phoneInput = useRef();
+    const { setIsLoading } = useLoading();
     let initialValues = {};
     {forEmail == true ? initialValues = {...initialValues, emailAddress: ''} : initialValues = {...initialValues, telephoneNumber: ''}}
     
@@ -18,9 +22,25 @@ export default function PasswordRecoveryForm({forEmail, navigation})
         <Formik
             initialValues = {initialValues}
             validationSchema = {forEmail == true ? emailValidation : telephoneValidation}
-            onSubmit = {(values) =>
+            onSubmit = {async (values) =>
             {
-                console.log(values);
+                if(values?.telephoneNumber)
+                {
+                    const currentTelephone = '+' + phoneInput.current.getCallingCode() + values.telephoneNumber;
+                    values = {...values, telephoneNumber: currentTelephone};
+                }
+
+                const returnedObject = await apiWrapper(setIsLoading, () => passwordRecovery(values));
+                const value = values?.telephoneNumber || values?.emailAddress;
+                console.log(value);   
+                if(returnedObject?.success == true)
+                {
+                    navigation.navigate('Verification',
+                    {
+                        value,
+                        forPasswordRecovery: true
+                    });
+                }
             }}
         >
             {(props) =>

@@ -33,10 +33,17 @@ export default function SignUpForm({navigation})
             validationSchema = {SignUpSchema}
             onSubmit = {async (values) => 
             {
+                const currentTelephone = '+' + phoneInput.current.getCallingCode() + values.telephoneNumber;
+                values = {...values, telephoneNumber: currentTelephone};
+
                 const returnedObject = await apiWrapper(setIsLoading, () => signUp(values));   
                 if(returnedObject?.success == true || returnedObject?.goToVerification == true) 
                 { 
-                    navigation.replace('Verification'); 
+                    navigation.replace('Verification',
+                    {
+                        value: values.telephoneNumber,
+                        forPasswordRecovery: false
+                    }); 
                 }
             }}
         >
