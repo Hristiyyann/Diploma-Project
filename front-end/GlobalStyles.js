@@ -40,4 +40,29 @@ export default GlobalStyles = StyleSheet.create(
         borderRadius: 15,
         backgroundColor: '#D9D9D9',
     },
+
+    telephoneContainer:
+    {
+        width: '100%',
+        marginTop: 5,
+        marginBottom: 5,
+        borderRadius: 15,
+        backgroundColor: '#D9D9D9',
+    },
+    
+    telephoneText:
+    {
+        borderRadius: 15,
+        backgroundColor: '#D9D9D9',
+    },
+
+    inputColor:
+    {
+        color: '#ec6165',
+    },
+
+    codeStyle:
+    {
+        color: '#73423f'
+    }
 });

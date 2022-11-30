@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Text, Input } from '@ui-kitten/components';
-import { Header, Icon, Animation } from '../components/index';
+import { Header, Icon, Animation, PasswordRecoveryForm } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
 export default function ViaEmail({route, navigation})
 {
     const [value, setValue] = useState('');
-    const {forEmail} = route.params;
+    const { forEmail } = route.params;
 
     return(
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
@@ -30,21 +30,10 @@ export default function ViaEmail({route, navigation})
                         methodText = {`Enter your registered ${forEmail == true ? `email` : `telephone number`} below to receive recovery code`}
                     />
 
-                    <View style = {GlobalStyles.inputContainer}>
-                        <Input
-                            style = {GlobalStyles.input}
-                            textStyle={GlobalStyles.textInputStyle}
-                            value = {value}
-                            placeholder = {forEmail ? 'Email' : 'Telephone number'}
-                            accessoryLeft = {<Icon iconName = {forEmail ? 'mail' : 'call'}/>}
-                            onChangeText = {(currentValue) => setValue(currentValue)}
-                        />
-                    </View>
-
-                    <TouchableOpacity style = {GlobalStyles.button}>
-                        <Text status = 'primary'>Send</Text>
-                    </TouchableOpacity>
-                    
+                    <PasswordRecoveryForm
+                        forEmail = {forEmail}
+                        navigation = {navigation}
+                    />
                 </View>
             </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>  

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Text, Input } from '@ui-kitten/components';
 import { Formik, Field } from 'formik';
 import PhoneInput from 'react-native-phone-number-input';
@@ -61,10 +61,10 @@ export default function SignUpForm({navigation})
                     placeholder = {'Telephone number'}
                     layout='first'
                     onChangeText={props.handleChange('telephoneNumber')}
-                    containerStyle = {styles.telephoneContainer}
-                    textContainerStyle = {styles.telephoneText}
-                    textInputStyle = {styles.inputColor}
-                    codeTextStyle = {styles.codeStyle}
+                    containerStyle = {GlobalStyles.telephoneContainer}
+                    textContainerStyle = {GlobalStyles.telephoneText}
+                    textInputStyle = {GlobalStyles.inputColor}
+                    codeTextStyle = {GlobalStyles.codeStyle}
                 />
 
                 { props.touched.telephoneNumber && props.errors.telephoneNumber && <ValidationError message = {props.errors.telephoneNumber}/> } 
@@ -109,31 +109,3 @@ export default function SignUpForm({navigation})
         </>
     )
 }
-
-const styles = StyleSheet.create(
-{
-    telephoneContainer:
-    {
-        width: '100%',
-        marginTop: 5,
-        marginBottom: 5,
-        borderRadius: 15,
-        backgroundColor: '#D9D9D9',
-    },
-    
-    telephoneText:
-    {
-        borderRadius: 15,
-        backgroundColor: '#D9D9D9',
-    },
-
-    inputColor:
-    {
-        color: '#ec6165',
-    },
-
-    codeStyle:
-    {
-        color: '#73423f'
-    }
-});
