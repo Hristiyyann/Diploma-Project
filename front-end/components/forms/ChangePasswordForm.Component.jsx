@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { Formik, Field } from 'formik';
-import { basePasswordSchema, allPasswordSchema } from '../../validations/index';
+import { baseChangePasswordSchema, fullChangePasswordSchema } from '../../validations/Schemes';
 import { changePassword } from '../../requests/Auth';
 import { apiWrapper } from '../../requests/AxiosConfiguration';
 import { useLoading } from '../../contexts/index';
@@ -17,10 +17,10 @@ export default function ChangePassworForm({isForgotten, navigation})
             initialValues = {
             {
                 currentPassword: '', 
-                newPassword: '', 
-                confirmNewPassword: ''
+                password: '', 
+                confirmPassword: ''
             }}
-            validationSchema = {!isForgotten ? allPasswordSchema : basePasswordSchema}
+            validationSchema = {!isForgotten ? fullChangePasswordSchema : baseChangePasswordSchema}
             onSubmit = {async (values) =>
             {
                 let body = {};
@@ -56,20 +56,20 @@ export default function ChangePassworForm({isForgotten, navigation})
                 }
 
                 <Field 
-                    name = 'newPassword'
+                    name = 'password'
                     placeholder = {'New password'} 
                     component = {PasswordInputField}
                 />
 
-                { props.touched.newPassword && props.errors.newPassword && <ValidationError message = {props.errors.newPassword}/> }
+                { props.touched.password && props.errors.password && <ValidationError message = {props.errors.password}/> }
 
                 <Field 
-                    name = 'confirmNewPassword'
+                    name = 'confirmPassword'
                     placeholder = {'Confirm new password'} 
                     component = {PasswordInputField}
                 />
 
-                { props.touched.confirmNewPassword && props.errors.confirmNewPassword && <ValidationError message = {props.errors.confirmNewPassword}/> }
+                { props.touched.confirmPassword && props.errors.confirmPassword && <ValidationError message = {props.errors.confirmPassword}/> }
 
                 <TouchableOpacity 
                     onPress = {props.handleSubmit}

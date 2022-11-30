@@ -4,7 +4,7 @@ import { Text, Input } from '@ui-kitten/components';
 import { Formik, Field } from 'formik';
 import PhoneInput from 'react-native-phone-number-input';
 import { useLoading } from '../../contexts/index';
-import { SignUpSchema } from '../../validations/index';
+import { SignUpSchema } from '../../validations/Schemes';
 import { signUp } from '../../requests/Auth';
 import { apiWrapper } from '../../requests/AxiosConfiguration'
 import Icon from '../Icon.Component';

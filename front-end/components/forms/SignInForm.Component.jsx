@@ -3,13 +3,12 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Text, Input } from '@ui-kitten/components';
 import { Formik, Field } from 'formik';
 import { useLoading, usePermissions } from '../../contexts/index';
-import { SignInSchema } from '../../validations/index';
+import { SignInSchema } from '../../validations/Schemes';
 import { signIn } from '../../requests/Auth';
 import { apiWrapper } from '../../requests/AxiosConfiguration'
 import Icon from '../Icon.Component';
 import ValidationError from '../ValidationError.Component';
 import PasswordInputField from '../PasswordInputField.Component';
-import LoadingModal from '../LoadingModal.Component';
 import GlobalStyles from '../../GlobalStyles';
 
 export default function SignInForm({navigation})
@@ -74,7 +73,6 @@ export default function SignInForm({navigation})
                 </>
             )}
         </Formik>
-        <LoadingModal/>
         </>
     )
 }
