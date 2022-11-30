@@ -1,11 +1,12 @@
-const {Op} = require('sequelize');
-const {Sitter, UserRole} = require('../utils/models');
-const {ResourceError} = require('../utils/errors');
+const { Op } = require('sequelize');
+const { Sitter, UserRole } = require('../utils/models');
+const { ResourceError } = require('../utils/errors');
+const messages = require('../utils/thrown-error-messages');
 
 async function respondToCandidate(req, res) 
 {
     const userId = req.params.id;
-    const {respond} = req.body;
+    const { respond } = req.body;
 
     const user = await Sitter.findOne(
     {
@@ -24,7 +25,7 @@ async function respondToCandidate(req, res)
         }
     });
 
-    if(!user) throw new ResourceError('This user does not exist', 400);
+    if(!user) throw new ResourceError(messages.userNotExists, 400);
 
     if(respond == 'true')
     {
@@ -35,13 +36,13 @@ async function respondToCandidate(req, res)
             userId: user.userId,
             role: UserRole.rawAttributes.role.values[1],
         });
-        return res.status(200).send({success: true, message:'User became sitter'});
+        return res.status(200).send({ success: true, message: messages.approvedUser });
     }
 
     user.status = Sitter.rawAttributes.status.values[2];
     user.save();
 
-    return res.status(200).send({success: true, message:"User is disapproved"});
+    return res.status(200).send({ success: true, message: messages.disapprovedUser });
 }
 
 module.exports =

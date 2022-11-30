@@ -1,4 +1,5 @@
-const {User} = require('../utils/models');
+const { User } = require('../utils/models');
+const messages = require('../utils/thrown-error-messages');
 
 async function getUserInformation(req, res)
 {
@@ -17,12 +18,12 @@ async function getUserInformation(req, res)
         }
     });
 
-    res.status(200).send({success:true, data})
+    res.status(200).send({ success:true, data })
 }
 
 async function putUserInformation(req, res)
 {
-    const {firstName, lastName, telephoneNumber} = req.body
+    const { firstName, lastName, telephoneNumber } = req.body
     const userId = req.userData.userId;
 
     const user = await User.findOne(
@@ -33,7 +34,7 @@ async function putUserInformation(req, res)
         }
     });
 
-    if(!user) throw new ResourceError('This user does not exist', 400);
+    if(!user) throw new ResourceError(messages.userNotExists, 400);
 
     await user.update(
     {
@@ -44,7 +45,7 @@ async function putUserInformation(req, res)
     
     await user.save();
 
-    return res.status(200).send({success:true});
+    return res.status(200).send({ success:true });
 } 
 
 module.exports = 

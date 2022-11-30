@@ -1,9 +1,10 @@
-const {differenceInDays} = require('../utils/helpers');
-const {Sitter} = require('../utils/models');
+const { differenceInDays } = require('../utils/helpers');
+const { Sitter } = require('../utils/models');
+const messages = require('../utils/thrown-error-messages');
 
 async function postCandidates(req, res)
 {
-    const {aboutSitter, city, neighborhood} = req.body;
+    const { aboutSitter, city, neighborhood } = req.body;
     const userId = req.userData.userId;
 
     const user = await Sitter.findOne(
@@ -22,18 +23,18 @@ async function postCandidates(req, res)
             city, neighborhood
         });
 
-        return res.status(201).send({success: true, message:"User is added to sitter candidates"});
+        return res.status(201).send({ success: true, message: messages.candidateUser });
     }
 
-    if(user.status == 'Approved') return res.status(400).send({success: false, message:'You are already approved for being sitter'});
-    else if(user.status == 'Candidate') return res.status(400).send({success: false, message:'You are candidate yet, please wait for admin respond'});
+    if(user.status == 'Approved') return res.status(400).send({ success: false, message: messages.approvedUser });
+    else if(user.status == 'Candidate') return res.status(400).send({ success: false, message: messages.stillCandidateUser });
 
     const days = differenceInDays(user.updatedAt);
-    if(days < 1) return res.status(400).send({success: false, message:'You have to wait ' + (5 - days) + ' for new candidate '});
+    if(days < 1) return res.status(400).send({ success: false, message:'You have to wait ' + (5 - days) + ' for new candidate '});
     user.status = Sitter.rawAttributes.status.values[0];
     user.save();
 
-    return res.status(200).send({success: true, message: "Okay user is again candidate"});
+    return res.status(200).send({ success: true, message: messages.againCandidateUser });
 }
 
 async function getCandidates(req, res)
@@ -65,7 +66,7 @@ async function getCandidates(req, res)
     res.status(200).send(
     {
         success: true, 
-        nextPage: page * candidatePerPage < totalCandidates,
+        nextPage: page * candidatesPerPage < totalCandidates,
         result,   
         candidates
     });
