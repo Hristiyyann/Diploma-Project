@@ -14,7 +14,7 @@ const signIn =
 [
     validations.emailValidation(),
     body('password', messages.passwordNotProvided).exists()
-]
+];
 
 const verify = 
 [
@@ -23,19 +23,47 @@ const verify =
     .exists().bail()
     .trim()
     .isUUID().withMessage(messages.userIdNotUUID)
-]
+];
 
 const refresh = 
 [
     validations.refreshTokenVaidation()
-]
+];
+
+const changePassword = 
+[
+    validations.passwordValidation(),
+    validations.confirmPasswordValidation(),
+];
+
+const forgetPassword = 
+[
+    validations.optionalEmailValidation(),
+    validations.optionalTelephoneValidation(),
+    validations.passwordValidation(),
+    validations.confirmPasswordValidation()
+];
+
+const passwordRecovery = 
+[
+    validations.optionalEmailValidation(),
+    validations.optionalTelephoneValidation()
+];
+
+const checkCode = 
+[
+    validations.codeValidation(),
+    validations.optionalEmailValidation(),
+    validations.optionalTelephoneValidation()
+];
 
 const logOut = 
 [
     validations.refreshTokenVaidation()
-]
+];
 
 module.exports = 
 { 
-    signUp, signIn, verify, refresh, logOut,
+    signUp, signIn, verify, refresh, changePassword, 
+    forgetPassword, passwordRecovery, checkCode, logOut,
 };

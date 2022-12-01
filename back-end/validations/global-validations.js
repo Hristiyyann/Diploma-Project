@@ -13,11 +13,35 @@ function emailValidation()
     )
 }
 
+function optionalEmailValidation()
+{
+    return(
+        body('emailAddress')
+        .if(body('telephoneNumber').not().exists())
+        .exists().withMessage(messages.noDataProvided).bail() 
+        .trim()
+        .normalizeEmail()
+        .isEmail().withMessage(messages.emailNotValid)
+    )
+}
+
 function telephoneValidation()
 {
     return (
         body('telephoneNumber', messages.telephoneNotProvided)
         .exists().bail()
+        .trim()
+        .isMobilePhone(locale = 'any', strictMode = true).withMessage(messages.telephoneNotValid).bail()    
+        .isNumeric().withMessage(messages.telephoneOnlyDigits)
+    )
+}
+
+function optionalTelephoneValidation()
+{
+    return(
+        body('telephoneNumber')
+        .if(body('emailAddress').not().exists()) 
+        .exists().withMessage(messages.noDataProvided).bail() 
         .trim()
         .isMobilePhone(locale = 'any', strictMode = true).withMessage(messages.telephoneNotValid).bail()    
         .isNumeric().withMessage(messages.telephoneOnlyDigits)
@@ -76,6 +100,7 @@ function refreshTokenVaidation()
 
 module.exports =  
 {
-    emailValidation, telephoneValidation, passwordValidation, confirmPasswordValidation,
-    codeValidation, refreshTokenVaidation
+    emailValidation, optionalEmailValidation, telephoneValidation, passwordValidation, 
+    optionalTelephoneValidation, confirmPasswordValidation, codeValidation, 
+    refreshTokenVaidation
 }

@@ -154,6 +154,8 @@ async function refreshToken(req, res)
 
 async function changePassword(req, res)
 {
+    throwError(req);
+
     const { currentPassword, password } = req.body;
     const userId = req.userData.userId;
 
@@ -178,6 +180,8 @@ async function changePassword(req, res)
 
 async function forgetPassword(req, res)
 {
+    throwError(req);
+
     const { password, telephoneNumber, emailAddress } = req.body;
     const conditions = {}
 
@@ -185,7 +189,6 @@ async function forgetPassword(req, res)
     else if(emailAddress) { conditions.where = {...conditions.where, emailAddress}; }
 
     const user = await User.findOne(conditions);
-    console.log(user.id);
     if(!user) { throw new ResourceError(messages.userNotExists, 400); }
     
     const passwordSalt = await bcrypt.genSalt(12);
@@ -199,6 +202,8 @@ async function forgetPassword(req, res)
 
 async function passwordRecovery(req, res)
 {
+    throwError(req);
+
     const { telephoneNumber, emailAddress } = req.body;
     let conditions = {};
 
@@ -224,6 +229,8 @@ async function passwordRecovery(req, res)
 
 async function checkCode(req, res)
 {
+    throwError(req);
+    
     const { code, emailAddress, telephoneNumber } = req.body;
     console.log(code, emailAddress, telephoneNumber);
    

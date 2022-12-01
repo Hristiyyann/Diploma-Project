@@ -13,6 +13,8 @@ const messages =
     telephoneOnlyDigits: 'Telephone number must contains only digits',
     telephoneNotValid: 'This is no valid telephone number',
 
+    noDataProvided: 'There is no provided data',
+
     passwordNotProvided: 'Password is required',
     passwordContent: 'Your password must be at least 8 characters including one lowercase and uppercase letter, one digit and one symbol',
     confirmPasswordNotProvided: 'Confirmation password is required',

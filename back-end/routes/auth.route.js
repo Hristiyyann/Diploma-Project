@@ -20,16 +20,16 @@ router.route('/refresh')
     .post(validators.refresh, authController.refreshToken);
 
 router.route('/change-password')
-    .put(verifyToken, authController.changePassword);
-
-router.route('/password-recovery')
-    .post(authController.passwordRecovery);
+    .put(verifyToken, validators.changePassword,  authController.changePassword);
 
 router.route('/forget-password')
-    .post(authController.forgetPassword);
+    .post(validators.forgetPassword, authController.forgetPassword);
+
+router.route('/password-recovery')
+    .post(validators.passwordRecovery, authController.passwordRecovery);
 
  router.route('/check-code')
-    .post(authController.checkCode);
+    .post(validators.checkCode, authController.checkCode);
 
 router.route('/log-out')
     .post(verifyToken, validators.logOut, authController.logOut);
