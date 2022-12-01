@@ -1,12 +1,11 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import { Input, Text } from '@ui-kitten/components';
+import { TouchableOpacity, StyleSheet } from 'react-native';
+import { Text } from '@ui-kitten/components';
+import OTPInputView from '@twotalltotems/react-native-otp-input';
 import { Formik } from 'formik';
 import { useLoading, usePermissions } from '../../contexts/index';
 import { apiWrapper } from '../../requests/AxiosConfiguration';
 import { verification, resendVerificationCode, checkCode } from '../../requests/Auth';
-import Icon from '../Icon.Component';
-import GlobalStyles from '../../GlobalStyles';
 
 export default function VerificationForm({channel, isForPasswordRecovery, navigation})
 {
@@ -49,22 +48,14 @@ export default function VerificationForm({channel, isForPasswordRecovery, naviga
             {(props) =>
             (
                 <>
-                <View style = {GlobalStyles.inputContainer}>
-                    <Input
-                        style = {GlobalStyles.input}
-                        textStyle={GlobalStyles.textInputStyle}
-                        placeholder = 'Code'
-                        accessoryLeft = {<Icon iconName = {'checkmark-circle'}/>}
-                        onChangeText = {props.handleChange('code')}
-                    /> 
-                </View>
-
-                <TouchableOpacity 
-                    onPress = {props.handleSubmit}
-                    style = {GlobalStyles.button}
-                >
-                    <Text status = 'primary'>Continue</Text>
-                </TouchableOpacity>
+                <OTPInputView
+                    style = {styles.otpContainer}
+                    pinCount={6}
+                    onCodeChanged = {props.handleChange('code')}
+                    codeInputFieldStyle = {styles.notHighlighted}
+                    codeInputHighlightStyle = {styles.highlighted}
+                    onCodeFilled = {props.handleSubmit}
+                />
 
                 <TouchableOpacity
                     onPress = {resendCode}    
@@ -76,3 +67,29 @@ export default function VerificationForm({channel, isForPasswordRecovery, naviga
         </Formik>
     )
 }
+
+const styles = StyleSheet.create
+({  
+
+    otpContainer:
+    {
+        width: '100%', 
+        height: 100,
+        marginBottom: 20
+    },
+
+    notHighlighted: 
+    {
+      borderWidth: 0,
+      borderBottomWidth: 2,
+      borderColor: '#73423f',
+      color: '#ec6165',
+      fontSize: 23,
+    },
+  
+    highlighted: 
+    {
+      borderColor: "#ec6165",
+      borderBottomWidth: 2,
+    },
+});

@@ -12,7 +12,7 @@ export default function Verification({route, navigation})
     return(
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
             <KeyboardAwareScrollView 
-                extraScrollHeight = {5}
+                extraScrollHeight = {20}
                 contentContainerStyle = {{flexGrow: 1}}
             >
                 <View style = {GlobalStyles.screenContainer}>
