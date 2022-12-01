@@ -1,97 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const {body} = require('express-validator');
 const authController = require('../controllers/auth.controller');
+const validators = require('../validations/validators');
 const verifyToken = require('../middlewares/verifyToken');
-const messages = require('../utils/validation-error-messages');
-const {ValidationError} = require('../utils/errors');
-const { throwError } = require('../utils/helpers');
 
 router.route('/sign-up')
-    .post( 
-    [
-        body('fullName', messages.nameNotProvided)
-        .exists().bail()
-        .trim(),
-        //.isAlpha().withMessage(messages.nameOnlyLetters),
-
-        body('emailAddress', messages.emailNotProvided)
-        .exists().bail()
-        .trim()
-        .normalizeEmail()
-        .isEmail().withMessage(messages.emailNotValid),
-
-        body('telephoneNumber', messages.telephoneNotProvided)
-        .exists().bail()
-        .trim()
-        .isNumeric().withMessage(messages.telephoneOnlyDigits).bail()
-        .isMobilePhone(locale = 'any', strictMode = true).withMessage(messages.telephoneNotValid),
-
-        body('password', messages.passwordNotProvided)
-        .exists()
-        .isStrongPassword(
-        {
-            minLength:8,
-            minLowercase:1,
-            minUppercase:1,
-            minNumber:1,
-            minSymbols:1
-        }).withMessage(messages.passwordContent),
-
-        body('confirmPassword', messages.confirmPasswordNotProvided)
-        .exists().bail()
-        .custom((value, { req }) => 
-        {
-            if (value !== req.body.password) throw new ValidationError(messages.passwordsNotEqual);
-    
-            return true;
-        }),
-
-    ],authController.signUp);
+    .post(validators.signUp, authController.signUp);
 
 router.route('/sign-in')
-    .post(
-    [
-        body('telephoneNumber', messages.telephoneOnlyDigits)
-        .optional()
-        .trim()
-        .isNumeric().bail()
-        .isMobilePhone().withMessage(messages.telephoneNotValid),
-
-        body('emailAddress', messages.emailNotValid) 
-        .optional()
-        .trim()
-        .normalizeEmail()
-        .isEmail(),
-        
-        body('password', messages.passwordNotProvided).exists()
-    ],authController.signIn); 
+    .post(validators.signIn, authController.signIn); 
 
 router.route('/verify')
-    .post(
-    [
-        body('code', messages.smsCodeNotProvided)
-        .exists().bail()
-        .trim()
-        .isNumeric().withMessage(messages.smsCodeNotValid),
-
-        body('userId', messages.userIdNotProvided)
-        .exists().bail()
-        .trim()
-        .isUUID().withMessage(messages.userIdNotUUID)
-    ],authController.verify);
+    .post(validators.verify, authController.verify);
     
 router.route('/resend')
     .post(authController.resend);
     
 router.route('/refresh')    
-    .post(
-    [
-        body('refreshToken', messages.tokenNotProvided)
-        .exists().bail()
-        .trim()
-        .isJWT().withMessage(messages.tokenNotJWT)
-    ],authController.refreshToken);
+    .post(validators.refresh, authController.refreshToken);
 
 router.route('/change-password')
     .put(verifyToken, authController.changePassword);
@@ -106,13 +32,6 @@ router.route('/forget-password')
     .post(authController.checkCode);
 
 router.route('/log-out')
-    .post(
-    [
-        verifyToken,
-        body('refreshToken', messages.tokenNotProvided)
-        .exists().bail()
-        .trim()
-        .isJWT().withMessage(messages.tokenNotJWT)
-    ],authController.logOut);
+    .post(verifyToken, validators.logOut, authController.logOut);
     
 module.exports = router;
