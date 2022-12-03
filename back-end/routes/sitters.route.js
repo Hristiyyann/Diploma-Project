@@ -8,4 +8,7 @@ router.route('/candidates')
     .post(verifyToken, sittersController.postCandidates)
     .get([verifyToken, verifyRole(['Admin'])], sittersController.getCandidates); 
 
+router.route('/check-candidate')
+    .post(verifyToken, sittersController.checkCandidate);
+
 module.exports = router;

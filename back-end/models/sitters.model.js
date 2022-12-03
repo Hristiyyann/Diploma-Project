@@ -21,17 +21,12 @@ const Sitter = sequelize.define('sitters',
         unique: true,
     },
 
-    aboutSitter:
+    about:
     {
         type: DataTypes.TEXT,
     },
 
     city:
-    {
-        type: DataTypes.STRING,
-    },
-
-    neighborhood:
     {
         type: DataTypes.STRING,
     },
