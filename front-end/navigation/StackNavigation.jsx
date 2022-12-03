@@ -1,7 +1,11 @@
 import React from 'react';
 import { usePermissions } from '../contexts/index';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SignUp, SignIn, ForgetPassword, PasswordRecovery, ChangePassword, Verification, Successfull } from '../screens/index';
+import 
+{ 
+    SignUp, SignIn, ForgetPassword, PasswordRecovery, ChangePassword, 
+    Verification, Successfull, BeSitter
+} from '../screens/index';
 import BottomTabNavigation  from './BottomNavigation';
 
 const Stack = createNativeStackNavigator();
@@ -40,6 +44,10 @@ export default function Navigator()
                         options = {{headerShown: false}}
                         name = 'Successfull' 
                         component = {Successfull}
+                    />
+                    <Stack.Screen 
+                        name = 'Be sitter' 
+                        component = {BeSitter}
                     />
                 </>
             ) 

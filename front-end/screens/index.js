@@ -7,8 +7,10 @@ import Verification from './Verification';
 import Search from './Search';
 import Profile from './Profile';
 import Successfull from './Successfull';
+import BeSitter from './BeSitter';
 
-export { 
+export 
+{ 
         SignUp, SignIn, ForgetPassword, PasswordRecovery, ChangePassword, 
-        Verification, Search, Profile, Successfull
-       };
+        Verification, Search, Profile, Successfull, BeSitter
+};

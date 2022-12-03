@@ -56,6 +56,7 @@ export default function Profile({navigation})
                 <ProfileOption
                     iconName = {'body'}
                     text = {'Become a sitter!'}
+                    onPress = {() => navigation.navigate('Be sitter')}
                 />
                
                 <ProfileOption

@@ -9,6 +9,7 @@ const animations =
     otp: require('./otp.json'),
     loading: require('./loading.json'),
     success: require('./successfully.json'),
+    dog: require('./dog.json'),
 }
 
 export default animations;
