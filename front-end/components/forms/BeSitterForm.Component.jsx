@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
 import { Input } from '@ui-kitten/components';
+import { BeSitterSchema } from '../../validations/Schemes';
 import Icon from '../Icon.Component';
 import ValidationError from '../ValidationError.Component';
 import GlobalStyles from '../../GlobalStyles';
@@ -15,6 +16,7 @@ export default function BeSitterForm()
                 city: '',
                 about: '',
             }}
+            validationSchema = {BeSitterSchema}
             onSubmit = {(values) =>
             {
                 console.log(values);
@@ -34,6 +36,8 @@ export default function BeSitterForm()
                         />
                 </View>
 
+                { props.touched.city && props.errors.city && <ValidationError message = {props.errors.city}/> }
+
                 <View style = {GlobalStyles.inputContainer}>
                     <Input
                         multiline = {true}
@@ -44,6 +48,8 @@ export default function BeSitterForm()
                         onChangeText = {props.handleChange('about')}
                     />
                 </View>
+
+                { props.touched.about && props.errors.about && <ValidationError message = {props.errors.about}/> }
 
                 <TouchableOpacity 
                     onPress = {props.handleSubmit}
