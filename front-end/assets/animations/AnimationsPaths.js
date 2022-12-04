@@ -9,6 +9,7 @@ const animations =
     otp: require('./otp.json'),
     loading: require('./loading.json'),
     success: require('./successfully.json'),
+    successApplication: require('./successApplication.json'),
     dog: require('./dog.json'),
     clock: require('./clock.json'),
 }

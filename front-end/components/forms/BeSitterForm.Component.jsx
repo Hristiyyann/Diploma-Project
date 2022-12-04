@@ -30,7 +30,7 @@ export default function BeSitterForm({navigation})
                 {
                     navigation.navigate('Successful', 
                     {
-                        path: AnimationsPaths.success,
+                        path: AnimationsPaths.successApplication,
                         firstText: 'You have successfully applied!',
                         secondText: 'Please wait for a response from our administrator',
                         needLogIn: false,

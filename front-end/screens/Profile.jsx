@@ -1,16 +1,18 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { View, Image, StyleSheet, ScrollView } from 'react-native';
 import { Text, Divider } from '@ui-kitten/components';
+import { ProfileOption } from '../components/index';
 import { useLoading, usePermissions } from '../contexts';
 import { apiWrapper } from '../requests/AxiosConfiguration';
 import { logOut } from '../requests/Auth';
 import { checkCandidate } from '../requests/Sitters';
-import { ProfileOption } from '../components/index';
+import { checkUserRolesFor } from '../Utils';
 
 export default function Profile({navigation})
 {
     const { setIsLoading } = useLoading();
-    const { setIsLoggedIn, setRoles } = usePermissions();
+    const { setIsLoggedIn, setRoles, roles } = usePermissions();
+    console.log(roles);
 
     return( 
         <ScrollView>
@@ -54,19 +56,22 @@ export default function Profile({navigation})
                     text = {'See your bookings'}
                 />
 
-                <ProfileOption
-                    iconName = {'body'}
-                    text = {'Become a sitter!'}
-                    onPress = {async () => 
-                    {
-                        const returnedObject = await apiWrapper(setIsLoading, () => checkCandidate());
-                        navigation.navigate('Be sitter',
+                {
+                    !checkUserRolesFor(roles, ['Sitter']) && 
+                    <ProfileOption
+                        iconName = {'body'}
+                        text = {'Become a sitter!'}
+                        onPress = {async () => 
                         {
-                            hasError: returnedObject?.success ? false : true,
-                            message: returnedObject?.message
-                        })
-                    }}
-                />
+                            const returnedObject = await apiWrapper(setIsLoading, () => checkCandidate());
+                            navigation.navigate('Be sitter',
+                            {
+                                hasError: returnedObject?.success ? false : true,
+                                message: returnedObject?.message
+                            })
+                        }}
+                    />
+                }
                
                 <ProfileOption
                     iconName = {'log-out'}
