@@ -6,15 +6,17 @@ import { usePermissions } from '../contexts/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-export default function Successfull({navigation})
+export default function Successfull({route, navigation})
 {
-    const { setIsLoggedIn } = usePermissions();
+    const { setIsLoggedIn, isLoggedIn } = usePermissions();
+    const { path, firstText, secondText, needLogIn, buttonText} = route.params;
+    console.log(secondText);
 
     return(
         <View style = {GlobalStyles.screenContainer}>
             <Animation
                 style = {{width: 300, marginBottom: 30}}
-                path = {AnimationsPaths.success}
+                path = {path}
                 loop = {false}
             />
 
@@ -23,31 +25,36 @@ export default function Successfull({navigation})
                 category = 'h5'
                 style = {GlobalStyles.centeredText}
             >
-                Your password was successfully changed.
+                {firstText}
             </Text>
 
+            {
+            secondText &&
             <Text
                 status = 'primary'
                 category = 'h5'
                 style = {GlobalStyles.centeredText}
             >
-                Use your new password to login
+                {secondText}
             </Text>
+            }
 
             <TouchableOpacity 
-                    onPress = {() =>
-                    {  
-                        setIsLoggedIn(false); 
-                        navigation.replace('Sign In');
-                    }}
-                    style = {GlobalStyles.button}
+                onPress = {() => 
+                {
+                    needLogIn ? 
+                    ( isLoggedIn ? setIsLoggedIn(false) : navigation.replace('Sign In'))
+                    : 
+                    navigation.navigate('Root', {screen: 'Search'});
+                }}
+                style = {GlobalStyles.button}
+            >
+                <Text 
+                    status = 'primary'
+                    category = 'h6'
                 >
-                    <Text 
-                        status = 'primary'
-                        category = 'h6'
-                    >
-                        Log in
-                    </Text>
+                    {buttonText}
+                </Text>
             </TouchableOpacity>
         </View>
     )

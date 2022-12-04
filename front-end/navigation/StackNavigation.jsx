@@ -41,11 +41,6 @@ export default function Navigator()
                         component = {ChangePassword}
                     />
                     <Stack.Screen 
-                        options = {{headerShown: false}}
-                        name = 'Successfull' 
-                        component = {Successfull}
-                    />
-                    <Stack.Screen 
                         name = 'Be sitter' 
                         component = {BeSitter}
                     />
@@ -80,13 +75,9 @@ export default function Navigator()
                         name = 'Verification' 
                         component = {Verification}
                     />
-                    <Stack.Screen 
-                        options = {{headerShown: false}}
-                        name = 'Successfull' 
-                        component = {Successfull}
-                    />
                 </>
             )}
+            <Stack.Screen navigationKey={isLoggedIn ? 'logged' : 'notLogged'} name="Successfull" component={Successfull} />
         </Stack.Navigator>
     )
 }
