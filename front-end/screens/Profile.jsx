@@ -72,6 +72,14 @@ export default function Profile({navigation})
                         }}
                     />
                 }
+
+                {
+                    checkUserRolesFor(roles, ['Sitter']) &&
+                    <ProfileOption
+                        iconName = {'options'}
+                        text = {'Change your services'}
+                    />
+                }
                
                 <ProfileOption
                     iconName = {'log-out'}

@@ -1,12 +1,16 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Profile, Search } from '../screens/index';
+import { usePermissions } from '../contexts/index';
+import { Profile, Search, Schedule } from '../screens/index';
 import { Icon } from '../components/index';
+import { checkUserRolesFor } from '../Utils';
 
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigation({isLoggedIn})
+export default function BottomTabNavigation()
 {
+    const { roles } = usePermissions();
+
     return(
         <BottomTab.Navigator
             initialRouteName={Search}
@@ -34,6 +38,10 @@ export default function BottomTabNavigation({isLoggedIn})
                     {
                         iconName = focused ? 'person' : 'person-outline';
                     } 
+                    else if(name == 'Schedule')
+                    {
+                        iconName = focused ? 'calendar' : 'calendar-outline';
+                    }
                     
                     return <Icon iconName={iconName} size = {size}/>
                 },
@@ -50,6 +58,13 @@ export default function BottomTabNavigation({isLoggedIn})
                 component={Search}
                 options={{ headerShown: false }}
             />
+            {
+                checkUserRolesFor(roles, ['Sitter']) &&
+                <BottomTab.Screen 
+                    name = 'Schedule' 
+                    component={Schedule}
+                />
+            }
             <BottomTab.Screen 
                 name = 'Profile' 
                 component={Profile}
