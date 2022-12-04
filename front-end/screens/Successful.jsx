@@ -6,7 +6,7 @@ import { usePermissions } from '../contexts/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-export default function Successfull({route, navigation})
+export default function Successful({route, navigation})
 {
     const { setIsLoggedIn, isLoggedIn } = usePermissions();
     const { path, firstText, secondText, needLogIn, buttonText} = route.params;

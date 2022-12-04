@@ -6,7 +6,7 @@ import { Header, Animation, BeSitterForm } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-export default function BeSitter({route})
+export default function BeSitter({route, navigation})
 {
     const { hasError, message } = route.params;
     console.log(hasError);
@@ -38,7 +38,9 @@ export default function BeSitter({route})
                             method = {'Become a sitter!'}
                         />
 
-                        <BeSitterForm/>
+                        <BeSitterForm
+                            navigation = {navigation}
+                        />
                         </>
                     }
                 </View>

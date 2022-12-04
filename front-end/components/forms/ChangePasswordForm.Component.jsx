@@ -4,13 +4,15 @@ import { Formik, Field } from 'formik';
 import { baseChangePasswordSchema, fullChangePasswordSchema } from '../../validations/Schemes';
 import { changePassword, forgetPassword } from '../../requests/Auth';
 import { apiWrapper } from '../../requests/AxiosConfiguration';
-import { useLoading } from '../../contexts/index';
+import { useLoading, usePermissions } from '../../contexts/index';
 import PasswordInputField from '../PasswordInputField.Component';
 import ValidationError from '../ValidationError.Component';
+import AnimationsPaths from '../../assets/animations/AnimationsPaths';
 
 export default function ChangePassworForm({isForgotten, channel, navigation})
 {
     const { setIsLoading } = useLoading();
+    const { setIsLoggedIn } = usePermissions();
     let initialValues = {password: '', confirmPassword: ''};
     if(!isForgotten) { initialValues = {...initialValues, currentPassword: ''}};
 
@@ -36,7 +38,14 @@ export default function ChangePassworForm({isForgotten, channel, navigation})
                     navigation.reset(
                     {
                         index: 0,
-                        routes: [{ name: 'Successfull' }],
+                        routes: [{ name: 'Successful', params: 
+                        {
+                            path: AnimationsPaths.success,
+                            firstText: ' Your password was successfully changed.',
+                            secondText: 'Use your new password to login',
+                            needLogIn: true,
+                            buttonText: 'Log in'
+                        } }],
                     });
                 } 
             }}

@@ -6,11 +6,11 @@ import ChangePassword from './ChangePassword';
 import Verification from './Verification';
 import Search from './Search';
 import Profile from './Profile';
-import Successfull from './Successfull';
+import Successful from './Successful';
 import BeSitter from './BeSitter';
 
 export 
 { 
         SignUp, SignIn, ForgetPassword, PasswordRecovery, ChangePassword, 
-        Verification, Search, Profile, Successfull, BeSitter
+        Verification, Search, Profile, Successful, BeSitter
 };

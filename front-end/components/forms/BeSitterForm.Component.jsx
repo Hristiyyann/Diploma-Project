@@ -3,12 +3,18 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
 import { Input } from '@ui-kitten/components';
 import { BeSitterSchema } from '../../validations/Schemes';
+import { postCandidates } from '../../requests/Sitters';
+import { apiWrapper } from '../../requests/AxiosConfiguration';
+import { useLoading } from '../../contexts/index';
 import Icon from '../Icon.Component';
 import ValidationError from '../ValidationError.Component';
+import AnimationsPaths from '../../assets/animations/AnimationsPaths';
 import GlobalStyles from '../../GlobalStyles';
 
-export default function BeSitterForm()
+export default function BeSitterForm({navigation})
 {
+    const { setIsLoading } = useLoading();
+
     return(
         <Formik
             initialValues = 
@@ -17,9 +23,20 @@ export default function BeSitterForm()
                 about: '',
             }}
             validationSchema = {BeSitterSchema}
-            onSubmit = {(values) =>
+            onSubmit = {async (values) =>
             {
-                console.log(values);
+                const returnedObject = await apiWrapper(setIsLoading, () => postCandidates(values));
+                if(returnedObject?.success)
+                {
+                    navigation.navigate('Successful', 
+                    {
+                        path: AnimationsPaths.success,
+                        firstText: 'You have successfully applied!',
+                        secondText: 'Please wait for a response from our administrator',
+                        needLogIn: false,
+                        buttonText: 'Going back'
+                    })
+                }
             }}
         >
             {(props) => 

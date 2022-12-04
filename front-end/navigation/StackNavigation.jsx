@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import 
 { 
     SignUp, SignIn, ForgetPassword, PasswordRecovery, ChangePassword, 
-    Verification, Successfull, BeSitter
+    Verification, Successful, BeSitter
 } from '../screens/index';
 import BottomTabNavigation  from './BottomNavigation';
 
@@ -77,7 +77,7 @@ export default function Navigator()
                     />
                 </>
             )}
-            <Stack.Screen navigationKey={isLoggedIn ? 'logged' : 'notLogged'} name="Successfull" component={Successfull} />
+            <Stack.Screen navigationKey={isLoggedIn ? 'logged' : 'notLogged'} name="Successful" component={Successful} />
         </Stack.Navigator>
     )
 }
