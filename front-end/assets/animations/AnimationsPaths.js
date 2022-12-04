@@ -10,6 +10,7 @@ const animations =
     loading: require('./loading.json'),
     success: require('./successfully.json'),
     dog: require('./dog.json'),
+    clock: require('./clock.json'),
 }
 
 export default animations;

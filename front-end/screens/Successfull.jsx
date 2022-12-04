@@ -1,12 +1,12 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { Animation } from '../components/index';
 import { usePermissions } from '../contexts/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-export default function Successfull()
+export default function Successfull({navigation})
 {
     const { setIsLoggedIn } = usePermissions();
 
@@ -21,7 +21,7 @@ export default function Successfull()
             <Text
                 status = 'primary'
                 category = 'h5'
-                style = {styles.centeredText}
+                style = {GlobalStyles.centeredText}
             >
                 Your password was successfully changed.
             </Text>
@@ -29,13 +29,17 @@ export default function Successfull()
             <Text
                 status = 'primary'
                 category = 'h5'
-                style = {styles.centeredText}
+                style = {GlobalStyles.centeredText}
             >
                 Use your new password to login
             </Text>
 
             <TouchableOpacity 
-                    onPress = {() => setIsLoggedIn(false)}
+                    onPress = {() =>
+                    {  
+                        setIsLoggedIn(false); 
+                        navigation.replace('Sign In');
+                    }}
                     style = {GlobalStyles.button}
                 >
                     <Text 
@@ -48,13 +52,3 @@ export default function Successfull()
         </View>
     )
 }
-
-const styles = StyleSheet.create(
-{
-    centeredText:
-    {
-        textAlign: 'center',
-        marginTop: 5,
-        marginBottom: 5,
-    }
-})

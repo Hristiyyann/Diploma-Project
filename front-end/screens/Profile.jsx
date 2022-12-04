@@ -4,6 +4,7 @@ import { Text, Divider } from '@ui-kitten/components';
 import { useLoading, usePermissions } from '../contexts';
 import { apiWrapper } from '../requests/AxiosConfiguration';
 import { logOut } from '../requests/Auth';
+import { checkCandidate } from '../requests/Sitters';
 import { ProfileOption } from '../components/index';
 
 export default function Profile({navigation})
@@ -56,7 +57,15 @@ export default function Profile({navigation})
                 <ProfileOption
                     iconName = {'body'}
                     text = {'Become a sitter!'}
-                    onPress = {() => navigation.navigate('Be sitter')}
+                    onPress = {async () => 
+                    {
+                        const returnedObject = await apiWrapper(setIsLoading, () => checkCandidate());
+                        navigation.navigate('Be sitter',
+                        {
+                            hasError: returnedObject?.success ? false : true,
+                            message: returnedObject?.message
+                        })
+                    }}
                 />
                
                 <ProfileOption

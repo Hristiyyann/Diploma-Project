@@ -64,5 +64,12 @@ export default GlobalStyles = StyleSheet.create(
     codeStyle:
     {
         color: '#73423f'
+    },
+
+    centeredText:
+    {
+        textAlign: 'center',
+        marginTop: 5,
+        marginBottom: 5,
     }
 });

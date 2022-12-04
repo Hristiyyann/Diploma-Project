@@ -1,12 +1,16 @@
 import React from 'react';
 import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Text } from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Header, Animation, BeSitterForm } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-export default function BeSitter()
+export default function BeSitter({route})
 {
+    const { hasError, message } = route.params;
+    console.log(hasError);
+
     return(
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
             <KeyboardAwareScrollView 
@@ -15,15 +19,28 @@ export default function BeSitter()
             >
                 <View style = {GlobalStyles.screenContainer}>
                     <Animation
-                        path = {AnimationsPaths.dog}
+                        path = {hasError ? AnimationsPaths.clock : AnimationsPaths.dog}
                         style = {{width: 300}}
                     />
 
-                    <Header
-                        method = {'Become a sitter!'}
-                    />
+                    {
+                        hasError ?
+                        <Text
+                            status = 'primary'
+                            category = 'h5'
+                            style = {GlobalStyles.centeredText}
+                        >
+                           {message}
+                        </Text>
+                        :
+                        <>
+                        <Header
+                            method = {'Become a sitter!'}
+                        />
 
-                    <BeSitterForm/>
+                        <BeSitterForm/>
+                        </>
+                    }
                 </View>
            </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>  

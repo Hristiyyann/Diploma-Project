@@ -14,7 +14,7 @@ async function checkCandidate(req, res)
     else if(user.status == 'Candidate') return res.status(400).send({ success: false, message: messages.stillCandidateUser });
 
     const days = differenceInDays(user.updatedAt);
-    if(days < 5) return res.status(400).send({ success: false, message:'You have to wait ' + (5 - days) + ' for new candidature '});
+    if(days < 5) return res.status(400).send({ success: false, message:'Unfortunately you were not approved and you have to wait ' + (5 - days) + ' days for new candidature '});
 
     res.status(200).send({ success: true }) 
 }

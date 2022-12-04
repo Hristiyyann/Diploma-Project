@@ -31,9 +31,8 @@ async function apiWrapper(setIsLoading, apiFunction)
         else
         {
             console.log(error);
-            return false;
         }
-        return returnedObject;
+        return {...returnedObject, ...error};
     }
 }
 
