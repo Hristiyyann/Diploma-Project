@@ -11,4 +11,7 @@ router.route('/candidates')
 router.route('/check-candidate')
     .post(verifyToken, sittersController.checkCandidate);
 
+router.route('/self/services')
+    .get(sittersController.getServices);
+
 module.exports = router;

@@ -1,5 +1,5 @@
 const { differenceInDays } = require('../utils/helpers');
-const { Sitter } = require('../utils/models');
+const { Sitter, Service, SitterService } = require('../utils/models');
 const { ValidationError, ResourceError } = require('../utils/errors');
 const messages = require('../utils/thrown-error-messages');
 
@@ -77,9 +77,29 @@ async function getCandidates(req, res)
     });
 }
 
+async function getServices(req, res)
+{
+    const userId = req.params.user || req.userData.userId;
+
+    const services = await Service.findAll(
+    { 
+        attributes:
+        {
+            exclude:['id', 'createdAt', 'updatedAt']
+        },
+        
+        include: 
+        {
+            model: SitterService, 
+            where: { sitter_id: userId },
+            required: false,
+        },
+    });
+    
+    res.send(services); 
+}
+
 module.exports = 
 {
-    postCandidates,
-    getCandidates,
-    checkCandidate
+    postCandidates, getCandidates, checkCandidate, getServices
 }

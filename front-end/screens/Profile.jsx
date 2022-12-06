@@ -78,6 +78,7 @@ export default function Profile({navigation})
                     <ProfileOption
                         iconName = {'options'}
                         text = {'Change your services'}
+                        onPress = {() => navigation.navigate('Services')}
                     />
                 }
                
