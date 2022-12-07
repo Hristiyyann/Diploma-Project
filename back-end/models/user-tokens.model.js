@@ -18,11 +18,6 @@ const UserToken = sequelize.define('user_tokens',
     token:
     {
         type: DataTypes.STRING,
-    },
-
-    tokenType:
-    {
-        type: DataTypes.ENUM('Access', 'Refresh'),
     }
 });
 

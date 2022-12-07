@@ -2,7 +2,7 @@ const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User, UserRole, UserToken } = require('../utils/models');
-const { addTokensToDB, getRoles, throwError, signAccessToken, signRefreshToken } = require('../utils/helpers');
+const { addTokenToDB, getRoles, throwError, signAccessToken, signRefreshToken } = require('../utils/helpers');
 const { ValidationError, ResourceError } = require('../utils/errors');
 const config = require('../utils/config');
 const verification = require('../utils/telephone-number-verification');
@@ -43,7 +43,6 @@ async function signUp(req, res)
 
     await verification.sendOTP();
 
-    console.log(JSON.stringify(newUser));
     res.status(200).send({ success: true, userId: newUser.id });
 }
 
@@ -72,7 +71,7 @@ async function signIn(req, res)
 
     const accessToken = signAccessToken(user.id, roles);
     const refreshToken = signRefreshToken(user.id);
-    addTokensToDB(user.id, accessToken, refreshToken);
+    addTokenToDB(user.id, refreshToken);
 
     res.status(200).send({ roles, accessToken, refreshToken });
 }    
@@ -100,7 +99,7 @@ async function verify(req, res)
 
     const accessToken = signAccessToken(userId, [records.role]);
     const refreshToken = signRefreshToken(userId);
-    addTokensToDB(userId, accessToken, refreshToken);
+    addTokenToDB(userId, refreshToken);
 
     res.status(200).send({ roles: [records.role], accessToken, refreshToken });
 }
@@ -147,7 +146,7 @@ async function refreshToken(req, res)
     
     const newAccessToken = signAccessToken(user.userId, roles);
     const newRefreshToken = signRefreshToken(user.userId);
-    addTokensToDB(user.userId, newAccessToken, newRefreshToken);
+    addTokenToDB(user.userId, newRefreshToken);
 
     return res.status(200).send({ success: true, roles, accessToken: newAccessToken, refreshToken: newRefreshToken });
 }

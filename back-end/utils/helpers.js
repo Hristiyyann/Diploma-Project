@@ -1,22 +1,16 @@
 const jwt = require('jsonwebtoken');
-const {validationResult} = require('express-validator');
-const {UserToken, UserRole} = require('./models');
-const {ValidationError} = require('../utils/errors');
+const { validationResult } = require('express-validator');
+const { UserToken, UserRole } = require('./models');
+const { ValidationError } = require('../utils/errors');
 const config = require('../utils/config');
 
-async function addTokensToDB(userId, accessToken, refreshToken) 
+async function addTokenToDB(userId, refreshToken) 
 {
-    await UserToken.bulkCreate([
-    {
+    await UserToken.create
+    ({
         userId,
-        token: accessToken, 
-        tokenType: UserToken.rawAttributes.tokenType.values[0]
-    },
-    {
-        userId,
-        token: refreshToken,
-        tokenType:UserToken.rawAttributes.tokenType.values[1]
-    }]);
+        token: refreshToken
+    });
 }
 
 async function getRoles(userId)
@@ -64,7 +58,7 @@ function signAccessToken(userId, roles)
     const accessToken = jwt.sign(
     {userId, roles}, 
     config.accessTokenSecret,
-    {expiresIn: '1h'});
+    {expiresIn: '10m'});
 
     return accessToken;
 }
@@ -89,11 +83,6 @@ function differenceInDays(changeDate)
 
 module.exports = 
 {
-    addTokensToDB,
-    getRoles,
-    findToken,
-    throwError,
-    signAccessToken,
-    signRefreshToken,
-    differenceInDays
+    addTokenToDB, getRoles, findToken, throwError, signAccessToken, 
+    signRefreshToken, differenceInDays
 }
