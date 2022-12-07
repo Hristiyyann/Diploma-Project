@@ -12,7 +12,7 @@ async function apiWrapper(setIsLoading, apiFunction)
     try
     {
         setIsLoading(true);
-        await apiFunction();
+        returnedObject.data = await apiFunction();
         setIsLoading(false);
         returnedObject.success = true;
         return returnedObject;

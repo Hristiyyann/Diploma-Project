@@ -13,7 +13,14 @@ async function postCandidates(data)
     await appAxios.post('/sitters/candidates', {...data, accessToken})
 }
 
+async function getSelfServices()
+{
+    const accessToken = await getItemValue('accessToken');
+    const result  = await appAxios.get('/sitters/self/services');
+    return result.data;
+}
+
 export
 {
-    checkCandidate, postCandidates, 
+    checkCandidate, postCandidates, getSelfServices,
 }
