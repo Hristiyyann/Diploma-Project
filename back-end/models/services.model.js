@@ -1,8 +1,5 @@
-const {DataTypes} = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/database-connection');
-const Schedule = require('./schedules.model');
-const SitterService = require('./sitter-services.model');
-const BookingItem = require('./booking-items.model');
 
 const Service = sequelize.define('services',
 {
@@ -24,9 +21,5 @@ const Service = sequelize.define('services',
         type: DataTypes.ENUM('Main', 'Additional'),
     }
 });
-
-Service.hasMany(SitterService, {foreignKey: 'serviceId',});
-Service.hasMany(BookingItem, {foreignKey: 'serviceId'});
-Service.hasMany(Schedule, {foreignKey: 'serviceId'});
 
 module.exports = Service;

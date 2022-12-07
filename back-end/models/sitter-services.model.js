@@ -1,4 +1,4 @@
-const {DataTypes} = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/database-connection');
 
 const SitterService = sequelize.define('sitter_services',

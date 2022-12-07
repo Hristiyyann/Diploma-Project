@@ -1,10 +1,5 @@
-const {DataTypes} = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/database-connection');
-const Review = require('./reviews.model');
-const Booking = require('./bookings.model');
-const SitterService = require('./sitter-services.model');
-const Schedule = require('./schedules.model');
-const SitterCriteria = require('./sitter-pet-criteria.model');
 
 const Sitter = sequelize.define('sitters',
 {
@@ -37,11 +32,5 @@ const Sitter = sequelize.define('sitters',
         defaultValue: 'Candidate',
     }
 });
-
-Sitter.hasMany(Review, {foreignKey: 'sitterId'});
-Sitter.hasMany(SitterService, {foreignKey: 'sitterId'});
-Sitter.hasMany(Booking, {foreignKey: 'sitterId'});
-Sitter.hasMany(Schedule,{foreignKey: 'sitterId'});
-Sitter.hasMany(SitterCriteria, {foreignKey: 'sitterId'});
     
 module.exports = Sitter;

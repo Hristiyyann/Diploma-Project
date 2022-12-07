@@ -1,6 +1,5 @@
-const {Sequelize, DataTypes} = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../utils/database-connection');
-const SitterCriteria = require('./sitter-pet-criteria.model');
 
 const Pet = sequelize.define('pets',
 {
@@ -16,7 +15,5 @@ const Pet = sequelize.define('pets',
         type: DataTypes.STRING,
     }
 });
-
-Pet.hasMany(SitterCriteria, {foreignKey: 'petId'});
 
 module.exports = Pet;
