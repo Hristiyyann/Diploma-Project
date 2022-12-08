@@ -1,5 +1,5 @@
 const { differenceInDays } = require('../utils/helpers');
-const { Sitter, Service, SitterService } = require('../utils/models');
+const { Sitter, Service, SitterService, Pet, SitterCriteria } = require('../utils/models');
 const { ValidationError, ResourceError } = require('../utils/errors');
 const messages = require('../utils/thrown-error-messages');
 
@@ -77,7 +77,7 @@ async function getCandidates(req, res)
     });
 }
 
-async function getServices(req, res)
+async function getSelfServices(req, res)
 {
     const userId = req.params.user || req.userData.userId;
     const sitter = await Sitter.findOne({where: {userId}});
@@ -104,7 +104,7 @@ async function getServices(req, res)
     res.status(200).send(services); 
 }
 
-async function postServices(req, res)
+async function postSelfServices(req, res)
 {
     const { data } = req.body;
     const userId = req.userData.userId;
@@ -142,8 +142,35 @@ async function postServices(req, res)
     res.status(200).send({ success: true });
 }
 
+async function getSelfPets(req, res)
+{
+    const userId = req.params.user || req.userData.userId;
+    const sitter = await Sitter.findOne({where: {userId}});
+
+    const pets = await Pet.findAll(
+    { 
+        attributes:
+        {
+            exclude:['createdAt', 'updatedAt']
+        },
+        
+        include: 
+        {
+            model: SitterCriteria, 
+            where: { sitterId: sitter.id },
+            required: false,
+            attributes:
+            {
+                exclude:['sitterId', 'createdAt', 'updatedAt']
+            },
+        },
+    }); 
+
+    res.status(200).send(pets); 
+}
+
 module.exports = 
 {
-    postCandidates, getCandidates, checkCandidate, getServices, postServices, 
-
+    postCandidates, getCandidates, checkCandidate, getSelfServices, postSelfServices, 
+    getSelfPets
 }

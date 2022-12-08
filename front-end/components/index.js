@@ -12,10 +12,11 @@ import ValidationError from './ValidationError.Component';
 import LoadingModal from './LoadingModal.Component';
 import ProfileOption from './ProfileOption.Component';
 import ServiceOption from './ServiceOption.Component';
+import PetOption from './PetOption.Component';
 
 export
 {
         Header, Icon, Animation, PasswordInputField, SignUpForm, SignInForm, 
         ChangePasswordForm, PasswordRecoveryForm, VerificationForm, BeSitterForm, 
-        ValidationError, LoadingModal, ProfileOption, ServiceOption
+        ValidationError, LoadingModal, ProfileOption, ServiceOption, PetOption,
 }

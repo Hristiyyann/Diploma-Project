@@ -12,7 +12,10 @@ router.route('/check-candidate')
     .post(verifyToken, sittersController.checkCandidate);
 
 router.route('/self/services')
-    .post(verifyToken, sittersController.getServices)
-    .put(verifyToken, sittersController.postServices);
+    .post(verifyToken, sittersController.getSelfServices)
+    .put(verifyToken, sittersController.postSelfServices);
+
+router.route('/self/pets')
+    .post(verifyToken, sittersController.getSelfPets);
 
 module.exports = router;

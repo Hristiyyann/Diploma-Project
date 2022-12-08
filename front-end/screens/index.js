@@ -10,10 +10,11 @@ import Successful from './Successful';
 import BeSitter from './BeSitter';
 import Schedule from './Schedule';
 import SitterServices from './SitterServices';
+import SitterPets from './SitterPets';
 
 export 
 { 
         SignUp, SignIn, ForgetPassword, PasswordRecovery, ChangePassword, 
         Verification, Search, Profile, Successful, BeSitter, Schedule,
-        SitterServices
+        SitterServices, SitterPets
 };

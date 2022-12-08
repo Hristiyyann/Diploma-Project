@@ -5,14 +5,13 @@ import { ProfileOption } from '../components/index';
 import { useLoading, usePermissions } from '../contexts';
 import { apiWrapper } from '../requests/AxiosConfiguration';
 import { logOut } from '../requests/Auth';
-import { checkCandidate, getSelfServices } from '../requests/Sitters';
+import { checkCandidate, getSelfServices, getSelfPets } from '../requests/Sitters';
 import { checkUserRolesFor } from '../Utils';
 
 export default function Profile({navigation})
 {
     const { setIsLoading } = useLoading();
     const { setIsLoggedIn, setRoles, roles } = usePermissions();
-    console.log(roles);
 
     return( 
         <ScrollView>
@@ -85,6 +84,22 @@ export default function Profile({navigation})
                             {
                                 data: returnedObject.data
                             })
+                        }}
+                    />
+                }
+
+                {
+                    checkUserRolesFor(roles, ['Sitter']) &&
+                    <ProfileOption
+                        iconName = {'options'}
+                        text = {'Pet settings'}
+                        onPress = {async () => 
+                        {
+                            const returnedObject = await apiWrapper(setIsLoading, () => getSelfPets());
+                            navigation.navigate('Pets',
+                            {
+                                data: returnedObject.data
+                            });
                         }}
                     />
                 }
