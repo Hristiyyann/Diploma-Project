@@ -77,7 +77,7 @@ export default function Profile({navigation})
                     checkUserRolesFor(roles, ['Sitter']) &&
                     <ProfileOption
                         iconName = {'options'}
-                        text = {'Change your services'}
+                        text = {'Services settings'}
                         onPress = {async () => 
                         {
                             const returnedObject = await apiWrapper(setIsLoading, () => getSelfServices());

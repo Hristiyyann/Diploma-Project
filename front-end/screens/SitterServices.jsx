@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { Animation, Header, ServiceSwitch } from '../components/index';
+import { Animation, Header, ServiceOption } from '../components/index';
 import { useLoading } from '../contexts';
 import { apiWrapper } from '../requests/AxiosConfiguration';
 import { putServices } from '../requests/Sitters';
@@ -38,7 +38,7 @@ export default function SitterServices({route})
 
                 {data.map((service, index) =>
                 {
-                    return <ServiceSwitch
+                    return <ServiceOption
                         key = {index}
                         serviceId = {service.id}
                         isTurnedOn = {Object.keys(service.sitter_services).length === 0 ? false : true}

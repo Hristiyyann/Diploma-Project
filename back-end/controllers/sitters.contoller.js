@@ -121,7 +121,7 @@ async function postServices(req, res)
 
         if(service && data[serviceId].isEnabled == false)
         {
-            await SitterService.destroy({where: {id: service.id}});
+            await SitterService.destroy({where: { id: service.id }});
         }
         else if(!service && data[serviceId].isEnabled == true)
         {

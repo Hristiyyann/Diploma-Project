@@ -3,15 +3,16 @@ import { View, Switch, StyleSheet} from 'react-native';
 import { Text, Input } from '@ui-kitten/components';
 import GlobalStyles from '../GlobalStyles';
 
-export default function ServiceSwitch({isTurnedOn, serviceName, serviceId, currentPrice, changeData, setChangeData})
+export default function ServiceOption({isTurnedOn, serviceName, serviceId, currentPrice, changeData, setChangeData})
 {
     const [isEnabled, setIsEnabled] = useState(isTurnedOn);
     const [price, setPrice] = useState(currentPrice);
     const initialState = isTurnedOn;
+    const initialPrice = currentPrice;
 
     useEffect(()=>
     {
-        if(isEnabled != initialState)
+        if((isEnabled != initialState) || (price != initialPrice))
         { 
             setChangeData({...changeData, [serviceId]: { price, isEnabled }});
             return;
