@@ -11,10 +11,11 @@ import VerificationForm from './forms/VerificationForm.Component';
 import ValidationError from './ValidationError.Component';
 import LoadingModal from './LoadingModal.Component';
 import ProfileOption from './ProfileOption.Component';
+import ServiceSwitch from './ServiceSwitch.Component';
 
 export
 {
         Header, Icon, Animation, PasswordInputField, SignUpForm, SignInForm, 
         ChangePasswordForm, PasswordRecoveryForm, VerificationForm, BeSitterForm, 
-        ValidationError, LoadingModal, ProfileOption 
+        ValidationError, LoadingModal, ProfileOption, ServiceSwitch
 }

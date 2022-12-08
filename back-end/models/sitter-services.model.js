@@ -25,5 +25,5 @@ const SitterService = sequelize.define('sitter_services',
         type: DataTypes.DECIMAL(5,2),
     }
 });
-
+ 
 module.exports = SitterService;

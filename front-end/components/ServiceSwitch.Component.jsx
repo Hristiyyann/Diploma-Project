@@ -7,18 +7,21 @@ export default function ServiceSwitch({isTurnedOn, serviceName, serviceId, curre
 {
     const [isEnabled, setIsEnabled] = useState(isTurnedOn);
     const [price, setPrice] = useState(currentPrice);
+    const initialState = isTurnedOn;
 
     useEffect(()=>
     {
-        if(isEnabled)
-        {
-            setChangeData({...changeData, [serviceId]: {price}})
+        if(isEnabled != initialState)
+        { 
+            setChangeData({...changeData, [serviceId]: { price, isEnabled }});
             return;
         }
-
-        delete changeData[serviceId]; 
-        setChangeData({...changeData});
-    },[isEnabled, price]);
+        else
+        {
+            delete changeData[serviceId];
+            setChangeData({...changeData}); 
+        }
+    }, [isEnabled, price]);
 
     return(
         <View style = {styles.section}>
@@ -26,7 +29,7 @@ export default function ServiceSwitch({isTurnedOn, serviceName, serviceId, curre
                 trackColor = {{ false: '#73423f', true: "#ec6165" }}
                 thumbColor = {'#f2f2f2'}
                 ios_backgroundColor = "#73423f"
-                onValueChange = {() => setIsEnabled(previousState => !previousState)}
+                onValueChange = {() => setIsEnabled(previousState => !previousState) }
                 value = {isEnabled}
                 />
 

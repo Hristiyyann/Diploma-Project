@@ -80,26 +80,70 @@ async function getCandidates(req, res)
 async function getServices(req, res)
 {
     const userId = req.params.user || req.userData.userId;
+    const sitter = await Sitter.findOne({where: {userId}});
 
     const services = await Service.findAll(
     { 
         attributes:
         {
-            exclude:['id', 'createdAt', 'updatedAt']
+            exclude:['createdAt', 'updatedAt']
         },
         
         include: 
         {
             model: SitterService, 
-            where: { sitter_id: userId },
+            where: { sitterId: sitter.id },
             required: false,
+            attributes:
+            {
+                exclude:['sitterId', 'createdAt', 'updatedAt']
+            },
         },
-    });
-    
-    res.send(services); 
+    }); 
+
+    res.status(200).send(services); 
+}
+
+async function postServices(req, res)
+{
+    const { data } = req.body;
+    const userId = req.userData.userId;
+
+    const sitter = await Sitter.findOne({where: {userId}});
+
+    for(const serviceId in data) 
+    {
+        const service = await SitterService.findOne({where: 
+        {
+            serviceId,
+            sitterId: sitter.id,
+        }});
+
+        if(service && data[serviceId].isEnabled == false)
+        {
+            await SitterService.destroy({where: {id: service.id}});
+        }
+        else if(!service && data[serviceId].isEnabled == true)
+        {
+            await SitterService.create(
+            {
+                sitterId: sitter.id,
+                serviceId: serviceId,
+                price: data[serviceId].price
+            })
+        }
+        else
+        {
+            service.price = data[serviceId].price;
+            service.save();
+        }
+    } 
+  
+    res.status(200).send({ success: true });
 }
 
 module.exports = 
 {
-    postCandidates, getCandidates, checkCandidate, getServices
+    postCandidates, getCandidates, checkCandidate, getServices, postServices, 
+
 }

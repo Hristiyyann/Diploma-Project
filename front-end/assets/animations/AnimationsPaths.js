@@ -12,6 +12,7 @@ const animations =
     successApplication: require('./successApplication.json'),
     dog: require('./dog.json'),
     clock: require('./clock.json'),
+    servicesChange: require('./servicesChange.json'),
 }
 
 export default animations;

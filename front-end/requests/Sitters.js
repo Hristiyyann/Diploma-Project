@@ -16,11 +16,17 @@ async function postCandidates(data)
 async function getSelfServices()
 {
     const accessToken = await getItemValue('accessToken');
-    const result  = await appAxios.get('/sitters/self/services');
+    const result  = await appAxios.post('/sitters/self/services', { accessToken });
     return result.data;
+}
+
+async function putServices(data)
+{
+    const accessToken = await getItemValue('accessToken');
+    await appAxios.put('/sitters/self/services', { data, accessToken });
 }
 
 export
 {
-    checkCandidate, postCandidates, getSelfServices,
+    checkCandidate, postCandidates, getSelfServices, putServices,
 }
