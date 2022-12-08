@@ -5,7 +5,7 @@ import { ProfileOption } from '../components/index';
 import { useLoading, usePermissions } from '../contexts';
 import { apiWrapper } from '../requests/AxiosConfiguration';
 import { logOut } from '../requests/Auth';
-import { checkCandidate } from '../requests/Sitters';
+import { checkCandidate, getSelfServices } from '../requests/Sitters';
 import { checkUserRolesFor } from '../Utils';
 
 export default function Profile({navigation})
@@ -78,7 +78,14 @@ export default function Profile({navigation})
                     <ProfileOption
                         iconName = {'options'}
                         text = {'Change your services'}
-                        onPress = {() => navigation.navigate('Services')}
+                        onPress = {async () => 
+                        {
+                            const returnedObject = await apiWrapper(setIsLoading, () => getSelfServices());
+                            navigation.navigate('Services',
+                            {
+                                data: returnedObject.data
+                            })
+                        }}
                     />
                 }
                
