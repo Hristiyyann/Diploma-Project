@@ -6,6 +6,7 @@ const SitterCriteria = sequelize.define('sitter_pet_criteria',
     id: 
     {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
 

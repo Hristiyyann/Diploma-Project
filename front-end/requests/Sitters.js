@@ -33,7 +33,14 @@ async function getSelfPets()
     return result.data;
 }
 
+async function putSelfPets(data)
+{
+    const accessToken = await getItemValue('accessToken');
+    await appAxios.put('/sitters/self/pets', { data, accessToken });
+}
+
 export
 {
     checkCandidate, postCandidates, getSelfServices, putServices, getSelfPets,
+    putSelfPets,
 }

@@ -16,6 +16,7 @@ router.route('/self/services')
     .put(verifyToken, sittersController.postSelfServices);
 
 router.route('/self/pets')
-    .post(verifyToken, sittersController.getSelfPets);
+    .post(verifyToken, sittersController.getSelfPets)
+    .put(verifyToken, sittersController.postSelfPets);
 
 module.exports = router;

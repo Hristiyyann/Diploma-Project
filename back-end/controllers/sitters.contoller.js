@@ -153,6 +153,8 @@ async function getSelfPets(req, res)
         {
             exclude:['createdAt', 'updatedAt']
         },
+
+        order: [['petName', 'ASC']],
         
         include: 
         {
@@ -169,8 +171,39 @@ async function getSelfPets(req, res)
     res.status(200).send(pets); 
 }
 
+async function postSelfPets(req, res)
+{
+    const userId = req.params.user || req.userData.userId;
+    const { data } = req.body;
+    const sitter = await Sitter.findOne({where: {userId}});
+    
+    for(const petId in data) 
+    {
+        const pet = await SitterCriteria.findOne({where: 
+        {
+            petId,
+            sitterId: sitter.id,
+        }});
+
+        if(pet && data[petId].isEnabled == false)
+        {
+            await SitterCriteria.destroy({where: { id: pet.id }});
+        }
+        else if(!pet && data[petId].isEnabled == true)
+        {
+            await SitterCriteria.create(
+            {
+                sitterId: sitter.id,
+                petId: petId,
+            })
+        }
+    } 
+  
+    res.status(200).send({ success: true });
+}
+
 module.exports = 
 {
     postCandidates, getCandidates, checkCandidate, getSelfServices, postSelfServices, 
-    getSelfPets
+    getSelfPets, postSelfPets,
 }
