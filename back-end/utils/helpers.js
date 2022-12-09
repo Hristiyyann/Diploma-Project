@@ -53,21 +53,33 @@ function throwError(req)
     }    
 }
 
-function signAccessToken(userId, roles)
+function signAccessToken(data)
 {
-    const accessToken = jwt.sign(
-    {userId, roles}, 
-    config.accessTokenSecret,
-    {expiresIn: '10m'});
+    let payload = {};
+    if(data?.sitterId) payload = {userId: data.userId, sitterId: data.sitterId, roles: data.roles};
+    else payload = {userId: data.userId, roles: data.roles};
+
+    const accessToken = jwt.sign
+    (
+        payload,
+        config.accessTokenSecret,
+        {expiresIn: '10m'}
+    );  
 
     return accessToken;
 }
 
-function signRefreshToken(userId)
+function signRefreshToken(data)
 {
-    const refreshToken = jwt.sign(
-    {userId},
-    config.refreshTokenSecret);
+    let payload = {};
+    if(data?.sitterId) payload = {userId: data.userId, sitterId: data.sitterId};
+    else payload = {userId: data.userId};
+
+    const refreshToken = jwt.sign
+    (
+        payload,
+        config.refreshTokenSecret
+    );
     
     return refreshToken;
 }

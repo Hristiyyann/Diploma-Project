@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User, UserRole, UserToken } = require('../utils/models');
+const { User, UserRole, UserToken, Sitter } = require('../utils/models');
 const { addTokenToDB, getRoles, throwError, signAccessToken, signRefreshToken } = require('../utils/helpers');
 const { ValidationError, ResourceError } = require('../utils/errors');
 const config = require('../utils/config');
@@ -69,8 +69,15 @@ async function signIn(req, res)
     if(!result) throw new ValidationError(messages.dataNotMatch, 400); 
     const roles = await getRoles(user.id);
 
-    const accessToken = signAccessToken(user.id, roles);
-    const refreshToken = signRefreshToken(user.id);
+    let sitter;
+    if(roles.includes('Sitter'))
+    {
+        sitter = await Sitter.findOne({where: {userId: user.id}});
+        console.log(sitter.id);
+    }
+
+    const accessToken = signAccessToken({userId: user.id, sitterId: sitter?.id, roles});
+    const refreshToken = signRefreshToken({userId: user.id, sitterId: sitter?.id});
     addTokenToDB(user.id, refreshToken);
 
     res.status(200).send({ roles, accessToken, refreshToken });
@@ -97,8 +104,8 @@ async function verify(req, res)
         role: UserRole.rawAttributes.role.values[0]
     }) 
 
-    const accessToken = signAccessToken(userId, [records.role]);
-    const refreshToken = signRefreshToken(userId);
+    const accessToken = signAccessToken({userId, roles: [records.role]});
+    const refreshToken = signRefreshToken({userId});
     addTokenToDB(userId, refreshToken);
 
     res.status(200).send({ roles: [records.role], accessToken, refreshToken });
@@ -143,9 +150,16 @@ async function refreshToken(req, res)
 
     await UserToken.destroy({where: { token:refreshToken }});
     const roles = await getRoles(user.userId);
+
+    let sitter;
+    if(roles.includes('Sitter'))
+    {
+        sitter = await Sitter.findOne({where: {userId: user.userId}});
+        console.log(sitter.id);
+    }
     
-    const newAccessToken = signAccessToken(user.userId, roles);
-    const newRefreshToken = signRefreshToken(user.userId);
+    const newAccessToken = signAccessToken({userId: user.userId, sitterId: sitter?.id, roles});
+    const newRefreshToken = signRefreshToken({userId: user.userId, sitterId: sitter?.id});
     addTokenToDB(user.userId, newRefreshToken);
 
     return res.status(200).send({ success: true, roles, accessToken: newAccessToken, refreshToken: newRefreshToken });

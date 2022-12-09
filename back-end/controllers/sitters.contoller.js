@@ -23,8 +23,8 @@ async function postCandidates(req, res)
 {
     const { about, city } = req.body;
     const userId = req.userData.userId;
-
     const user = await Sitter.findOne({where: { userId }});
+
     if(!user)
     {
         await Sitter.create(
@@ -79,8 +79,7 @@ async function getCandidates(req, res)
 
 async function getSelfServices(req, res)
 {
-    const userId = req.params.user || req.userData.userId;
-    const sitter = await Sitter.findOne({where: {userId}});
+    const sitterId = req.userData.sitterId;
 
     const services = await Service.findAll(
     { 
@@ -92,7 +91,7 @@ async function getSelfServices(req, res)
         include: 
         {
             model: SitterService, 
-            where: { sitterId: sitter.id },
+            where: { sitterId },
             required: false,
             attributes:
             {
@@ -106,18 +105,19 @@ async function getSelfServices(req, res)
 
 async function postSelfServices(req, res)
 {
+    const sitterId = req.userData.sitterId;
     const { data } = req.body;
-    const userId = req.userData.userId;
-
-    const sitter = await Sitter.findOne({where: {userId}});
 
     for(const serviceId in data) 
     {
-        const service = await SitterService.findOne({where: 
+        const service = await SitterService.findOne(
         {
-            serviceId,
-            sitterId: sitter.id,
-        }});
+            where: 
+            {
+                serviceId,
+                sitterId
+            }
+        });
 
         if(service && data[serviceId].isEnabled == false)
         {
@@ -127,7 +127,7 @@ async function postSelfServices(req, res)
         {
             await SitterService.create(
             {
-                sitterId: sitter.id,
+                sitterId,
                 serviceId: serviceId,
                 price: data[serviceId].price
             })
@@ -144,8 +144,7 @@ async function postSelfServices(req, res)
 
 async function getSelfPets(req, res)
 {
-    const userId = req.params.user || req.userData.userId;
-    const sitter = await Sitter.findOne({where: {userId}});
+    const sitterId =req.userData.sitterId;
 
     const pets = await Pet.findAll(
     { 
@@ -159,7 +158,7 @@ async function getSelfPets(req, res)
         include: 
         {
             model: SitterCriteria, 
-            where: { sitterId: sitter.id },
+            where: { sitterId },
             required: false,
             attributes:
             {
@@ -173,16 +172,15 @@ async function getSelfPets(req, res)
 
 async function postSelfPets(req, res)
 {
-    const userId = req.params.user || req.userData.userId;
+    const sitterId = req.userData.sitterId;
     const { data } = req.body;
-    const sitter = await Sitter.findOne({where: {userId}});
     
     for(const petId in data) 
     {
         const pet = await SitterCriteria.findOne({where: 
         {
             petId,
-            sitterId: sitter.id,
+            sitterId
         }});
 
         if(pet && data[petId].isEnabled == false)
@@ -193,7 +191,7 @@ async function postSelfPets(req, res)
         {
             await SitterCriteria.create(
             {
-                sitterId: sitter.id,
+                sitterId,
                 petId: petId,
             })
         }
