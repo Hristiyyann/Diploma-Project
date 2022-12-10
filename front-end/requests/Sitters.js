@@ -1,42 +1,35 @@
-import { appAxios } from './AxiosConfiguration';
-import { getItemValue } from '../Utils';
+import { mainAxios } from './AxiosConfiguration';
 
 async function checkCandidate()
 {
-    const accessToken = await getItemValue('accessToken');
-    await appAxios.post('/sitters/check-candidate', { accessToken });
+    await authAxios.post('/sitters/check-candidate');
 }
 
 async function postCandidates(data)
 {
-    const accessToken = await getItemValue('accessToken');
-    await appAxios.post('/sitters/candidates', {...data, accessToken})
+    await mainAxios.post('/sitters/candidates', { ...data })
 }
 
 async function getSelfServices()
 {
-    const accessToken = await getItemValue('accessToken');
-    const result  = await appAxios.post('/sitters/self/services', { accessToken });
+    const result  = await mainAxios.get('/sitters/self/services');
     return result.data;
 }
 
 async function putServices(data)
 {
-    const accessToken = await getItemValue('accessToken');
-    await appAxios.put('/sitters/self/services', { data, accessToken });
+    await mainAxios.put('/sitters/self/services', { data });
 }
 
 async function getSelfPets()
 {
-    const accessToken = await getItemValue('accessToken');
-    const result  = await appAxios.post('/sitters/self/pets', { accessToken });
+    const result  = await mainAxios.get('/sitters/self/pets');
     return result.data;
 }
 
 async function putSelfPets(data)
 {
-    const accessToken = await getItemValue('accessToken');
-    await appAxios.put('/sitters/self/pets', { data, accessToken });
+    await mainAxios.put('/sitters/self/pets', { data });
 }
 
 export

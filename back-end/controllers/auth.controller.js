@@ -1,4 +1,3 @@
-const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User, UserRole, UserToken, Sitter } = require('../utils/models');
@@ -27,7 +26,7 @@ async function signUp(req, res)
         await verification.sendOTP();
         throw new ValidationError(messages.verifyTelephoneNumber, 403)
     }
-    else if(user) throw new ValidationError(messages.needLogIn, 401); 
+    else if(user) throw new ValidationError(messages.needLogIn, 403); 
 
     const passwordSalt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, passwordSalt);
@@ -257,11 +256,11 @@ async function logOut(req, res)
     throwError(req);
 
     const { allDevices } = req.query;
-    const { accessToken, refreshToken } = req.body;
+    const { refreshToken } = req.body;
     const conditions = {};
     
     if(allDevices) conditions.where = {...conditions.where, userId: req.userData.userId};
-    else conditions.where = {...conditions.where, [Op.or] : [{ token: accessToken }, { token: refreshToken }]};
+    else conditions.where = {...conditions.where, token: refreshToken };
 
     await UserToken.destroy(conditions);
 

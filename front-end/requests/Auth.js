@@ -1,10 +1,9 @@
-import { appAxios } from './AxiosConfiguration';
+import { authAxios, mainAxios } from './AxiosConfiguration';
 import { saveItem, getItemValue, deleteItem } from '../Utils';
 
 async function signIn(data, setRoles, setIsLoggedIn)
 {
-    const response = await appAxios.post('auth/sign-in', data);
-
+    const response = await authAxios.post('auth/sign-in', data);
     await saveItem('accessToken', response.data.accessToken);
     await saveItem('refreshToken', response.data.refreshToken);
     setRoles(response.data.roles);
@@ -13,7 +12,7 @@ async function signIn(data, setRoles, setIsLoggedIn)
 
 async function signUp(data)
 {
-    const response = await appAxios.post('auth/sign-up', data);
+    const response = await authAxios.post('auth/sign-up', data);
     await saveItem('userId', response.data.userId);
     return true;
 }
@@ -22,7 +21,7 @@ async function verification(code, setRoles, setIsLoggedIn)
 {
     const userId = await getItemValue('userId');
     const data = {userId, code};
-    const response = await appAxios.post('auth/verify', data);
+    const response = await authAxios.post('auth/verify', data);
     await saveItem('accessToken', response.data.accessToken);
     await saveItem('refreshToken', response.data.refreshToken);
     await deleteItem('userId');
@@ -32,12 +31,12 @@ async function verification(code, setRoles, setIsLoggedIn)
 
 async function resendVerificationCode()
 {
-    await appAxios.post('auth/resend');
+    await authAxios.post('auth/resend');
 }
 
 async function refresh(refreshToken, setRoles)
 {
-    const response = await appAxios.post('auth/refresh', { refreshToken });
+    const response = await authAxios.post('auth/refresh', { refreshToken });
     await saveItem('accessToken', response.data.accessToken);
     await saveItem('refreshToken', response.data.refreshToken);
     setRoles(response.data.roles);
@@ -45,30 +44,28 @@ async function refresh(refreshToken, setRoles)
 
 async function changePassword(data)
 {
-    const accessToken = await getItemValue('accessToken');
-    await appAxios.put('auth/change-password', {...data, accessToken});
+    await mainAxios.put('auth/change-password', {...data });
 }
 
 async function forgetPassword(data)
 {
-    await appAxios.post('auth/forget-password', data);
+    await authAxios.post('auth/forget-password', data);
 }
 
 async function passwordRecovery(data)
 {
-    await appAxios.post('auth/password-recovery', data);
+    await authAxios.post('auth/password-recovery', data);
 }
 
 async function checkCode(data)
 {
-    await appAxios.post('auth/check-code', data);
+    await authAxios.post('auth/check-code', data);
 }
 
 async function logOut(setRoles, setIsLoggedIn)
 {
-    const accessToken = await getItemValue('accessToken');
     const refreshToken = await getItemValue('refreshToken');
-    await appAxios.post('auth/log-out', {accessToken, refreshToken});
+    await mainAxios.post('auth/log-out', { refreshToken });
     await deleteItem('accessToken');
     await deleteItem('refreshToken');
     setRoles('');

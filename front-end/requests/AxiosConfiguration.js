@@ -1,8 +1,15 @@
 import axios from 'axios';
+import { getItemValue } from '../Utils';
 
-const appAxios = axios.create(
+const authAxios = axios.create(
 {
-    baseURL: 'http://192.168.1.8:8000/',
+    //baseURL: 'http://172.20.10.2:8000/',
+    baseURL: 'http://192.168.1.6:8000/',
+});
+
+const mainAxios = axios.create(
+{
+    baseURL: 'http://192.168.1.6:8000/',
 });
 
 async function apiWrapper(setIsLoading, apiFunction)
@@ -36,18 +43,44 @@ async function apiWrapper(setIsLoading, apiFunction)
     }
 }
 
-appAxios.interceptors.response.use(
-function (response) 
+function returnResponse()
 {
-    return response;
-}, 
-function (error) 
-{
-    const errorObject = {};
-    errorObject.status = error.response.status;
-    errorObject.message = error.response.data.message;
-    console.log(errorObject);
-    return Promise.reject(errorObject);
-}); 
+    return(
+        function (response) 
+        {
+            return response;
+        }
+    )
+}
 
-export { appAxios, apiWrapper }
+function returnError()
+{
+    return(
+        function (error) 
+        {
+            const errorObject = {};
+            errorObject.status = error.response.status;
+            errorObject.message = error.response.data.message;
+            console.log(errorObject);
+            return Promise.reject(errorObject);
+        }
+    )
+} 
+
+function applyAccessToken()
+{
+    return(
+        async function (config) 
+        {
+            const accessToken = await getItemValue('accessToken');
+            config.headers.Authorization = accessToken ? `Bearer ${accessToken}` : '';
+            return config;
+        }
+    )
+}
+
+authAxios.interceptors.response.use(returnResponse(), returnError()); 
+mainAxios.interceptors.request.use(applyAccessToken());
+mainAxios.interceptors.response.use(returnResponse(), returnError());
+
+export { authAxios, mainAxios, apiWrapper }

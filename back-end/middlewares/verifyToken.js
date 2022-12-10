@@ -4,8 +4,8 @@ const { ResourceError } = require('../utils/errors');
 
 async function verifyToken(req, res, next) 
 {
-    const {accessToken} = req.body;
-
+    const accessToken = req.headers.authorization.split(' ')[1];
+   
     if(!accessToken) throw new ResourceError('Token needed', 403);
     
     const user = jwt.verify(accessToken, config.accessTokenSecret);

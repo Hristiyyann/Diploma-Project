@@ -5,18 +5,18 @@ const verifyRole = require('../middlewares/verifyRole');
 const sittersController = require('../controllers/sitters.contoller');
 
 router.route('/candidates')
-    .post(verifyToken, sittersController.postCandidates)
-    .get([verifyToken, verifyRole(['Admin'])], sittersController.getCandidates); 
+    .get([verifyToken, verifyRole(['Admin'])], sittersController.getCandidates)
+    .post(verifyToken, sittersController.postCandidates);
 
 router.route('/check-candidate')
     .post(verifyToken, sittersController.checkCandidate);
 
 router.route('/self/services')
-    .post([verifyToken, verifyRole(['Sitter'])], sittersController.getSelfServices)
+    .get([verifyToken, verifyRole(['Sitter'])], sittersController.getSelfServices)
     .put([verifyToken, verifyRole(['Sitter'])], sittersController.postSelfServices);
 
 router.route('/self/pets')
-    .post([verifyToken, verifyRole(['Sitter'])], sittersController.getSelfPets)
+    .get([verifyToken, verifyRole(['Sitter'])], sittersController.getSelfPets)
     .put([verifyToken, verifyRole(['Sitter'])], sittersController.postSelfPets);
 
 module.exports = router;
