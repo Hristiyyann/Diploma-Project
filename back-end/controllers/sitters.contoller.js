@@ -100,7 +100,7 @@ async function getSelfServices(req, res)
         },
     }); 
 
-    res.status(200).send(services); 
+    res.status(200).send({ services, success: true }); 
 }
 
 async function postSelfServices(req, res)
@@ -167,7 +167,7 @@ async function getSelfPets(req, res)
         },
     }); 
 
-    res.status(200).send(pets); 
+    res.status(200).send({ pets, success: true }); 
 }
 
 async function postSelfPets(req, res)

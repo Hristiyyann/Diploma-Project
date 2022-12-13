@@ -2,7 +2,7 @@ import { mainAxios } from './AxiosConfiguration';
 
 async function checkCandidate()
 {
-    await authAxios.post('/sitters/check-candidate');
+    await authAxios.get('/sitters/check-candidate');
 }
 
 async function postCandidates(data)

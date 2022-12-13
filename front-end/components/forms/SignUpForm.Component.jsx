@@ -6,7 +6,7 @@ import PhoneInput from 'react-native-phone-number-input';
 import { useLoading } from '../../contexts/index';
 import { SignUpSchema } from '../../validations/Schemes';
 import { signUp } from '../../requests/Auth';
-import { apiWrapper } from '../../requests/AxiosConfiguration'
+import apiWrapper from '../../requests/ApiWrapper';
 import Icon from '../Icon.Component';
 import ValidationError from '../ValidationError.Component';
 import PasswordInputField from '../PasswordInputField.Component';

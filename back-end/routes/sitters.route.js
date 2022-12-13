@@ -9,7 +9,7 @@ router.route('/candidates')
     .post(verifyToken, sittersController.postCandidates);
 
 router.route('/check-candidate')
-    .post(verifyToken, sittersController.checkCandidate);
+    .get(verifyToken, sittersController.checkCandidate);
 
 router.route('/self/services')
     .get([verifyToken, verifyRole(['Sitter'])], sittersController.getSelfServices)

@@ -6,7 +6,7 @@ import { Formik } from 'formik';
 import { emailValidation, telephoneValidation } from '../../validations/GlobalValidations';
 import { useLoading } from '../../contexts/index';
 import { passwordRecovery } from '../../requests/Auth';
-import { apiWrapper } from '../../requests/AxiosConfiguration';
+import apiWrapper from '../../requests/ApiWrapper';
 import Icon from '../Icon.Component';
 import ValidationError from '../ValidationError.Component';
 import GlobalStyles from '../../GlobalStyles';

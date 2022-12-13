@@ -3,7 +3,7 @@ import { TouchableOpacity, Text } from 'react-native';
 import { Formik, Field } from 'formik';
 import { baseChangePasswordSchema, fullChangePasswordSchema } from '../../validations/Schemes';
 import { changePassword, forgetPassword } from '../../requests/Auth';
-import { apiWrapper } from '../../requests/AxiosConfiguration';
+import apiWrapper from '../../requests/ApiWrapper';
 import { useLoading, usePermissions } from '../../contexts/index';
 import PasswordInputField from '../PasswordInputField.Component';
 import ValidationError from '../ValidationError.Component';

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Text } from '@ui-kitten/components';
+import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Header, Animation, SignUpForm } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
@@ -31,6 +32,7 @@ export default function SignUp({navigation})
                     />
 
                     <Text>Terms and conditions</Text>
+                    <StatusBar style="dark"/>
                 </View>
             </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>   

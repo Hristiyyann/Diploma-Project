@@ -34,12 +34,13 @@ async function resendVerificationCode()
     await authAxios.post('auth/resend');
 }
 
-async function refresh(refreshToken, setRoles)
+async function refresh()
 {
+    const refreshToken =  await getItemValue('refreshToken');
     const response = await authAxios.post('auth/refresh', { refreshToken });
     await saveItem('accessToken', response.data.accessToken);
     await saveItem('refreshToken', response.data.refreshToken);
-    setRoles(response.data.roles);
+    return response.data;
 }
 
 async function changePassword(data)

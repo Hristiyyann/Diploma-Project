@@ -13,18 +13,23 @@ export default function Header({method, methodText, endText, navigateTo})
                 {method}
             </Text>    
 
-            <Text 
-                category = 'p1'
-            >
-                {methodText}
+            <View style = {styles.methodText}>
+                <Text 
+                    category = 'p1'
+                    >
+                    {methodText}
+                </Text>
                 {
                     endText &&  
-                    <Text 
+                    <TouchableOpacity
                         onPress = {navigateTo}
-                        status = 'primary'> {endText}
-                    </Text>
+                    >
+                        <Text 
+                            status = 'primary'> {endText}
+                        </Text>
+                    </TouchableOpacity>
                 }
-            </Text>
+            </View>
         </View>
     )
 };
@@ -38,4 +43,10 @@ const styles = StyleSheet.create(
         marginTop: 15,
         marginBottom: 10
     },
+
+    methodText:
+    {
+        flexDirection: 'row',
+        alignItems: 'center'
+    }
 })

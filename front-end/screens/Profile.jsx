@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, ScrollView } from 'react-native';
 import { Text, Divider } from '@ui-kitten/components';
 import { ProfileOption } from '../components/index';
 import { useLoading, usePermissions } from '../contexts';
-import { apiWrapper } from '../requests/AxiosConfiguration';
+import apiWrapper from '../requests/ApiWrapper';
 import { logOut } from '../requests/Auth';
 import { checkCandidate, getSelfServices, getSelfPets } from '../requests/Sitters';
 import { checkUserRolesFor } from '../Utils';
@@ -80,10 +80,13 @@ export default function Profile({navigation})
                         onPress = {async () => 
                         {
                             const returnedObject = await apiWrapper(setIsLoading, () => getSelfServices());
-                            navigation.navigate('Services',
+                            if(returnedObject.data.success)
                             {
-                                data: returnedObject.data
-                            })
+                                navigation.navigate('Services',
+                                {
+                                    data: returnedObject.data.services
+                                })
+                            }
                         }}
                     />
                 }
@@ -96,10 +99,13 @@ export default function Profile({navigation})
                         onPress = {async () => 
                         {
                             const returnedObject = await apiWrapper(setIsLoading, () => getSelfPets());
-                            navigation.navigate('Pets',
+                            if(returnedObject.data.success)
                             {
-                                data: returnedObject.data
-                            });
+                                navigation.navigate('Pets',
+                                {
+                                    data: returnedObject.data.pets
+                                });
+                            }
                         }}
                     />
                 }

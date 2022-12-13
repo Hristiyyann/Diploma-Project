@@ -4,7 +4,7 @@ import { Text } from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Animation, Header, ServiceOption } from '../components/index';
 import { useLoading } from '../contexts';
-import { apiWrapper } from '../requests/AxiosConfiguration';
+import apiWrapper from '../requests/ApiWrapper';
 import { putServices } from '../requests/Sitters';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';

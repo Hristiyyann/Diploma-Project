@@ -4,7 +4,7 @@ import { Text } from '@ui-kitten/components';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import { Formik } from 'formik';
 import { useLoading, usePermissions } from '../../contexts/index';
-import { apiWrapper } from '../../requests/AxiosConfiguration';
+import apiWrapper from '../../requests/ApiWrapper';
 import { verification, resendVerificationCode, checkCode } from '../../requests/Auth';
 
 export default function VerificationForm({channel, isForPasswordRecovery, navigation})

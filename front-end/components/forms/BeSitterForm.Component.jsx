@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { Input } from '@ui-kitten/components';
 import { BeSitterSchema } from '../../validations/Schemes';
 import { postCandidates } from '../../requests/Sitters';
-import { apiWrapper } from '../../requests/AxiosConfiguration';
+import apiWrapper from '../../requests/ApiWrapper';
 import { useLoading } from '../../contexts/index';
 import Icon from '../Icon.Component';
 import ValidationError from '../ValidationError.Component';

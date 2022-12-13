@@ -5,7 +5,7 @@ import { Formik, Field } from 'formik';
 import { useLoading, usePermissions } from '../../contexts/index';
 import { SignInSchema } from '../../validations/Schemes';
 import { signIn } from '../../requests/Auth';
-import { apiWrapper } from '../../requests/AxiosConfiguration'
+import apiWrapper from '../../requests/ApiWrapper';
 import Icon from '../Icon.Component';
 import ValidationError from '../ValidationError.Component';
 import PasswordInputField from '../PasswordInputField.Component';
