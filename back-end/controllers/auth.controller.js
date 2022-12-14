@@ -76,7 +76,7 @@ async function signIn(req, res)
 
     const accessToken = signAccessToken({userId: user.id, sitterId: sitter?.id, roles});
     const refreshToken = signRefreshToken({userId: user.id, sitterId: sitter?.id});
-    addTokenToDB(user.id, refreshToken);
+    addTokenToDB(user.id, refreshToken, 0);
 
     res.status(200).send({ roles, accessToken, refreshToken });
 }    
@@ -104,7 +104,7 @@ async function verify(req, res)
 
     const accessToken = signAccessToken({userId, roles: [records.role]});
     const refreshToken = signRefreshToken({userId});
-    addTokenToDB(userId, refreshToken);
+    addTokenToDB(userId, refreshToken, 0);
 
     res.status(200).send({ roles: [records.role], accessToken, refreshToken });
 }
@@ -158,7 +158,7 @@ async function refreshToken(req, res)
     
     const newAccessToken = signAccessToken({userId: user.userId, sitterId: sitter?.id, roles});
     const newRefreshToken = signRefreshToken({userId: user.userId, sitterId: sitter?.id});
-    addTokenToDB(user.userId, newRefreshToken);
+    addTokenToDB(user.userId, newRefreshToken, 0);
 
     return res.status(200).send({ success: true, roles, accessToken: newAccessToken, refreshToken: newRefreshToken });
 }

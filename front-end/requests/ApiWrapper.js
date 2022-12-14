@@ -10,15 +10,17 @@ async function apiWrapper(setIsLoading, apiFunction)
         {
             setIsLoading(true);
             returnedObject.data = await apiFunction();
-            setIsLoading(false);
         }
         catch (error)
         {
-            if(error.status == '401')
+            if(error.message == 'Access denied')
+            {
+                returnedObject.goToSignIn = true;
+            }
+            else if(error.status == '401')
             {
                 await apiWrapper(setIsLoading, () => refresh());
                 returnedObject.data = await apiFunction();
-                console.log(returnedObject.data);
             }
             else
             {
@@ -28,12 +30,7 @@ async function apiWrapper(setIsLoading, apiFunction)
     }
     catch(error)
     {
-        setIsLoading(false);
-        if(error.message == 'Access denied')
-        {
-            returnedObject.goToSignIn = true;
-        }
-        else if(error.message == 'You have to verify your telephone number')
+        if(error.message == 'You have to verify your telephone number')
         {
             returnedObject.goToVerification = true;
         }
@@ -41,8 +38,10 @@ async function apiWrapper(setIsLoading, apiFunction)
         {
             console.log(error);
         }
+        setIsLoading(false);
         return {...returnedObject, ...error};
     }
+    setIsLoading(false);
     return returnedObject;
 }
 

@@ -1,7 +1,7 @@
 import React, {createContext, useState, useEffect, useContext} from 'react';
-import { hasTokens, getItemValue } from '../Utils';
+import { hasTokens } from '../Utils';
 import { refresh } from '../requests/Auth';
-import { apiWrapper } from '../requests/AxiosConfiguration';
+import apiWrapper  from '../requests/ApiWrapper';
 import { useLoading } from './LoadingContext';
 
 const PermissionsContext = createContext();

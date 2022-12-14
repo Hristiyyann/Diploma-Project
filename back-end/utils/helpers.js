@@ -3,12 +3,12 @@ const { validationResult } = require('express-validator');
 const { UserToken, UserRole } = require('./models');
 const { ValidationError } = require('../utils/errors');
 
-async function addTokenToDB(userId, refreshToken) 
+async function addTokenToDB(userId, token, enum_index) 
 {
     await UserToken.create
     ({
-        userId,
-        token: refreshToken
+        userId, token, 
+        tokenType: UserToken.rawAttributes.tokenType.values[enum_index]
     });
 }
 
@@ -62,7 +62,7 @@ function signAccessToken(data)
     (
         payload,
         process.env.ACCESS_TOKEN_SECRET,
-        {expiresIn: '10m'}
+        {expiresIn: '10s'}
     );  
 
     return accessToken;
