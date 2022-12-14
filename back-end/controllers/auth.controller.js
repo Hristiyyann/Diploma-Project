@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const { User, UserRole, UserToken, Sitter } = require('../utils/models');
 const { addTokenToDB, getRoles, throwError, signAccessToken, signRefreshToken } = require('../utils/helpers');
 const { ValidationError, ResourceError } = require('../utils/errors');
-const config = require('../utils/config');
 const verification = require('../utils/telephone-number-verification');
 const messages = require('../utils/thrown-error-messages');
 
@@ -132,7 +131,7 @@ async function refreshToken(req, res)
         }
     });
 
-    const user = jwt.verify(refreshToken, config.refreshTokenSecret);
+    const user = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     
     if(!isTokenFound)
     {

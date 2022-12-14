@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const { UserToken, UserRole } = require('./models');
 const { ValidationError } = require('../utils/errors');
-const config = require('../utils/config');
 
 async function addTokenToDB(userId, refreshToken) 
 {
@@ -62,7 +61,7 @@ function signAccessToken(data)
     const accessToken = jwt.sign
     (
         payload,
-        config.accessTokenSecret,
+        process.env.ACCESS_TOKEN_SECRET,
         {expiresIn: '10m'}
     );  
 
@@ -78,7 +77,7 @@ function signRefreshToken(data)
     const refreshToken = jwt.sign
     (
         payload,
-        config.refreshTokenSecret
+        process.env.REFRESH_TOKEN_SECRET
     );
     
     return refreshToken;

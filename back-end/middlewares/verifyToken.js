@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const config = require('../utils/config');
 const { ResourceError } = require('../utils/errors');
 
 async function verifyToken(req, res, next) 
@@ -8,7 +7,7 @@ async function verifyToken(req, res, next)
    
     if(!accessToken) throw new ResourceError('Token needed', 403);
     
-    const user = jwt.verify(accessToken, config.accessTokenSecret);
+    const user = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
     req.userData = user;
     
     next();
