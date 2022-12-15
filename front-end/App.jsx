@@ -6,21 +6,23 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import LoadingModal from './components/LoadingModal.Component';
 import { default as theme } from './theme.json'; 
 import Navigator from './navigation/StackNavigation';
-import { LoadingContextProvider, PermissionsContextProvider } from './contexts/index';
+import { LoadingContextProvider, PermissionsContextProvider, ShowErrorProvider } from './contexts/index';
 
 export default function App() 
 {
   return (
     <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
       <LoadingContextProvider>
-        <PermissionsContextProvider>
-          <SafeAreaProvider>
-            <NavigationContainer> 
-              <Navigator/>
-              <LoadingModal/>
-            </NavigationContainer>
-          </SafeAreaProvider>
-        </PermissionsContextProvider>  
+        <ShowErrorProvider>
+          <PermissionsContextProvider>
+            <SafeAreaProvider>
+              <NavigationContainer> 
+                <Navigator/>
+                <LoadingModal/>
+              </NavigationContainer>
+            </SafeAreaProvider>
+          </PermissionsContextProvider> 
+        </ShowErrorProvider> 
       </LoadingContextProvider>  
     </ApplicationProvider>
   );
