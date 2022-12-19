@@ -42,7 +42,47 @@ function checkUserRolesFor(userRoles, rolesToCheck)
     return false;
 }
 
+function checkForErrors(returnedObject, setServerError, setFormError)
+{
+    let success;
+    console.log(returnedObject);
+
+    if
+    (
+        returnedObject.data.success == true || 
+        returnedObject.message == 'You have to verify your telephone number'
+    )
+    {
+        success = true;
+    }
+    else if
+    (
+        returnedObject.message == 'Access denied' ||
+        returnedObject.status >= 404 ||
+        returnedObject.status >= 500
+    )
+    {
+        success = false;
+        setServerError(returnedObject.message)
+    }
+    else
+    {
+        success = false;
+        if(setFormError != null)
+        {
+            console.log('vleze');
+            setFormError(returnedObject.data.message);
+        }
+        else
+        {
+            console.log(' ---- ');
+        }
+    }
+    return success;
+}
+
 export 
 { 
-  saveItem, getItemValue, deleteItem, hasTokens, checkUserRolesFor, 
+    saveItem, getItemValue, deleteItem, hasTokens, checkUserRolesFor,
+    checkForErrors,
 };

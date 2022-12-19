@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text, Input } from '@ui-kitten/components';
 import { Formik, Field } from 'formik';
 import PhoneInput from 'react-native-phone-number-input';
-import { useLoading } from '../../contexts/index';
+import { useLoading, useShowError } from '../../contexts/index';
 import { SignUpSchema } from '../../validations/Schemes';
 import { signUp } from '../../requests/Auth';
 import apiWrapper from '../../requests/ApiWrapper';
@@ -11,12 +11,16 @@ import Icon from '../Icon.Component';
 import ValidationError from '../ValidationError.Component';
 import PasswordInputField from '../PasswordInputField.Component';
 import LoadingModal from '../LoadingModal.Component';
+import FormError from '../FormError.Component';
+import { checkForErrors } from '../../Utils';
 import GlobalStyles from '../../GlobalStyles';
 
 export default function SignUpForm({navigation})
 {
+    const [formError, setFormError] = useState(null);
     const phoneInput = useRef();
     const { setIsLoading } = useLoading();
+    const { setServerError } = useShowError();
 
     return(
         <>
@@ -37,7 +41,7 @@ export default function SignUpForm({navigation})
                 values = {...values, telephoneNumber: currentTelephone};
 
                 const returnedObject = await apiWrapper(setIsLoading, () => signUp(values));   
-                if(returnedObject?.success == true || returnedObject?.goToVerification == true) 
+                if(checkForErrors(returnedObject, setServerError, setFormError))
                 { 
                     const channel = {...channel, telephoneNumber: values.telephoneNumber};
                     navigation.replace('Verification',
@@ -105,6 +109,8 @@ export default function SignUpForm({navigation})
                 
                 { props.touched.confirmPassword && props.errors.confirmPassword && <ValidationError message = {props.errors.confirmPassword}/> }
 
+                {formError && <FormError message = {formError}/>}
+
                 <TouchableOpacity 
                     onPress = {props.handleSubmit}
                     style = {GlobalStyles.button}>
@@ -113,7 +119,6 @@ export default function SignUpForm({navigation})
                 </>
             )}
         </Formik>
-        <LoadingModal/>
         </>
     )
 }

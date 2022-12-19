@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import { Formik } from 'formik';
-import { useLoading, usePermissions } from '../../contexts/index';
+import { useLoading, usePermissions, useShowError } from '../../contexts/index';
 import apiWrapper from '../../requests/ApiWrapper';
 import { verification, resendVerificationCode, checkCode } from '../../requests/Auth';
+import FormError from '../FormError.Component';
+import { checkForErrors } from '../../Utils';
 
 export default function VerificationForm({channel, isForPasswordRecovery, navigation})
 {
+    const [formError, setFormError] = useState(null);
     const { setIsLoading } = useLoading();
     const { setIsLoggedIn, setRoles } = usePermissions();
+    const { setServerError } = useShowError();
 
     async function resendCode()
     {
@@ -31,7 +35,7 @@ export default function VerificationForm({channel, isForPasswordRecovery, naviga
                 {
                     const returnedObject = await apiWrapper(setIsLoading, () => checkCode(data));   
                    
-                    if(returnedObject?.success == true)
+                    if(checkForErrors(returnedObject, setServerError, setFormError))
                     {
                         navigation.navigate('Change password',
                         {
@@ -56,6 +60,8 @@ export default function VerificationForm({channel, isForPasswordRecovery, naviga
                     codeInputHighlightStyle = {styles.highlighted}
                     onCodeFilled = {props.handleSubmit}
                 />
+
+                {formError && <FormError message = {formError}/>}
 
                 <TouchableOpacity
                     onPress = {resendCode}    

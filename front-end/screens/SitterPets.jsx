@@ -31,6 +31,7 @@ export default function SitterPets({route})
                     path = {AnimationsPaths.pets}
                     loop = {false}
                 />
+                
                 <Header
                     method = {'Pets'}
                     methodText = {'Select the the pets you would like to take care of'}

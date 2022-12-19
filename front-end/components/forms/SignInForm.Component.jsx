@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Text, Input } from '@ui-kitten/components';
 import { Formik, Field } from 'formik';
-import { useLoading, usePermissions } from '../../contexts/index';
+import { useLoading, usePermissions, useShowError } from '../../contexts/index';
 import { SignInSchema } from '../../validations/Schemes';
 import { signIn } from '../../requests/Auth';
 import apiWrapper from '../../requests/ApiWrapper';
 import Icon from '../Icon.Component';
 import ValidationError from '../ValidationError.Component';
 import PasswordInputField from '../PasswordInputField.Component';
+import FormError from '../FormError.Component';
+import { checkForErrors } from '../../Utils';
 import GlobalStyles from '../../GlobalStyles';
 
 export default function SignInForm({navigation})
 {
+    const [formError, setFormError] = useState(null);
     const { setIsLoading } = useLoading();
     const { setIsLoggedIn, setRoles } = usePermissions();
+    const { setServerError } = useShowError();
 
     return(
         <>
@@ -28,7 +32,7 @@ export default function SignInForm({navigation})
             onSubmit = {async (values) => 
             {
                 const returnedObject = await apiWrapper(setIsLoading, () => signIn(values, setRoles, setIsLoggedIn));   
-                if(returnedObject?.goToVerification == true)
+                if(checkForErrors(returnedObject, setServerError, setFormError))
                 {
                     navigation.navigate('Verification');
                 }
@@ -63,6 +67,8 @@ export default function SignInForm({navigation})
                 >
                     <Text status = 'primary'>Forget password?</Text>
                 </TouchableOpacity>
+
+                {formError && <FormError message = {formError}/>}
 
                 <TouchableOpacity 
                     onPress = {props.handleSubmit}

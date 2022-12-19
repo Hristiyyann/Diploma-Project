@@ -6,7 +6,7 @@ import { useLoading, usePermissions } from '../contexts';
 import apiWrapper from '../requests/ApiWrapper';
 import { logOut } from '../requests/Auth';
 import { checkCandidate, getSelfServices, getSelfPets } from '../requests/Sitters';
-import { checkUserRolesFor } from '../Utils';
+import { checkUserRolesFor, checkForErrors } from '../Utils';
 
 export default function Profile({navigation})
 {
@@ -80,6 +80,7 @@ export default function Profile({navigation})
                         onPress = {async () => 
                         {
                             const returnedObject = await apiWrapper(setIsLoading, () => getSelfServices());
+                            checkForErrors(returnedObject);
                             if(returnedObject.data.success)
                             {
                                 navigation.navigate('Services',

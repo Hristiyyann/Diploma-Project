@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { Formik, Field } from 'formik';
 import { baseChangePasswordSchema, fullChangePasswordSchema } from '../../validations/Schemes';
 import { changePassword, forgetPassword } from '../../requests/Auth';
 import apiWrapper from '../../requests/ApiWrapper';
-import { useLoading, usePermissions } from '../../contexts/index';
+import { useLoading, usePermissions, useShowError } from '../../contexts/index';
 import PasswordInputField from '../PasswordInputField.Component';
 import ValidationError from '../ValidationError.Component';
+import FormError from '../FormError.Component';
+import { checkForErrors } from '../../Utils';
 import AnimationsPaths from '../../assets/animations/AnimationsPaths';
 
 export default function ChangePassworForm({isForgotten, channel, navigation})
 {
+    const [formError, setFormError] = useState(null);
     const { setIsLoading } = useLoading();
-    const { setIsLoggedIn } = usePermissions();
+    const { setServerError } = useShowError();
     let initialValues = {password: '', confirmPassword: ''};
     if(!isForgotten) { initialValues = {...initialValues, currentPassword: ''}};
 
@@ -33,8 +36,8 @@ export default function ChangePassworForm({isForgotten, channel, navigation})
                     returnedObject = await apiWrapper(setIsLoading, () => changePassword(values));
                 }
                 
-                if(returnedObject?.success == true)
-                {
+                if(checkForErrors(returnedObject, setServerError, setFormError))
+                { 
                     navigation.reset(
                     {
                         index: 0,
@@ -81,6 +84,8 @@ export default function ChangePassworForm({isForgotten, channel, navigation})
                 />
 
                 { props.touched.confirmPassword && props.errors.confirmPassword && <ValidationError message = {props.errors.confirmPassword}/> }
+
+                {formError && <FormError message = {formError}/>}
 
                 <TouchableOpacity 
                     onPress = {props.handleSubmit}

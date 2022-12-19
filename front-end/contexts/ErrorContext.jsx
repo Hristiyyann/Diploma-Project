@@ -9,11 +9,10 @@ function useShowError()
 
 function ShowErrorProvider({children})
 {
-    const [hasError, setHasError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState();
+    const [serverError, setServerError] = useState(null);
     
     return(
-        <ErrorContext.Provider value = {{hasError, setHasError, message: errorMessage, setErrorMessage}}>
+        <ErrorContext.Provider value = {{serverError, setServerError}}>
             {children}
         </ErrorContext.Provider>
     )

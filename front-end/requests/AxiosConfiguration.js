@@ -30,7 +30,6 @@ function returnError()
             const errorObject = {};
             errorObject.status = error.response.status;
             errorObject.message = error.response.data.message;
-            console.log(errorObject);
             return Promise.reject(errorObject);
         }
     )

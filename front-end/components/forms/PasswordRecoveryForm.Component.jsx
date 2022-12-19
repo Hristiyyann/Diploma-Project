@@ -1,20 +1,24 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text, Input } from '@ui-kitten/components';
 import PhoneInput from 'react-native-phone-number-input';
 import { Formik } from 'formik';
 import { emailValidation, telephoneValidation } from '../../validations/GlobalValidations';
-import { useLoading } from '../../contexts/index';
+import { useLoading, useShowError } from '../../contexts/index';
 import { passwordRecovery } from '../../requests/Auth';
 import apiWrapper from '../../requests/ApiWrapper';
 import Icon from '../Icon.Component';
 import ValidationError from '../ValidationError.Component';
+import FormError from '../FormError.Component';
+import { checkForErrors } from '../../Utils';
 import GlobalStyles from '../../GlobalStyles';
 
 export default function PasswordRecoveryForm({forEmail, navigation})
 {
+    const [formError, setFormError] = useState(null);
     const phoneInput = useRef();
     const { setIsLoading } = useLoading();
+    const { setServerError } = useShowError();
     let initialValues = {};
     {forEmail == true ? initialValues = {...initialValues, emailAddress: ''} : initialValues = {...initialValues, telephoneNumber: ''}}
     
@@ -32,7 +36,7 @@ export default function PasswordRecoveryForm({forEmail, navigation})
 
                 const returnedObject = await apiWrapper(setIsLoading, () => passwordRecovery(values));
                   
-                if(returnedObject?.success == true)
+                if(checkForErrors(returnedObject, setServerError, setFormError))
                 {
                     navigation.navigate('Verification',
                     {
@@ -78,6 +82,8 @@ export default function PasswordRecoveryForm({forEmail, navigation})
 
                     </>
                 }
+
+                {formError && <FormError message = {formError}/>}
 
                 <TouchableOpacity 
                     onPress = {props.handleSubmit}

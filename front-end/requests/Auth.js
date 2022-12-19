@@ -14,7 +14,6 @@ async function signUp(data)
 {
     const response = await authAxios.post('auth/sign-up', data);
     await saveItem('userId', response.data.userId);
-    return true;
 }
 
 async function verification(code, setRoles, setIsLoggedIn)

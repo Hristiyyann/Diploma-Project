@@ -1,19 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
 import { Input } from '@ui-kitten/components';
 import { BeSitterSchema } from '../../validations/Schemes';
 import { postCandidates } from '../../requests/Sitters';
 import apiWrapper from '../../requests/ApiWrapper';
-import { useLoading } from '../../contexts/index';
+import { useLoading, useShowError } from '../../contexts/index';
 import Icon from '../Icon.Component';
 import ValidationError from '../ValidationError.Component';
+import FormError from '../FormError.Component';
+import { checkForErrors } from '../../Utils';
 import AnimationsPaths from '../../assets/animations/AnimationsPaths';
 import GlobalStyles from '../../GlobalStyles';
 
 export default function BeSitterForm({navigation})
 {
+    const [formError, setFormError] = useState(null);
     const { setIsLoading } = useLoading();
+    const { setServerError } = useShowError();
 
     return(
         <Formik
@@ -26,8 +30,8 @@ export default function BeSitterForm({navigation})
             onSubmit = {async (values) =>
             {
                 const returnedObject = await apiWrapper(setIsLoading, () => postCandidates(values));
-                if(returnedObject?.success)
-                {
+                if(checkForErrors(returnedObject, setServerError, setFormError))
+                { 
                     navigation.navigate('Successful', 
                     {
                         path: AnimationsPaths.successApplication,
@@ -43,14 +47,14 @@ export default function BeSitterForm({navigation})
             (
                 <>
                 <View style = {GlobalStyles.inputContainer}>
-                        <Input
-                            style = {GlobalStyles.input}
-                            textStyle={GlobalStyles.textInputStyle}
-                            caption = {'Indicate the city most convenient for you, where you will be able to take care of an animal'}
-                            placeholder = {'Place'}
-                            accessoryLeft = {<Icon iconName = {'map'}/>}
-                            onChangeText = {props.handleChange('city')}
-                        />
+                    <Input
+                        style = {GlobalStyles.input}
+                        textStyle={GlobalStyles.textInputStyle}
+                        caption = {'Indicate the city most convenient for you, where you will be able to take care of an animal'}
+                        placeholder = {'Place'}
+                        accessoryLeft = {<Icon iconName = {'map'}/>}
+                        onChangeText = {props.handleChange('city')}
+                    />
                 </View>
 
                 { props.touched.city && props.errors.city && <ValidationError message = {props.errors.city}/> }
@@ -67,6 +71,8 @@ export default function BeSitterForm({navigation})
                 </View>
 
                 { props.touched.about && props.errors.about && <ValidationError message = {props.errors.about}/> }
+
+                {formError && <FormError message = {formError}/>}
 
                 <TouchableOpacity 
                     onPress = {props.handleSubmit}

@@ -2,18 +2,18 @@ import React from "react";
 import { Text } from '@ui-kitten/components';
 import { Modal, StyleSheet, View, TouchableOpacity } from "react-native";
 import { useShowError } from '../contexts/index'; 
-import { Animation } from '../components/index';
+import  Animation from '../components/Lottie.Component';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
 export default function ServerErrorModal()
 {
-  const { hasError, setHasError, errorMessage } = useShowError();
+  const { serverError, setServerError} = useShowError();
 
   return (
       <Modal
         animationType = 'fade'
-        visible={hasError}
+        visible={serverError ? true : false}
       >
         <View style={styles.modal}>
             <Animation
@@ -26,7 +26,7 @@ export default function ServerErrorModal()
                 status = 'primary'
                 style = {GlobalStyles.centeredText}
             >
-                {errorMessage}
+                {serverError}
             </Text>
 
             <Text
@@ -39,7 +39,7 @@ export default function ServerErrorModal()
 
             <TouchableOpacity
                 style = {GlobalStyles.button}
-                onPress = {() => setHasError(false)}
+                onPress = {() => setServerError(null)}
             >
                 <Text>Cancel</Text>
             </TouchableOpacity>
