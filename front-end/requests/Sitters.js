@@ -2,34 +2,38 @@ import { mainAxios } from './AxiosConfiguration';
 
 async function checkCandidate()
 {
-    await authAxios.get('/sitters/check-candidate');
+    const response = await authAxios.get('/sitters/check-candidate');
+    return response;
 }
 
 async function postCandidates(data)
 {
-    await mainAxios.post('/sitters/candidates', { ...data })
+    const response = await mainAxios.post('/sitters/candidates', data);
+    return response;
 }
 
 async function getSelfServices()
 {
-    const result  = await mainAxios.get('/sitters/self/services');
-    return result.data;
+    const response = await mainAxios.get('/sitters/self/services');
+    return response;
 }
 
 async function putServices(data)
 {
-    await mainAxios.put('/sitters/self/services', { data });
+    const response = await mainAxios.put('/sitters/self/services', { data });
+    return response;
 }
 
 async function getSelfPets()
 {
-    const result  = await mainAxios.get('/sitters/self/pets');
-    return result.data;
+    const response =  await mainAxios.get('/sitters/self/pets');
+    return response;
 }
 
 async function putSelfPets(data)
 {
-    await mainAxios.put('/sitters/self/pets', { data });
+    const response = await mainAxios.put('/sitters/self/pets', { data });
+    return response;
 }
 
 export

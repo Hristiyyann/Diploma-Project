@@ -17,7 +17,7 @@ function returnResponse()
     return(
         function (response) 
         {
-            return response;
+            return response.data;
         }
     )
 }
@@ -30,6 +30,7 @@ function returnError()
             const errorObject = {};
             errorObject.status = error.response.status;
             errorObject.message = error.response.data.message;
+            errorObject.success = error.response.data.success;
             return Promise.reject(errorObject);
         }
     )

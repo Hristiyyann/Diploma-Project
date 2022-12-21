@@ -3,7 +3,6 @@ import * as SecureStore from "expo-secure-store";
 async function saveItem(key, value) 
 {
     await SecureStore.setItemAsync(key, value);
-    console.log("successfully");
 }
 
 async function getItemValue(key) 
@@ -47,30 +46,31 @@ function checkForErrors(returnedObject, setServerError, setFormError)
     let success;
     console.log(returnedObject);
 
-    if
-    (
-        returnedObject.data.success == true || 
-        returnedObject.message == 'You have to verify your telephone number'
-    )
+
+    if(returnedObject.data.success == true)
     {
         success = true;
     }
+    else if(returnedObject.data.message == 'You have to verify your telephone number')
+    {
+        success = false;
+    }
     else if
     (
-        returnedObject.message == 'Access denied' ||
-        returnedObject.status >= 404 ||
-        returnedObject.status >= 500
+        returnedObject.data.message == 'Access denied' ||
+        returnedObject.data.status >= 404 ||
+        returnedObject.data.status >= 500
     )
     {
         success = false;
-        setServerError(returnedObject.message)
+        setServerError(returnedObject.data.message)
     }
     else
     {
         success = false;
         if(setFormError != null)
         {
-            console.log('vleze');
+            console.log('!!!!!');
             setFormError(returnedObject.data.message);
         }
         else

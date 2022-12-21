@@ -1,8 +1,10 @@
-import React, {createContext, useState, useEffect, useContext} from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { hasTokens } from '../Utils';
 import { refresh } from '../requests/Auth';
 import apiWrapper  from '../requests/ApiWrapper';
 import { useLoading } from './LoadingContext';
+import { useShowError } from './ErrorContext';
+import { checkForErrors } from '../Utils'; 
 
 const PermissionsContext = createContext();
 
@@ -16,7 +18,8 @@ function PermissionsContextProvider({children})
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [roles, setRoles] = useState();
     const { setIsLoading } = useLoading();
-
+    const { setServerError } = useShowError();
+ 
     useEffect(() =>
     {
         async function checkTokens()
@@ -25,13 +28,14 @@ function PermissionsContextProvider({children})
             if(refreshToken != false) 
             {
                 const returnedObject = await apiWrapper(setIsLoading, () => refresh())
-                if(returnedObject?.goToSignIn)
-                {
-                    setIsLoggedIn(false);
+                console.log(returnedObject);
+                if(checkForErrors(returnedObject, setServerError, null))
+                { 
+                    setRoles(returnedObject.data.roles)
+                    setIsLoggedIn(true); 
                     return;
                 }
-                setRoles(returnedObject.data.roles)
-                setIsLoggedIn(true); 
+                setIsLoggedIn(false);
             }
         }
         checkTokens();

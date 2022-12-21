@@ -78,7 +78,7 @@ async function signIn(req, res)
     const refreshToken = signRefreshToken({userId: user.id, sitterId: sitter?.id});
     addTokenToDB(user.id, refreshToken, 0);
 
-    res.status(200).send({ roles, accessToken, refreshToken });
+    res.status(200).send({ success: true, roles, accessToken, refreshToken });
 }    
 
 async function verify(req, res)
@@ -106,7 +106,7 @@ async function verify(req, res)
     const refreshToken = signRefreshToken({userId});
     addTokenToDB(userId, refreshToken, 0);
 
-    res.status(200).send({ roles: [records.role], accessToken, refreshToken });
+    res.status(200).send({ success: true, roles: [records.role], accessToken, refreshToken });
 }
 
 async function resend(req, res)

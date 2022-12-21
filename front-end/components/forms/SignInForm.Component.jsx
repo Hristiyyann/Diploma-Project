@@ -32,7 +32,7 @@ export default function SignInForm({navigation})
             onSubmit = {async (values) => 
             {
                 const returnedObject = await apiWrapper(setIsLoading, () => signIn(values, setRoles, setIsLoggedIn));   
-                if(checkForErrors(returnedObject, setServerError, setFormError))
+                if(!checkForErrors(returnedObject, setServerError, setFormError))
                 {
                     navigation.navigate('Verification');
                 }

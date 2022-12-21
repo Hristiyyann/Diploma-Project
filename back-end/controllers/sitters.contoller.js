@@ -87,6 +87,8 @@ async function getSelfServices(req, res)
         {
             exclude:['createdAt', 'updatedAt']
         },
+
+        order: [['serviceType', 'ASC']],
         
         include: 
         {
