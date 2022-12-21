@@ -3,58 +3,38 @@ const { v4: uuidv4 } = require('uuid');
 
 module.exports = 
 {
+  
+  
   async up (queryInterface, Sequelize) 
   {
-    await queryInterface.bulkInsert('Services', [
+    const mainServices = ['Dog walking', 'Drop-in visit'];
+    const additionalServices = ['Watering flowers', 'Full bath', 'Mail collection', 'Shipment reception', 'Single combing'];
+    let allServices = [];
+
+    for(let i = 0; i < mainServices.length; i++)
     {
-      id: uuidv4(),
-      service_name: 'Dog walking',
-      service_type: 'Main',
-      created_at: new Date(),
-      updated_at: new Date()
-    },
+      allServices = [...allServices, 
+      {
+        id: uuidv4(),
+        service_name: mainServices[i],
+        service_type: 'Main',
+        created_at: new Date(),
+        updated_at: new Date()
+      }]
+    }
+
+    for(let i = 0; i < additionalServices.length; i++)
     {
-      id: uuidv4(),
-      service_name: 'Drop-in visit',
-      service_type: 'Main',
-      created_at: new Date(),
-      updated_at: new Date()
-    },
-    {
-      id: uuidv4(),
-      service_name: 'Watering flowers',
-      service_type: 'Additional',
-      created_at: new Date(),
-      updated_at: new Date()
-    },
-    {
-      id: uuidv4(),
-      service_name: 'Full bath',
-      service_type: 'Additional',
-      created_at: new Date(),
-      updated_at: new Date()
-    },
-    {
-      id: uuidv4(),
-      service_name: 'Mail collection',
-      service_type: 'Additional',
-      created_at: new Date(),
-      updated_at: new Date()
-    },
-    {
-      id: uuidv4(),
-      service_name: 'Shipment reception',
-      service_type: 'Additional',
-      created_at: new Date(),
-      updated_at: new Date()
-    },
-    {
-      id: uuidv4(),
-      service_name: 'Single combing',
-      service_type: 'Additional',
-      created_at: new Date(),
-      updated_at: new Date()
-    }], {});
+      allServices = [...allServices, 
+      {
+        id: uuidv4(),
+        service_name: additionalServices[i],
+        service_type: 'Additional',
+        created_at: new Date(),
+        updated_at: new Date()
+      }]
+    }
+    await queryInterface.bulkInsert('Services', allServices, {});
   },
 
   async down (queryInterface, Sequelize) 

@@ -5,37 +5,20 @@ module.exports =
 {
   async up (queryInterface, Sequelize) 
   {
-    await queryInterface.bulkInsert('Pets', [
+    const pets = ['Small dog', 'Big dog', 'Cat', 'Parrot', 'Rabbit'];
+    let petsForAdd = [];
+
+    for (let i = 0; i < pets.length; i++)
     {
-      id: uuidv4(),
-      pet_name: 'Small dog',
-      created_at: new Date(),
-      updated_at: new Date()
-    },
-    {
-      id: uuidv4(),
-      pet_name: 'Big dog',
-      created_at: new Date(),
-      updated_at: new Date()
-    },
-    {
-      id: uuidv4(),
-      pet_name: 'Cat',
-      created_at: new Date(),
-      updated_at: new Date()
-    },
-    {
-      id: uuidv4(),
-      pet_name: 'Parrot',
-      created_at: new Date(),
-      updated_at: new Date()
-    },
-    {
-      id: uuidv4(),
-      pet_name: 'Rabbit',
-      created_at: new Date(),
-      updated_at: new Date()
-    }], {});
+      petsForAdd = [...petsForAdd, 
+      {
+        id: uuidv4(),
+        pet_name: pets[i],
+        created_at: new Date(),
+        updated_at: new Date()
+      }]
+    }
+    await queryInterface.bulkInsert('Pets', petsForAdd, {});
   },
 
   async down (queryInterface, Sequelize) 

@@ -21,7 +21,6 @@ module.exports =
 
   async down (queryInterface, Sequelize) 
   {
-    
     await queryInterface.addColumn('Schedules', 'start_hour',
     {
       type: Sequelize.TIME,

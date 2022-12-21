@@ -17,12 +17,12 @@ const TimeRange = sequelize.define('time_ranges',
 
     startHour:
     {
-        type: DataTypes.UUID
+        type: DataTypes.TIME
     },
 
     endHour:
     {
-        type: DataTypes.UUID
+        type: DataTypes.TIME
     }
 });
 

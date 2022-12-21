@@ -20,12 +20,12 @@ module.exports =
 
       start_hour:
       {
-          type: Sequelize.UUID
+          type: Sequelize.TIME
       },
 
       end_hour:
       {
-          type: Sequelize.UUID
+          type: Sequelize.TIME
       },
       
       created_at: 

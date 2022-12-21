@@ -10,7 +10,7 @@ const Service = require('../models/services.model');
 const SitterService = require('../models/sitter-services.model');
 const UserToken = require('../models/user-tokens.model'); 
 const UserRole = require('../models/user-roles.model');
-const TimeRange = require('../models/time-range.model');
+const TimeRange = require('../models/time-ranges.model');
 
 Booking.hasMany(BookingItem, {foreignKey: 'bookingId'});
 Service.hasMany(SitterService, {foreignKey: 'serviceId'});
