@@ -1,34 +1,29 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/database-connection');
 
-const Schedule = sequelize.define('schedules',
+const TimeRange = sequelize.define('time_ranges',
 {
-    id:
+    id: 
     {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
 
-    sitterId:
+    associatedService:
     {
         type: DataTypes.UUID,
     },
 
-    serviceId:
+    startHour:
     {
-        type: DataTypes.UUID,
+        type: DataTypes.UUID
     },
 
-    timeRangeId:
+    endHour:
     {
-        type: DataTypes.UUID,
-    },
-
-    date:
-    {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.UUID
     }
 });
 
-module.exports = Schedule;
+module.exports = TimeRange;

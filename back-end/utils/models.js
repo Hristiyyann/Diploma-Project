@@ -10,6 +10,7 @@ const Service = require('../models/services.model');
 const SitterService = require('../models/sitter-services.model');
 const UserToken = require('../models/user-tokens.model'); 
 const UserRole = require('../models/user-roles.model');
+const TimeRange = require('../models/time-range.model');
 
 Booking.hasMany(BookingItem, {foreignKey: 'bookingId'});
 Service.hasMany(SitterService, {foreignKey: 'serviceId'});
@@ -26,6 +27,7 @@ User.hasMany(UserRole, {foreignKey: 'userId'});
 User.hasMany(UserToken, {foreignKey: 'userId'});
 User.hasMany(Review, {foreignKey: 'bookerId'});
 User.hasMany(Booking, {foreignKey: 'bookerId'});
+TimeRange.hasMany(Schedule, {foreignKey: 'timeRangeId'});
 
 Booking.belongsTo(Sitter, {foreignKey: 'sitterId'});
 Booking.belongsTo(User, {foreignKey: 'bookerId'}); 
@@ -38,6 +40,7 @@ SitterCriteria.belongsTo(Sitter, {foreignKey: 'sitterId'});
 SitterCriteria.belongsTo(Pet, {foreignKey: 'petId'});
 Schedule.belongsTo(Service, {foreignKey: 'serviceId'});
 Schedule.belongsTo(Sitter, {foreignKey: 'sitterId'});
+Schedule.belongsTo(TimeRange, {foreignKey: 'timeRangeId'});
 Review.belongsTo(Sitter, {foreignKey: 'sitterId'});
 Review.belongsTo(User, {foreignKey: 'bookerId'});
 UserRole.belongsTo(User, {foreignKey: 'userId'});
