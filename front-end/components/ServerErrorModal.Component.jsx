@@ -13,7 +13,7 @@ export default function ServerErrorModal()
   return (
       <Modal
         animationType = 'fade'
-        visible={serverError ? true : false}
+        visible={Object.keys(serverError).length != 0 ? true : false}
       >
         <View style={styles.modal}>
             <Animation
@@ -26,7 +26,7 @@ export default function ServerErrorModal()
                 status = 'primary'
                 style = {GlobalStyles.centeredText}
             >
-                {serverError}
+                Error status {serverError.status}: {serverError.message}
             </Text>
 
             <Text
@@ -39,7 +39,7 @@ export default function ServerErrorModal()
 
             <TouchableOpacity
                 style = {GlobalStyles.button}
-                onPress = {() => setServerError(null)}
+                onPress = {() => setServerError({})}
             >
                 <Text>Cancel</Text>
             </TouchableOpacity>
@@ -55,6 +55,6 @@ const styles = StyleSheet.create
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#f2f2f2",
+        backgroundColor: "#f2f2f2",    
     }
 });

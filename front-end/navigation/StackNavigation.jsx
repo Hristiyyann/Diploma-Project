@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import 
 { 
     SignUp, SignIn, ForgetPassword, PasswordRecovery, ChangePassword, 
-    Verification, Successful, BeSitter, SitterServices, SitterPets,
+    Verification, Successful
 } from '../screens/index';
 import BottomTabNavigation  from './BottomNavigation';
 
@@ -30,29 +30,11 @@ export default function Navigator()
             }}>
             {isLoggedIn ?
             (
-                <>
-                    <Stack.Screen 
-                        options={{ headerShown: false }}
-                        name = 'Root' 
-                        component = {BottomTabNavigation}
-                    />
-                    <Stack.Screen 
-                        name = 'Change password' 
-                        component = {ChangePassword}
-                    />
-                    <Stack.Screen 
-                        name = 'Be sitter' 
-                        component = {BeSitter}
-                    />
-                    <Stack.Screen 
-                        name = 'Services' 
-                        component = {SitterServices}
-                    />
-                    <Stack.Screen 
-                        name = 'Pets' 
-                        component = {SitterPets}
-                    />
-                </>
+                <Stack.Screen 
+                    options={{ headerShown: false }}
+                    name = 'Root' 
+                    component = {BottomTabNavigation}
+                />   
             ) 
             :
             (

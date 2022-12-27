@@ -55,7 +55,12 @@ function checkForErrors(returnedObject, setServerError, setFormError)
     {
         if (!returnedObject.data.message == 'You have to verify your telephone number')
         {
-            setServerError(returnedObject.data.message)
+            setServerError(
+            {
+                message: returnedObject.data.message,
+                status: returnedObject.data.status
+            })
+
         }
         return false;
     }
