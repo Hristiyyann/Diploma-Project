@@ -15,11 +15,12 @@ import ServiceOption from './ServiceOption.Component';
 import PetOption from './PetOption.Component';
 import ServerErrorModal from './ServerErrorModal.Component';
 import FormError from './FormError.Component';
+import DatePicker from './DatePicker.Component';
 
 export
 {
         Header, Icon, Animation, PasswordInputField, SignUpForm, SignInForm, 
         ChangePasswordForm, PasswordRecoveryForm, VerificationForm, BeSitterForm, 
         ValidationError, LoadingModal, ProfileOption, ServiceOption, PetOption,
-        ServerErrorModal, FormError
+        ServerErrorModal, FormError, DatePicker,
 }

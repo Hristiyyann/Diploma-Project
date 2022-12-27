@@ -10,6 +10,7 @@ const animations =
     loading: require('./loading.json'),
     success: require('./successfully.json'),
     successApplication: require('./successApplication.json'),
+    schedule: require('./schedule.json'),
     dog: require('./dog.json'),
     clock: require('./clock.json'),
     servicesChange: require('./servicesChange.json'),

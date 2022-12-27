@@ -70,7 +70,6 @@ function ScheduleStackScreen()
                 component={Schedule}
             />
             <ScheduleStack.Screen 
-                options = {{presentation: 'modal'}}
                 name = 'New schedule' 
                 component = {NewSchedule}
             />

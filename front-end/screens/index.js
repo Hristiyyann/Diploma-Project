@@ -9,6 +9,7 @@ import Profile from './Profile';
 import Successful from './Successful';
 import BeSitter from './BeSitter';
 import Schedule from './Schedule';
+import NewSchedule from './NewSchedule';
 import SitterServices from './SitterServices';
 import SitterPets from './SitterPets';
 
@@ -16,5 +17,5 @@ export
 { 
         SignUp, SignIn, ForgetPassword, PasswordRecovery, ChangePassword, 
         Verification, Search, Profile, Successful, BeSitter, Schedule,
-        SitterServices, SitterPets
+        NewSchedule, SitterServices, SitterPets
 };

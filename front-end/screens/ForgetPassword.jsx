@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Text } from '@ui-kitten/components';
 import { Header, Icon, Animation } from '../components/index';
@@ -24,18 +24,18 @@ export default function Verification({navigation})
                     method = {'Forget Password?'}
                     methodText = {'Select whict contact detail should we use to reset your password?'}
                 />
-                <View style = {styles.options}>
+                <View style = {GlobalStyles.choices}>
 
                 <TouchableOpacity 
                     onPress = {() => navigation.navigate('Password recovery',
                     {
                         forEmail: false
                     })}
-                    style = {styles.optionContainer}>
+                    style = {GlobalStyles.choiceContainer}>
                     <Text>
                         <Icon iconName = {'call'} size = {45}/>
                     </Text>
-                    <View style = {styles.viaMethod}>
+                    <View>
                         <Text category = 'h6'>
                             via sms
                         </Text>
@@ -49,12 +49,12 @@ export default function Verification({navigation})
                     {
                         forEmail: true,
                     })}
-                    style = {styles.optionContainer}>
+                    style = {GlobalStyles.choiceContainer}>
                     <Text>
                         <Icon iconName = {'mail'} size = {45}/>
                     </Text>
 
-                    <View style = {styles.viaMethod}>
+                    <View>
                         <Text category = 'h6'>
                             via email 
                         </Text>
@@ -66,33 +66,3 @@ export default function Verification({navigation})
         </KeyboardAwareScrollView>
     )    
 }
-
-const styles = StyleSheet.create(
-{
-    options:
-    {
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        marginTop: 10,
-    },
-
-    optionContainer:
-    {
-        flex: 0.5,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'stretch',
-        height: 110,
-        backgroundColor: '#D9D9D9',
-        margin: 10,
-        borderRadius: 15
-    },
-
-   /*  viaMethod:
-    {
-        flex: 0.8,
-        flexDirection:'column',
-    } */
-})

@@ -71,5 +71,26 @@ export default GlobalStyles = StyleSheet.create(
         textAlign: 'center',
         marginTop: 5,
         marginBottom: 5,
-    }
+    },
+
+    choices:
+    {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        marginTop: 10,
+    },
+
+    choiceContainer:
+    {
+        flex: 0.5,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'stretch',
+        height: 110,
+        backgroundColor: '#D9D9D9',
+        margin: 10,
+        borderRadius: 15
+    },
 });
