@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Formik, Field } from 'formik';
 import { baseChangePasswordSchema, fullChangePasswordSchema } from '../../validations/Schemes';
 import { changePassword, forgetPassword } from '../../requests/Auth';
@@ -11,11 +12,12 @@ import FormError from '../FormError.Component';
 import { checkForErrors } from '../../Utils';
 import AnimationsPaths from '../../assets/animations/AnimationsPaths';
 
-export default function ChangePassworForm({isForgotten, channel, navigation})
+export default function ChangePassworForm({isForgotten, channel})
 {
     const [formError, setFormError] = useState(null);
     const { setIsLoading } = useLoading();
     const { setServerError } = useShowError();
+    const navigation = useNavigation();
     let initialValues = {password: '', confirmPassword: ''};
     if(!isForgotten) { initialValues = {...initialValues, currentPassword: ''}};
 

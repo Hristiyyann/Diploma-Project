@@ -59,13 +59,13 @@ export default function Navigator()
                 <>
                     <Stack.Screen 
                         options = {{headerShown: false}}
-                        name = 'Sign Up' 
-                        component = {SignUp}
+                        name = 'Sign In' 
+                        component = {SignIn}
                     />
                     <Stack.Screen 
                         options = {{headerShown: false}}
-                        name = 'Sign In' 
-                        component = {SignIn}
+                        name = 'Sign Up' 
+                        component = {SignUp}
                     />
                     <Stack.Screen 
                         name = 'Forget password' 

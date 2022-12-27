@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Header({method, methodText, endText, navigateTo})
+export default function Header({method, methodText, endText})
 {
+    const navigation = useNavigation();
+
     return(
         <View style = {styles.method}>
             <Text
@@ -22,7 +25,7 @@ export default function Header({method, methodText, endText, navigateTo})
                 {
                     endText &&  
                     <TouchableOpacity
-                        onPress = {navigateTo}
+                        onPress = {() => navigation.navigate(endText)}
                     >
                         <Text 
                             status = 'primary'> {endText}

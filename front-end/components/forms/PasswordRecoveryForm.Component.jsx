@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text, Input } from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
 import PhoneInput from 'react-native-phone-number-input';
 import { Formik } from 'formik';
 import { emailValidation, telephoneValidation } from '../../validations/GlobalValidations';
@@ -13,12 +14,13 @@ import FormError from '../FormError.Component';
 import { checkForErrors } from '../../Utils';
 import GlobalStyles from '../../GlobalStyles';
 
-export default function PasswordRecoveryForm({forEmail, navigation})
+export default function PasswordRecoveryForm({forEmail})
 {
     const [formError, setFormError] = useState(null);
     const phoneInput = useRef();
     const { setIsLoading } = useLoading();
     const { setServerError } = useShowError();
+    const navigation = useNavigation();
     let initialValues = {};
     {forEmail == true ? initialValues = {...initialValues, emailAddress: ''} : initialValues = {...initialValues, telephoneNumber: ''}}
     

@@ -5,7 +5,7 @@ import { Header, Animation, VerificationForm } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-export default function Verification({route, navigation})
+export default function Verification({route})
 {
     const { channel, isForPasswordRecovery } = route.params;
 
@@ -31,7 +31,6 @@ export default function Verification({route, navigation})
                     <VerificationForm
                         channel = {channel}
                         isForPasswordRecovery = {isForPasswordRecovery}
-                        navigation = {navigation}
                     />
                 </View>
             </KeyboardAwareScrollView>

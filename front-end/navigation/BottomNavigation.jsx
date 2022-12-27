@@ -14,6 +14,7 @@ export default function BottomTabNavigation()
     return(
         <BottomTab.Navigator
             initialRouteName={Search}
+            backBehavior = {'history'}
             screenOptions={({ route }) => 
             ({
                 headerStyle: 

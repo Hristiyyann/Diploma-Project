@@ -25,7 +25,7 @@ async function signUp(req, res)
         await verification.sendOTP();
         throw new ValidationError(messages.verifyTelephoneNumber, 403)
     }
-    else if(user) throw new ValidationError(messages.needLogIn, 403); 
+    else if(user) throw new ValidationError(messages.needLogIn, 400); 
 
     const passwordSalt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, passwordSalt);
@@ -123,13 +123,7 @@ async function refreshToken(req, res)
 
     if(!refreshToken) throw new ResourceError(messages.noToken, 400);
 
-    const isTokenFound = await UserToken.findOne(
-    {
-        where: 
-        {
-            token: refreshToken
-        }
-    });
+    const isTokenFound = await UserToken.findOne({where: {token: refreshToken}});
 
     const user = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     

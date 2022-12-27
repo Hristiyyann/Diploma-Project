@@ -43,42 +43,22 @@ function checkUserRolesFor(userRoles, rolesToCheck)
 
 function checkForErrors(returnedObject, setServerError, setFormError)
 {
-    let success;
-    console.log(returnedObject);
+    if (returnedObject.data.success == true) return true;
 
-
-    if(returnedObject.data.success == true)
+    if (returnedObject.data.status === 400)
     {
-        success = true;
+        setFormError(returnedObject.data.message);
+        return false;
     }
-    else if(returnedObject.data.message == 'You have to verify your telephone number')
+    
+    if (returnedObject.data.status >= 403)
     {
-        success = false;
-    }
-    else if
-    (
-        returnedObject.data.message == 'Access denied' ||
-        returnedObject.data.status >= 404 ||
-        returnedObject.data.status >= 500
-    )
-    {
-        success = false;
-        setServerError(returnedObject.data.message)
-    }
-    else
-    {
-        success = false;
-        if(setFormError != null)
+        if (!returnedObject.data.message == 'You have to verify your telephone number')
         {
-            console.log('!!!!!');
-            setFormError(returnedObject.data.message);
+            setServerError(returnedObject.data.message)
         }
-        else
-        {
-            console.log(' ---- ');
-        }
+        return false;
     }
-    return success;
 }
 
 export 

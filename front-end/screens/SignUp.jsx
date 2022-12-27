@@ -7,7 +7,7 @@ import { Header, Animation, SignUpForm } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-export default function SignUp({navigation})
+export default function SignUp()
 {
     return( 
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
@@ -23,13 +23,10 @@ export default function SignUp({navigation})
                     <Header
                         method = {'Sign Up'}
                         methodText = {'Already have an account?'}
-                        endText = {'Sign in'}
-                        navigateTo = {() => navigation.navigate('Sign In')}
+                        endText = {'Sign In'}
                     />
 
-                    <SignUpForm
-                        navigation = {navigation}
-                    />
+                    <SignUpForm/>
 
                     <Text>Terms and conditions</Text>
                     <StatusBar style="dark"/>

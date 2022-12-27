@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Header, Animation, PasswordRecoveryForm } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-export default function ViaEmail({route, navigation})
+export default function ViaEmail({route})
 {
     const { forEmail } = route.params;
 
@@ -29,8 +29,7 @@ export default function ViaEmail({route, navigation})
                     />
 
                     <PasswordRecoveryForm
-                        forEmail = {forEmail}
-                        navigation = {navigation}
+                        forEmail = {forEmail}    
                     />
                 </View>
             </KeyboardAwareScrollView>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
 import { Input } from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
 import { BeSitterSchema } from '../../validations/Schemes';
 import { postCandidates } from '../../requests/Sitters';
 import apiWrapper from '../../requests/ApiWrapper';
@@ -13,11 +14,12 @@ import { checkForErrors } from '../../Utils';
 import AnimationsPaths from '../../assets/animations/AnimationsPaths';
 import GlobalStyles from '../../GlobalStyles';
 
-export default function BeSitterForm({navigation})
+export default function BeSitterForm()
 {
     const [formError, setFormError] = useState(null);
     const { setIsLoading } = useLoading();
     const { setServerError } = useShowError();
+    const navigation = useNavigation();
 
     return(
         <Formik

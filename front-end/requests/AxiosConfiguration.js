@@ -9,6 +9,7 @@ const authAxios = axios.create(
 
 const mainAxios = axios.create(
 {
+    //baseURL: 'http://172.20.10.2:8000/',
     baseURL: 'http://192.168.1.5:8000/',
 });
 
@@ -28,7 +29,7 @@ function returnError()
         function (error) 
         {
             const errorObject = {};
-            errorObject.status = error.response.status;
+            errorObject.status = +error.response.status;
             errorObject.message = error.response.data.message;
             errorObject.success = error.response.data.success;
             return Promise.reject(errorObject);

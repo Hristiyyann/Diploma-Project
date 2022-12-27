@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Text, Input } from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
 import { Formik, Field } from 'formik';
 import { useLoading, usePermissions, useShowError } from '../../contexts/index';
 import { SignInSchema } from '../../validations/Schemes';
@@ -13,12 +14,13 @@ import FormError from '../FormError.Component';
 import { checkForErrors } from '../../Utils';
 import GlobalStyles from '../../GlobalStyles';
 
-export default function SignInForm({navigation})
+export default function SignInForm()
 {
     const [formError, setFormError] = useState(null);
     const { setIsLoading } = useLoading();
     const { setIsLoggedIn, setRoles } = usePermissions();
     const { setServerError } = useShowError();
+    const navigation = useNavigation();
 
     return(
         <>
@@ -32,9 +34,14 @@ export default function SignInForm({navigation})
             onSubmit = {async (values) => 
             {
                 const returnedObject = await apiWrapper(setIsLoading, () => signIn(values, setRoles, setIsLoggedIn));   
-                if(!checkForErrors(returnedObject, setServerError, setFormError))
+                if(!checkForErrors(returnedObject, setServerError, setFormError) && returnedObject.data.status === 403)
                 {
-                    navigation.navigate('Verification');
+                    const channel = {...channel, emailAddress: values.emailAddress}
+                    navigation.navigate('Verification',
+                    {
+                        channel,
+                        isForPasswordRecovery: false
+                    });
                 }
             }}
         >

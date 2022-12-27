@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text, Input } from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
 import { Formik, Field } from 'formik';
 import PhoneInput from 'react-native-phone-number-input';
 import { useLoading, useShowError } from '../../contexts/index';
@@ -15,12 +16,13 @@ import FormError from '../FormError.Component';
 import { checkForErrors } from '../../Utils';
 import GlobalStyles from '../../GlobalStyles';
 
-export default function SignUpForm({navigation})
+export default function SignUpForm()
 {
     const [formError, setFormError] = useState(null);
     const phoneInput = useRef();
     const { setIsLoading } = useLoading();
     const { setServerError } = useShowError();
+    const navigation = useNavigation();
 
     return(
         <>
@@ -41,7 +43,7 @@ export default function SignUpForm({navigation})
                 values = {...values, telephoneNumber: currentTelephone};
 
                 const returnedObject = await apiWrapper(setIsLoading, () => signUp(values));   
-                if(checkForErrors(returnedObject, setServerError, setFormError))
+                if(checkForErrors(returnedObject, setServerError, setFormError) || returnedObject.data.status === 403)
                 { 
                     const channel = {...channel, telephoneNumber: values.telephoneNumber};
                     navigation.replace('Verification',

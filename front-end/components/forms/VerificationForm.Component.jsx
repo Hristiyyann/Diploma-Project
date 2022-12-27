@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
+import { useNavigation } from '@react-navigation/native';   
 import { Formik } from 'formik';
 import { useLoading, usePermissions, useShowError } from '../../contexts/index';
 import apiWrapper from '../../requests/ApiWrapper';
@@ -9,12 +10,13 @@ import { verification, resendVerificationCode, checkCode } from '../../requests/
 import FormError from '../FormError.Component';
 import { checkForErrors } from '../../Utils';
 
-export default function VerificationForm({channel, isForPasswordRecovery, navigation})
+export default function VerificationForm({channel, isForPasswordRecovery})
 {
     const [formError, setFormError] = useState(null);
     const { setIsLoading } = useLoading();
     const { setIsLoggedIn, setRoles } = usePermissions();
     const { setServerError } = useShowError();
+    const navigation = useNavigation();
 
     async function resendCode()
     {

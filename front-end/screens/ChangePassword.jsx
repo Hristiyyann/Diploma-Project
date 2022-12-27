@@ -5,7 +5,7 @@ import { Header, Animation, ChangePasswordForm } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-export default function ChangePassword({route, navigation})
+export default function ChangePassword({route})
 {
     const { isForgotten, channel } = route.params;
 
@@ -29,7 +29,6 @@ export default function ChangePassword({route, navigation})
                     <ChangePasswordForm
                         isForgotten = {isForgotten}
                         channel = {channel}
-                        navigation = {navigation}
                     />
                 </View>
             </KeyboardAwareScrollView>

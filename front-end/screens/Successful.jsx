@@ -1,16 +1,16 @@
 import React from "react";
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@ui-kitten/components';
+import { useNavigation } from "@react-navigation/native";
 import { Animation } from '../components/index';
 import { usePermissions } from '../contexts/index';
-import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-export default function Successful({route, navigation})
+export default function Successful({route})
 {
     const { setIsLoggedIn, isLoggedIn } = usePermissions();
     const { path, firstText, secondText, needLogIn, buttonText} = route.params;
-    console.log(secondText);
+    const navigation = useNavigation()
 
     return(
         <View style = {GlobalStyles.screenContainer}>
