@@ -5,7 +5,7 @@ import { usePermissions } from '../contexts/index';
 import 
 { 
     Profile, Search, Schedule, ChangePassword, BeSitter, SitterServices,
-    SitterPets, NewSchedule
+    SitterPets, AddNewSchedule
 } from '../screens/index';
 import { Icon } from '../components/index';
 import { checkUserRolesFor } from '../Utils';
@@ -71,7 +71,7 @@ function ScheduleStackScreen()
             />
             <ScheduleStack.Screen 
                 name = 'New schedule' 
-                component = {NewSchedule}
+                component = {AddNewSchedule}
             />
         </ScheduleStack.Navigator>
     )
