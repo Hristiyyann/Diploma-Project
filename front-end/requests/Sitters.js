@@ -2,7 +2,7 @@ import { mainAxios } from './AxiosConfiguration';
 
 async function checkCandidate()
 {
-    const response = await authAxios.get('/sitters/check-candidate');
+    const response = await mainAxios.get('/sitters/check-candidate');
     return response;
 }
 
@@ -36,8 +36,14 @@ async function putSelfPets(data)
     return response;
 }
 
+async function getServiceTimeRanges()
+{
+    const response = await mainAxios.get('/sitters/services/time-ranges');
+    return response;
+}
+
 export
 {
     checkCandidate, postCandidates, getSelfServices, putServices, getSelfPets,
-    putSelfPets,
+    putSelfPets, getServiceTimeRanges, 
 }

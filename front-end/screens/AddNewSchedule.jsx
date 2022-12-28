@@ -1,22 +1,57 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from "react-native";
 import { Text, Select, SelectItem, IndexPath } from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { Header, Animation, DatePicker } from '../components/index';
+import { Header, Animation, DatePicker, TimeRange } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-const services = ['Dog Walking', 'Drop-in visit'];
+let services = [];
 const scheduleTypes = ['Single date', 'Multiple dates'];
 
-export default function AddNewSchedule()
+export default function AddNewSchedule({route})
 {
     const [selectedService, setSelectedService] = useState(new IndexPath(0));
     const [selectedSchedule, setSelectedSchedule] = useState(new IndexPath(0));
     const [date, setDate] = useState(new Date());
+    const { data } = route.params;
 
     const displayedService = services[selectedService.row];
     const displayedSchedule = scheduleTypes[selectedSchedule.row];
+
+    useEffect(() => 
+    {
+        for(const service of data)
+        {
+            services.push(service.serviceName);
+        }
+    }, [])
+
+    function renderTimeRanges(serviceName)
+    {
+        console.log(serviceName);
+        return(
+            data.filter((service) =>
+            {
+               return service.serviceName == serviceName
+            }).map((service) =>
+            {
+                return(
+                    <>
+                    {
+                        service.time_ranges.map((timeRange) =>
+                        {
+                            return <TimeRange
+                                startHour = {timeRange.startHour}
+                                endHour = {timeRange.endHour}
+                            />
+                        })
+                    }
+                    </>
+                )
+            })
+        )
+    }
 
     return(
         <KeyboardAwareScrollView 
@@ -60,7 +95,6 @@ export default function AddNewSchedule()
                     </Select>
                 </View>
 
-
                 {
                     selectedSchedule.row == 0 
                     ? 
@@ -82,7 +116,10 @@ export default function AddNewSchedule()
                         label = {'Last day of service'}
                     />
                     </>
-                } 
+                }
+                <View style = {styles.timeRangesContainer}>
+                    { renderTimeRanges(displayedService) }
+                </View>
             </View>
         </KeyboardAwareScrollView>
     )
@@ -100,5 +137,13 @@ const styles = StyleSheet.create(
     {
         alignSelf: 'stretch',
         marginBottom: 10
-    }
+    },
+
+    timeRangesContainer:
+    {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+    },
 });

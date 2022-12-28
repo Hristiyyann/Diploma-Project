@@ -47,6 +47,7 @@ function checkForErrors(returnedObject, setServerError, setFormError)
 
     if (returnedObject.data.status === 400)
     {
+        if(setFormError == null) return false;
         setFormError(returnedObject.data.message);
         return false;
     }
