@@ -5,7 +5,7 @@ module.exports =
 {
   async up (queryInterface, Sequelize) 
   {
-    const serviceId = 'eea8f640-39a5-40da-9fbc-33f3f5a0eab9';
+    const serviceId = '1beccf9e-4a59-422b-b5c3-394544b2ea58';
     const startHours = ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
     const endHours = ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
     let timeRanges = [];

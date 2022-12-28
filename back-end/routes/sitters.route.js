@@ -12,11 +12,14 @@ router.route('/check-candidate')
     .get(verifyToken, sittersController.checkCandidate);
 
 router.route('/self/services')
-    .get([verifyToken, verifyRole(['Sitter'])], sittersController.getSelfServices)
-    .put([verifyToken, verifyRole(['Sitter'])], sittersController.postSelfServices);
+    .get([verifyToken, verifyRole(['Sitter'])], sittersController.getSitterServices)
+    .put([verifyToken, verifyRole(['Sitter'])], sittersController.putSitterServices);
 
 router.route('/self/pets')
-    .get([verifyToken, verifyRole(['Sitter'])], sittersController.getSelfPets)
-    .put([verifyToken, verifyRole(['Sitter'])], sittersController.postSelfPets);
+    .get([verifyToken, verifyRole(['Sitter'])], sittersController.getSitterPets)
+    .put([verifyToken, verifyRole(['Sitter'])], sittersController.putSitterPets);
+
+router.route('/services/time-ranges')
+    .get(sittersController.getServiceTimeRanges);
 
 module.exports = router;

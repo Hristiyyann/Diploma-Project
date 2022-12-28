@@ -15,6 +15,7 @@ const TimeRange = require('../models/time-ranges.model');
 Booking.hasMany(BookingItem, {foreignKey: 'bookingId'});
 Service.hasMany(SitterService, {foreignKey: 'serviceId'});
 Service.hasMany(BookingItem, {foreignKey: 'serviceId'});
+Service.hasMany(TimeRange, {foreignKey: 'associatedService'});
 Service.hasMany(Schedule, {foreignKey: 'serviceId'});
 Sitter.hasMany(Review, {foreignKey: 'sitterId'});
 Sitter.hasMany(SitterService, {foreignKey: 'sitterId'});
@@ -45,9 +46,11 @@ Review.belongsTo(Sitter, {foreignKey: 'sitterId'});
 Review.belongsTo(User, {foreignKey: 'bookerId'});
 UserRole.belongsTo(User, {foreignKey: 'userId'});
 UserToken.belongsTo(User, {foreignKey: 'userId'});
+TimeRange.belongsTo(Service, {foreignKey: 'associatedService'});
 
 module.exports = 
 {
-    User, Sitter, Service, SitterService, UserToken,
-    Booking, BookingItem, Schedule, Pet, SitterCriteria, Review, UserRole
+    User, Sitter, Service, SitterService, UserToken, Booking, 
+    BookingItem, Schedule, Pet, SitterCriteria, Review, UserRole,
+    TimeRange
 };

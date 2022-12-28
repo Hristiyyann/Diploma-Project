@@ -1,5 +1,5 @@
 const { differenceInDays } = require('../utils/helpers');
-const { Sitter, Service, SitterService, Pet, SitterCriteria } = require('../utils/models');
+const { Sitter, Service, SitterService, Pet, SitterCriteria, Schedule, TimeRange } = require('../utils/models');
 const { ValidationError, ResourceError } = require('../utils/errors');
 const messages = require('../utils/thrown-error-messages');
 
@@ -77,51 +77,36 @@ async function getCandidates(req, res)
     });
 }
 
-async function getSelfServices(req, res)
+async function getSitterServices(req, res)
 {
     const sitterId = req.userData.sitterId;
 
     const services = await Service.findAll(
     { 
-        attributes:
-        {
-            exclude:['createdAt', 'updatedAt']
-        },
-
+        attributes: { exclude:['createdAt', 'updatedAt'] },
         order: [['serviceType', 'ASC']],
-        
         include: 
         {
             model: SitterService, 
             where: { sitterId },
             required: false,
-            attributes:
-            {
-                exclude:['sitterId', 'createdAt', 'updatedAt']
-            },
+            attributes: { exclude:['sitterId', 'createdAt', 'updatedAt'] },
         },
     }); 
 
-    res.status(200).send({ services, success: true }); 
+    res.status(200).send({ success: true, services }); 
 }
 
-async function postSelfServices(req, res)
+async function putSitterServices(req, res)
 {
     const sitterId = req.userData.sitterId;
     const { data } = req.body;
 
     for(const serviceId in data) 
     {
-        const service = await SitterService.findOne(
-        {
-            where: 
-            {
-                serviceId,
-                sitterId
-            }
-        });
+        const service = await SitterService.findOne({ where: { serviceId, sitterId } });
 
-        if(service && data[serviceId].isEnabled == false)
+        if(data[serviceId].isEnabled == false) 
         {
             await SitterService.destroy({where: { id: service.id }});
         }
@@ -129,8 +114,7 @@ async function postSelfServices(req, res)
         {
             await SitterService.create(
             {
-                sitterId,
-                serviceId: serviceId,
+                sitterId, serviceId,
                 price: data[serviceId].price
             })
         }
@@ -144,66 +128,63 @@ async function postSelfServices(req, res)
     res.status(200).send({ success: true });
 }
 
-async function getSelfPets(req, res)
+async function getSitterPets(req, res)
 {
-    const sitterId =req.userData.sitterId;
+    const sitterId = req.userData.sitterId;
 
     const pets = await Pet.findAll(
     { 
-        attributes:
-        {
-            exclude:['createdAt', 'updatedAt']
-        },
-
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
         order: [['petName', 'ASC']],
-        
         include: 
         {
             model: SitterCriteria, 
             where: { sitterId },
             required: false,
-            attributes:
-            {
-                exclude:['sitterId', 'createdAt', 'updatedAt']
-            },
+            attributes: { exclude: ['sitterId', 'createdAt', 'updatedAt'] },
         },
     }); 
 
-    res.status(200).send({ pets, success: true }); 
+    res.status(200).send({ success: true, pets }); 
 }
 
-async function postSelfPets(req, res)
+async function putSitterPets(req, res)
 {
     const sitterId = req.userData.sitterId;
     const { data } = req.body;
     
     for(const petId in data) 
     {
-        const pet = await SitterCriteria.findOne({where: 
+        if(data[petId].isEnabled == false)
         {
-            petId,
-            sitterId
-        }});
+            await SitterCriteria.destroy({ where: { sitterId, petId } });
+            continue;
+        }
 
-        if(pet && data[petId].isEnabled == false)
-        {
-            await SitterCriteria.destroy({where: { id: pet.id }});
-        }
-        else if(!pet && data[petId].isEnabled == true)
-        {
-            await SitterCriteria.create(
-            {
-                sitterId,
-                petId: petId,
-            })
-        }
+        await SitterCriteria.create({ sitterId, petId });
     } 
   
     res.status(200).send({ success: true });
 }
 
+async function getServiceTimeRanges(req, res)
+{
+    const timeRanges = await Service.findAll(
+    {
+        attributes: { exclude: ['serviceType', 'createdAt', 'updatedAt'] },
+        where: { serviceType: 'Main' },
+        include: 
+        { 
+            model: TimeRange,
+            attributes: { exclude: ['associatedService', 'createdAt', 'updatedAt'] }
+        }
+    });
+    
+    res.status(200).send({success: true , timeRanges}); 
+}
+
 module.exports = 
 {
-    postCandidates, getCandidates, checkCandidate, getSelfServices, postSelfServices, 
-    getSelfPets, postSelfPets,
+    postCandidates, getCandidates, checkCandidate, getSitterServices, putSitterServices,
+    getSitterPets, putSitterPets, getServiceTimeRanges,
 }
