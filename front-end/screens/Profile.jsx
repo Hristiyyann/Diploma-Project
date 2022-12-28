@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, ScrollView } from 'react-native';
 import { Text, Divider } from '@ui-kitten/components';
 import { ProfileOption } from '../components/index';
-import { useLoading, usePermissions } from '../contexts';
+import { useLoading, usePermissions, useShowError } from '../contexts';
 import apiWrapper from '../requests/ApiWrapper';
 import { logOut } from '../requests/Auth';
 import { checkCandidate, getSelfServices, getSelfPets } from '../requests/Sitters';
@@ -12,6 +12,7 @@ export default function Profile({navigation})
 {
     const { setIsLoading } = useLoading();
     const { setIsLoggedIn, setRoles, roles } = usePermissions();
+    const { setServerError } = useShowError();
 
     return( 
         <ScrollView>
@@ -60,14 +61,18 @@ export default function Profile({navigation})
                     <ProfileOption
                         iconName = {'body'}
                         text = {'Become a sitter!'}
-                        onPress = {async () => 
+                        onPress = { async () => 
                         {
                             const returnedObject = await apiWrapper(setIsLoading, () => checkCandidate());
-                            navigation.navigate('Be sitter',
+                            console.log(returnedObject);
+                            if(checkForErrors(returnedObject, setServerError, null) || returnedObject.data.status == 400)
                             {
-                                hasError: returnedObject?.success ? false : true,
-                                message: returnedObject?.message
-                            })
+                                navigation.navigate('Be sitter',
+                                {
+                                    hasError: !returnedObject.data.success,
+                                    message: returnedObject.data?.message
+                                });
+                            }
                         }}
                     />
                 }
@@ -77,16 +82,12 @@ export default function Profile({navigation})
                     <ProfileOption
                         iconName = {'options'}
                         text = {'Services settings'}
-                        onPress = {async () => 
+                        onPress = { async () => 
                         {
                             const returnedObject = await apiWrapper(setIsLoading, () => getSelfServices());
-                            checkForErrors(returnedObject);
-                            if(returnedObject.data.success)
+                            if(checkForErrors(returnedObject, setServerError, null))
                             {
-                                navigation.navigate('Services',
-                                {
-                                    data: returnedObject.data.services
-                                })
+                                navigation.navigate('Services', { data: returnedObject.data.services });
                             }
                         }}
                     />
@@ -97,15 +98,12 @@ export default function Profile({navigation})
                     <ProfileOption
                         iconName = {'options'}
                         text = {'Pet settings'}
-                        onPress = {async () => 
+                        onPress = { async () => 
                         {
                             const returnedObject = await apiWrapper(setIsLoading, () => getSelfPets());
-                            if(returnedObject.data.success)
+                            if(checkForErrors(returnedObject, setServerError, null))
                             {
-                                navigation.navigate('Pets',
-                                {
-                                    data: returnedObject.data.pets
-                                });
+                                navigation.navigate('Pets', { data: returnedObject.data.pets });
                             }
                         }}
                     />
@@ -114,7 +112,7 @@ export default function Profile({navigation})
                 <ProfileOption
                     iconName = {'log-out'}
                     text = {'Log out'}
-                    onPress = {async () => await apiWrapper(setIsLoading, () => logOut(setRoles, setIsLoggedIn))}
+                    onPress = { async () => await apiWrapper(setIsLoading, () => logOut(setRoles, setIsLoggedIn))}
                 />
             </View>
         </ScrollView>

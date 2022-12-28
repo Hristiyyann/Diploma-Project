@@ -9,8 +9,7 @@ import GlobalStyles from '../GlobalStyles';
 export default function BeSitter({route})
 {
     const { hasError, message } = route.params;
-    console.log(hasError);
-
+    
     return(
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
             <KeyboardAwareScrollView 
