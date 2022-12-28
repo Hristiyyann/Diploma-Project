@@ -2,6 +2,7 @@ const { differenceInDays } = require('../utils/helpers');
 const { Sitter, Service, SitterService, Pet, SitterCriteria, Schedule, TimeRange } = require('../utils/models');
 const { ValidationError, ResourceError } = require('../utils/errors');
 const messages = require('../utils/thrown-error-messages');
+const sequelize = require('../utils/database-connection');
 
 async function checkCandidate(req, res)
 {
@@ -176,7 +177,15 @@ async function getServiceTimeRanges(req, res)
         include: 
         { 
             model: TimeRange,
-            attributes: { exclude: ['associatedService', 'createdAt', 'updatedAt'] }
+            order: [['startHour', 'ASC']],
+            separate: true,
+            attributes: 
+            [
+                'id', 
+                [sequelize.fn('DATE_FORMAT', sequelize.col('start_hour'), '%H:%i'), 'startHour'],
+                [sequelize.fn('DATE_FORMAT', sequelize.col('end_hour'), '%H:%i'), 'endHour'],
+            ] 
+            
         }
     });
     

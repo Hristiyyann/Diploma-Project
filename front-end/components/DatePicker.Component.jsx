@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
-import { Datepicker, Text } from '@ui-kitten/components';
+import { Datepicker } from '@ui-kitten/components';
 import Icon from './Icon.Component';
 
-export default function DatePicker({style, min, label})
+export default function DatePicker({style, min, label, onSelect})
 {
     const [date, setDate] = useState(min);
-   
+
+    useEffect(() => 
+    {
+        var newDate = new Date(date.getTime() + Math.abs(date.getTimezoneOffset() * 60000));
+        onSelect(newDate);
+    }, [date])
+
     return(
         <View style = {style}>
             <Datepicker
@@ -17,6 +23,6 @@ export default function DatePicker({style, min, label})
                 accessoryRight = {<Icon iconName = {'calendar'} size = {30}/>}
                 label = {label}
             />
-        </View>
+        </View> 
     )
 }

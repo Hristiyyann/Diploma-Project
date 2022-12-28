@@ -1,53 +1,89 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text, Select, SelectItem, IndexPath } from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Header, Animation, DatePicker, TimeRange } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 
-let services = [];
 const scheduleTypes = ['Single date', 'Multiple dates'];
+const date = new Date();
 
 export default function AddNewSchedule({route})
 {
     const [selectedService, setSelectedService] = useState(new IndexPath(0));
     const [selectedSchedule, setSelectedSchedule] = useState(new IndexPath(0));
-    const [date, setDate] = useState(new Date());
+    const [services, setServices] = useState([]);
     const { data } = route.params;
 
-    const displayedService = services[selectedService.row];
-    const displayedSchedule = scheduleTypes[selectedSchedule.row];
+    let displayedService = services[selectedService.row]?.name;
+    let displayedSchedule = scheduleTypes[selectedSchedule.row];
+
+    const [changedData, setChangedData] = useState(
+    {
+        serviceId: '',
+        firstDay: '', 
+        lastDay: '',
+        timeRanges: {}
+    });
 
     useEffect(() => 
     {
+        setServices([]);
         for(const service of data)
         {
-            services.push(service.serviceName);
+            setServices((prevServices) => [...prevServices, { id: service.id, name: service.serviceName}]);
         }
-    }, [])
+        setChangedData((changedData) => ({...changedData, serviceId: services[0]?.id}))
+    }, []);
+
+    function handleServiceChange(index)
+    {
+        setSelectedService(index);
+        setChangedData((changedData) => ({...changedData, serviceId: services[index.row].id}));
+    }
+
+    function handleFirstDayChange(date)
+    {
+        setChangedData((changedData) => ({...changedData, firstDay: date}));
+    }
+
+    function handleLastDayChange(date)
+    {
+        setChangedData((changedData) => ({...changedData, lastDay: date}));
+    }
+
+    function handleDateOfServiceChange(date)
+    {
+        setChangedData((changedData) => ({...changedData, firstDay: date, lastDay: date}));
+    }
 
     function renderTimeRanges(serviceName)
     {
-        console.log(serviceName);
         return(
             data.filter((service) =>
             {
                return service.serviceName == serviceName
-            }).map((service) =>
+            }).map((service, index) =>
             {
                 return(
-                    <>
+                    <View 
+                        key = {index}
+                        style = {styles.timeRangesContainer}
+                    >
                     {
-                        service.time_ranges.map((timeRange) =>
+                        service.time_ranges.map((timeRange, index) =>
                         {
                             return <TimeRange
+                                key = {index}
                                 startHour = {timeRange.startHour}
                                 endHour = {timeRange.endHour}
+                                timeRangeId = {timeRange.id}
+                                setChangedData = {setChangedData}
                             />
                         })
                     }
-                    </>
+                    </View>
                 )
             })
         )
@@ -72,10 +108,10 @@ export default function AddNewSchedule({route})
                 <View style = {styles.dropDown}>
                     <Select
                         placeholder='Select service'
-                        selectedIndex={selectedService}
-                        value={displayedService}
+                        selectedIndex = {selectedService}
+                        value = {displayedService} 
                         label = {'Select for which service you will create a schedule'}
-                        onSelect={index => setSelectedService(index)}
+                        onSelect={(index) => handleServiceChange(index)}
                     >
                         <SelectItem title='Dog Walking'/>
                         <SelectItem title='Drop-in visit'/>
@@ -102,6 +138,7 @@ export default function AddNewSchedule({route})
                         style = {styles.datePicker}
                         min = {new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)}
                         label = {'Date of service'}
+                        onSelect = {handleDateOfServiceChange}
                     />
                     :
                     <>
@@ -109,17 +146,29 @@ export default function AddNewSchedule({route})
                         style = {styles.datePicker}
                         min = {new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)}
                         label = {'First day of service'}
+                        onSelect = {handleFirstDayChange}
                     />
                     <DatePicker
                         style = {styles.datePicker}
                         min = {new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2)}
                         label = {'Last day of service'}
+                        onSelect = {handleLastDayChange}
                     />
                     </>
                 }
-                <View style = {styles.timeRangesContainer}>
-                    { renderTimeRanges(displayedService) }
-                </View>
+                
+                { renderTimeRanges(displayedService) }
+
+                <TouchableOpacity 
+                    style = {GlobalStyles.button}
+                    onPress = {() => 
+                    {
+                        console.log(changedData);
+                    }}
+                >
+                    <Text status = 'primary'>Add schedule</Text>
+                </TouchableOpacity>
+                
             </View>
         </KeyboardAwareScrollView>
     )
