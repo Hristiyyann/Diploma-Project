@@ -20,6 +20,8 @@ router.route('/self/pets')
     .put([verifyToken, verifyRole(['Sitter'])], sittersController.putSitterPets);
 
 router.route('/services/time-ranges')
-    .get(sittersController.getServiceTimeRanges);
-
+    .get([verifyToken], sittersController.getServiceTimeRanges);
+    
+router.route('/self/schedule')
+    .put([verifyToken, verifyRole(['Sitter'])], sittersController.putSitterSchedule)
 module.exports = router;

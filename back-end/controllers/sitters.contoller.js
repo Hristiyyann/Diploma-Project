@@ -192,8 +192,24 @@ async function getServiceTimeRanges(req, res)
     res.status(200).send({success: true , timeRanges}); 
 }
 
+async function putSitterSchedule(req, res)
+{
+    const { firstDay, lastDay, serviceId, timeRanges } = req.body;
+    const sitterId = req.userData.sitterId;
+
+    for (var date = new Date(firstDay); date <= new Date(lastDay); date.setDate(date.getDate() + 1)) 
+    {
+        for(const timeRangeId in timeRanges)
+        {
+            await Schedule.findOrCreate({where: { sitterId, date, serviceId, timeRangeId }});
+        }
+    }
+
+    res.status(201).send({success: true});
+}
+
 module.exports = 
 {
     postCandidates, getCandidates, checkCandidate, getSitterServices, putSitterServices,
-    getSitterPets, putSitterPets, getServiceTimeRanges,
+    getSitterPets, putSitterPets, getServiceTimeRanges, putSitterSchedule
 }

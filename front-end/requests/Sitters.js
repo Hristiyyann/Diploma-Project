@@ -39,11 +39,18 @@ async function putSelfPets(data)
 async function getServiceTimeRanges()
 {
     const response = await mainAxios.get('/sitters/services/time-ranges');
+    console.log(response);
+    return response;
+}
+
+async function putSelfSchedule(data)
+{
+    const response = await mainAxios.put('/sitters/self/schedule', data);
     return response;
 }
 
 export
 {
     checkCandidate, postCandidates, getSelfServices, putServices, getSelfPets,
-    putSelfPets, getServiceTimeRanges, 
+    putSelfPets, getServiceTimeRanges, putSelfSchedule
 }

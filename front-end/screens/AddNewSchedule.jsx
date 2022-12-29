@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text, Select, SelectItem, IndexPath } from '@ui-kitten/components';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useLoading, useShowError } from '../contexts/index';
+import { putSelfSchedule } from '../requests/Sitters';
+import apiWrapper from '../requests/ApiWrapper';
 import { Header, Animation, DatePicker, TimeRange } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
+import { checkForErrors } from '../Utils';
 
 const scheduleTypes = ['Single date', 'Multiple dates'];
 const date = new Date();
 
-export default function AddNewSchedule({route})
+export default function AddNewSchedule({navigation, route})
 {
     const [selectedService, setSelectedService] = useState(new IndexPath(0));
     const [selectedSchedule, setSelectedSchedule] = useState(new IndexPath(0));
@@ -20,6 +24,8 @@ export default function AddNewSchedule({route})
         lastDay: '',
         timeRanges: {}
     });
+    const { setIsLoading } = useLoading();
+    const { setServerError } = useShowError();
     const { data } = route.params;
 
     const displayedService = services[selectedService.row]?.name;
@@ -80,11 +86,15 @@ export default function AddNewSchedule({route})
         )
     }
 
-    function sendData()
+    async function sendData()
     {
-        const dataToSend = {...changedData, serviceId: services[selectedService.row].id}
-        console.log(dataToSend);
-        console.log(Object.keys(changedData.timeRanges).length);
+        const values = {...changedData, serviceId: services[selectedService.row].id}
+        const returnedObject = await apiWrapper(setIsLoading, () => putSelfSchedule(values));
+        console.log(returnedObject);
+        /* if(checkForErrors(returnedObject, setServerError, null))
+        {
+            navigation.goBack();
+        } */
     }
 
     return(
