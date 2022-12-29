@@ -23,5 +23,6 @@ router.route('/services/time-ranges')
     .get([verifyToken], sittersController.getServiceTimeRanges);
     
 router.route('/self/schedule')
-    .put([verifyToken, verifyRole(['Sitter'])], sittersController.putSitterSchedule)
+    .get(sittersController.getSitterSchedule)
+    .put([verifyToken, verifyRole(['Sitter'])], sittersController.putSitterSchedule);
 module.exports = router;

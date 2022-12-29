@@ -177,8 +177,6 @@ async function getServiceTimeRanges(req, res)
         include: 
         { 
             model: TimeRange,
-            order: [['startHour', 'ASC']],
-            separate: true,
             attributes: 
             [
                 'id', 
@@ -186,7 +184,8 @@ async function getServiceTimeRanges(req, res)
                 [sequelize.fn('DATE_FORMAT', sequelize.col('end_hour'), '%H:%i'), 'endHour'],
             ] 
             
-        }
+        },
+        order: [[sequelize.col('time_ranges.start_hour'), 'ASC']]
     });
     
     res.status(200).send({success: true , timeRanges}); 
@@ -208,8 +207,75 @@ async function putSitterSchedule(req, res)
     res.status(201).send({success: true});
 }
 
+async function getSitterSchedule(req, res)
+{
+    const page = +req.query.page || 1;
+    const daysPerPage = 5;
+    let dates = [];
+    let updatedSchedules = {};
+    
+    const countDifferentDates = await Schedule.count(
+    {
+        distinct: true,
+        col: 'date',
+    });
+      
+    const differentDates = await Schedule.findAll(
+    {
+        attributes: [[sequelize.fn('DISTINCT', sequelize.col('date')) ,'date']], 
+        order: [[sequelize.col('schedules.date'), 'ASC']],
+        offset: (page - 1) * daysPerPage,
+        limit: daysPerPage
+    });
+
+    differentDates.forEach(date => 
+    {
+        dates.push(date.date);
+        updatedSchedules = {...updatedSchedules, [date.date]: []};
+    });
+
+    const schedules = await Service.findAll(
+    {
+        attributes: { exclude: ['serviceType', 'createdAt', 'updatedAt']},
+        where: { serviceType: 'Main' },
+        include:
+        [
+            {
+                model: Schedule,
+                where: { date: dates },
+                include: 
+                { 
+                    model: TimeRange,
+                    attributes: ['id', 'startHour', 'endHour'],             
+                },
+                attributes: ['id', 'date']
+            },
+            
+        ],
+        order: 
+        [
+            [sequelize.col('schedules.date'), 'ASC'],
+            [sequelize.col('schedules->time_range.start_hour'), 'ASC'],
+        ],   
+    });
+
+    for(const date of dates) 
+    {
+        schedules[0].schedules.forEach((schedule, index) => 
+        {
+            if(date == schedule.date) 
+            { 
+                updatedSchedules[date].push(JSON.stringify(schedule.time_range));
+            }
+        })
+        
+    }
+
+    res.status(200).send({updatedSchedules});
+}
+
 module.exports = 
 {
     postCandidates, getCandidates, checkCandidate, getSitterServices, putSitterServices,
-    getSitterPets, putSitterPets, getServiceTimeRanges, putSitterSchedule
+    getSitterPets, putSitterPets, getServiceTimeRanges, putSitterSchedule, getSitterSchedule,
 }
