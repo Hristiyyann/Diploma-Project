@@ -14,34 +14,25 @@ export default function AddNewSchedule({route})
     const [selectedService, setSelectedService] = useState(new IndexPath(0));
     const [selectedSchedule, setSelectedSchedule] = useState(new IndexPath(0));
     const [services, setServices] = useState([]);
-    const { data } = route.params;
-
-    let displayedService = services[selectedService.row]?.name;
-    let displayedSchedule = scheduleTypes[selectedSchedule.row];
-
     const [changedData, setChangedData] = useState(
     {
-        serviceId: '',
         firstDay: '', 
         lastDay: '',
         timeRanges: {}
     });
+    const { data } = route.params;
+
+    const displayedService = services[selectedService.row]?.name;
+    const displayedSchedule = scheduleTypes[selectedSchedule.row];
+    const timeRangesLength = Object.keys(changedData.timeRanges).length;
 
     useEffect(() => 
     {
-        setServices([]);
         for(const service of data)
         {
             setServices((prevServices) => [...prevServices, { id: service.id, name: service.serviceName}]);
         }
-        setChangedData((changedData) => ({...changedData, serviceId: services[0]?.id}))
     }, []);
-
-    function handleServiceChange(index)
-    {
-        setSelectedService(index);
-        setChangedData((changedData) => ({...changedData, serviceId: services[index.row].id}));
-    }
 
     function handleFirstDayChange(date)
     {
@@ -89,6 +80,13 @@ export default function AddNewSchedule({route})
         )
     }
 
+    function sendData()
+    {
+        const dataToSend = {...changedData, serviceId: services[selectedService.row].id}
+        console.log(dataToSend);
+        console.log(Object.keys(changedData.timeRanges).length);
+    }
+
     return(
         <KeyboardAwareScrollView 
             extraScrollHeight = {10}
@@ -108,10 +106,11 @@ export default function AddNewSchedule({route})
                 <View style = {styles.dropDown}>
                     <Select
                         placeholder='Select service'
+                        disabled = {timeRangesLength ? true : false}
                         selectedIndex = {selectedService}
                         value = {displayedService} 
                         label = {'Select for which service you will create a schedule'}
-                        onSelect={(index) => handleServiceChange(index)}
+                        onSelect={(index) => setSelectedService(index)}
                     >
                         <SelectItem title='Dog Walking'/>
                         <SelectItem title='Drop-in visit'/>
@@ -160,15 +159,12 @@ export default function AddNewSchedule({route})
                 { renderTimeRanges(displayedService) }
 
                 <TouchableOpacity 
-                    style = {GlobalStyles.button}
-                    onPress = {() => 
-                    {
-                        console.log(changedData);
-                    }}
+                    disabled = {timeRangesLength ? false : true}
+                    style = {[GlobalStyles.button, timeRangesLength == 0 && {opacity: 0.4}]}
+                    onPress = {() => sendData()}
                 >
                     <Text status = 'primary'>Add schedule</Text>
                 </TouchableOpacity>
-                
             </View>
         </KeyboardAwareScrollView>
     )

@@ -14,11 +14,16 @@ export default function TimeRange({startHour, endHour, timeRangeId, setChangedDa
             firstRender.current = false;
             return;
         }
+        if(isPressed)
+        {
+            setChangedData(changedData => ({...changedData, timeRanges: {...changedData.timeRanges, [timeRangeId]: isPressed}}));
+            return;
+        }
         setChangedData(changedData => 
-        ({
-            ...changedData,
-            timeRanges: {...changedData.timeRanges, [timeRangeId]: isPressed}
-        }));
+        {
+            delete changedData.timeRanges[timeRangeId];
+            return {...changedData};
+        })
     }, [isPressed])
 
     return(
