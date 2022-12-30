@@ -1,32 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ScrollView, View, TouchableOpacity } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { useLoading, useShowError } from '../contexts/index';
 import apiWrapper from '../requests/ApiWrapper';
-import { getServiceTimeRanges } from '../requests/Sitters';
+import { getServiceTimeRanges, getServices } from '../requests/Sitters';
 import { checkForErrors } from '../Utils';
 import GlobalStyles from '../GlobalStyles';
 
 export default function Schedule({navigation})
 {
-    const [date, setDate] = React.useState(new Date());
-    const [data, setData] = useState({});
+    const [services, setServices] = useState();
     const { setIsLoading } = useLoading();
     const { setServerError } = useShowError();
 
+    async function fetchServices()
+    {
+        const returnedObject = await apiWrapper(setIsLoading, () => getServices());
+        setServices(returnedObject.data.services);
+    }
+   
     useEffect(() => 
     {
-        async function fetchSchedules()
-        {
-            const returnedObject = await apiWrapper(setIsLoading, () => getSelfSchedule());
-            if(checkForErrors(returnedObject, setServerError, null))
-            {  
-                setData(returnedObject.data.schedules);
-            }
-        }
-    
-        fetchSchedules();
-        console.log(data);
+        fetchServices();
     }, [])
 
     return(
@@ -44,7 +39,11 @@ export default function Schedule({navigation})
                     const returnedObject = await apiWrapper(setIsLoading, () => getServiceTimeRanges());
                     if(checkForErrors(returnedObject, setServerError, null))
                     {
-                        navigation.navigate('New schedule', { data: returnedObject.data.timeRanges });
+                        navigation.navigate('New schedule', 
+                        { 
+                            data: returnedObject.data.timeRanges,
+                            services
+                        });
                     }
                 }}
             >

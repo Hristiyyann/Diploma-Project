@@ -1,59 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { Text, Select, SelectItem, IndexPath } from '@ui-kitten/components';
+import { Text  } from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useLoading, useShowError } from '../contexts/index';
 import { putSelfSchedule } from '../requests/Sitters';
 import apiWrapper from '../requests/ApiWrapper';
-import { Header, Animation, DatePicker, TimeRange } from '../components/index';
+import { Header, Animation, DatePicker, DropdownPicker, TimeRange } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 import GlobalStyles from '../GlobalStyles';
 import { checkForErrors } from '../Utils';
 
-const scheduleTypes = ['Single date', 'Multiple dates'];
 const date = new Date();
 
 export default function AddNewSchedule({navigation, route})
 {
-    const [selectedService, setSelectedService] = useState(new IndexPath(0));
-    const [selectedSchedule, setSelectedSchedule] = useState(new IndexPath(0));
-    const [services, setServices] = useState([]);
+    const { data, services } = route.params;
+    const { setIsLoading } = useLoading();
+    const { setServerError } = useShowError();
     const [changedData, setChangedData] = useState(
     {
+        serviceName: services[0].name,
+        scheduleName: 'Single date',
         firstDay: '', 
         lastDay: '',
         timeRanges: {}
     });
-    const { setIsLoading } = useLoading();
-    const { setServerError } = useShowError();
-    const { data } = route.params;
 
-    const displayedService = services[selectedService.row]?.name;
-    const displayedSchedule = scheduleTypes[selectedSchedule.row];
     const timeRangesLength = Object.keys(changedData.timeRanges).length;
 
-    useEffect(() => 
-    {
-        for(const service of data)
-        {
-            setServices((prevServices) => [...prevServices, { id: service.id, name: service.serviceName}]);
-        }
-    }, []);
-
-    function handleFirstDayChange(date)
-    {
-        setChangedData((changedData) => ({...changedData, firstDay: date}));
-    }
-
-    function handleLastDayChange(date)
-    {
-        setChangedData((changedData) => ({...changedData, lastDay: date}));
-    }
-
-    function handleDateOfServiceChange(date)
-    {
-        setChangedData((changedData) => ({...changedData, firstDay: date, lastDay: date}));
-    }
+    function handleServiceChange(serviceName) { setChangedData((changedData) => ({...changedData, serviceName})); }
+    function handleScheduleChange(scheduleName) { setChangedData((changedData) => ({...changedData, scheduleName})); }
+    function handleFirstDayChange(firstDay) { setChangedData((changedData) => ({...changedData, firstDay})); }
+    function handleLastDayChange(lastDay) { setChangedData((changedData) => ({...changedData, lastDay})); }
+    function handleDateOfServiceChange(date) { setChangedData((changedData) => ({...changedData, firstDay: date, lastDay: date})); }
 
     function renderTimeRanges(serviceName)
     {
@@ -88,10 +67,11 @@ export default function AddNewSchedule({navigation, route})
 
     async function sendData()
     {
-        const values = {...changedData, serviceId: services[selectedService.row].id}
+        console.log(changedData);
+        /* const values = {...changedData, serviceId: services[selectedService.row].id}
         const returnedObject = await apiWrapper(setIsLoading, () => putSelfSchedule(values));
         console.log(returnedObject);
-        /* if(checkForErrors(returnedObject, setServerError, null))
+        if(checkForErrors(returnedObject, setServerError, null))
         {
             navigation.goBack();
         } */
@@ -113,38 +93,25 @@ export default function AddNewSchedule({navigation, route})
                     methodText = {'Pick dates and add your new schedule'}
                 />
                 
-                <View style = {styles.dropDown}>
-                    <Select
-                        placeholder='Select service'
-                        disabled = {timeRangesLength ? true : false}
-                        selectedIndex = {selectedService}
-                        value = {displayedService} 
-                        label = {'Select for which service you will create a schedule'}
-                        onSelect={(index) => setSelectedService(index)}
-                    >
-                        <SelectItem title='Dog Walking'/>
-                        <SelectItem title='Drop-in visit'/>
-                    </Select>
-                </View>
+                <DropdownPicker
+                    placeholder = {'Select service'}
+                    disabled = {timeRangesLength ? true : false}
+                    label = {'Select for which service you will create a schedule'}
+                    items = {services.map(item => item.serviceName)}
+                    handleChangedChoice = {handleServiceChange}
+                />
 
-                <View style = {styles.dropDown}>
-                    <Select
-                        placeholder='Select shedule'
-                        selectedIndex={selectedSchedule}
-                        value={displayedSchedule}
-                        label = {'Select what type of schedule you will create'}
-                        onSelect={index => setSelectedSchedule(index)}
-                    >
-                        <SelectItem title='Single date'/>
-                        <SelectItem title='Multiple dates'/>
-                    </Select>
-                </View>
-
+                <DropdownPicker
+                    placeholder= {'Select shedule'}
+                    label = {'Select what type of schedule you will create'}
+                    items = {['Single date', 'Multiple dates']}
+                    handleChangedChoice = {handleScheduleChange}
+                />            
+                
                 {
-                    selectedSchedule.row == 0 
+                    changedData.scheduleName == 'Single date' 
                     ? 
                     <DatePicker
-                        style = {styles.datePicker}
                         min = {new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)}
                         label = {'Date of service'}
                         onSelect = {handleDateOfServiceChange}
@@ -152,13 +119,11 @@ export default function AddNewSchedule({navigation, route})
                     :
                     <>
                     <DatePicker
-                        style = {styles.datePicker}
                         min = {new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)}
                         label = {'First day of service'}
                         onSelect = {handleFirstDayChange}
                     />
                     <DatePicker
-                        style = {styles.datePicker}
                         min = {new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2)}
                         label = {'Last day of service'}
                         onSelect = {handleLastDayChange}
@@ -166,7 +131,7 @@ export default function AddNewSchedule({navigation, route})
                     </>
                 }
                 
-                { renderTimeRanges(displayedService) }
+                { renderTimeRanges(changedData.serviceName) }
 
                 <TouchableOpacity 
                     disabled = {timeRangesLength ? false : true}
@@ -174,7 +139,7 @@ export default function AddNewSchedule({navigation, route})
                     onPress = {() => sendData()}
                 >
                     <Text status = 'primary'>Add schedule</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> 
             </View>
         </KeyboardAwareScrollView>
     )
@@ -182,23 +147,11 @@ export default function AddNewSchedule({navigation, route})
 
 const styles = StyleSheet.create(
 {
-    datePicker:
-    {
-        alignSelf: 'stretch',
-        marginBottom: 10,
-    },
-
-    dropDown:
-    {
-        alignSelf: 'stretch',
-        marginBottom: 10
-    },
-
     timeRangesContainer:
     {
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
-    },
+    }
 });
