@@ -3,6 +3,7 @@ const { Sitter, Service, SitterService, Pet, SitterCriteria, Schedule, TimeRange
 const { ValidationError, ResourceError } = require('../utils/errors');
 const messages = require('../utils/thrown-error-messages');
 const sequelize = require('../utils/database-connection');
+const { ConnectionTimedOutError } = require('sequelize');
 
 async function checkCandidate(req, res)
 {
@@ -213,12 +214,15 @@ async function getSitterSchedule(req, res)
     const daysPerPage = 5;
     let dates = [];
     let updatedSchedules = {};
-    
+    let servicesInformation = [];
+
     const countDifferentDates = await Schedule.count(
     {
-        distinct: true,
+        distinct: true, 
         col: 'date',
     });
+    
+    if(!countDifferentDates) return res.status(200).send({ success: true, schedules: []});
       
     const differentDates = await Schedule.findAll(
     {
@@ -234,7 +238,7 @@ async function getSitterSchedule(req, res)
         updatedSchedules = {...updatedSchedules, [date.date]: []};
     });
 
-    const schedules = await Service.findAll(
+    const services = await Service.findAll(
     {
         attributes: { exclude: ['serviceType', 'createdAt', 'updatedAt']},
         where: { serviceType: 'Main' },
@@ -243,11 +247,12 @@ async function getSitterSchedule(req, res)
             {
                 model: Schedule,
                 where: { date: dates },
+                required: false,
                 include: 
                 { 
                     model: TimeRange,
-                    attributes: ['id', 'startHour', 'endHour'],             
-                },
+                    attributes: ['id', 'startHour', 'endHour'], 
+                },        
                 attributes: ['id', 'date']
             },
             
@@ -256,26 +261,42 @@ async function getSitterSchedule(req, res)
         [
             [sequelize.col('schedules.date'), 'ASC'],
             [sequelize.col('schedules->time_range.start_hour'), 'ASC'],
-        ],   
+        ],
     });
 
-    for(const date of dates) 
+    for(const service of services)
     {
-        schedules[0].schedules.forEach((schedule, index) => 
-        {
-            if(date == schedule.date) 
-            { 
-                updatedSchedules[date].push(JSON.stringify(schedule.time_range));
-            }
-        })
-        
-    }
+        servicesInformation.push({id: service.id, serviceName: service.serviceName});
 
-    res.status(200).send({updatedSchedules});
+        for(const date of dates) 
+        {
+            updatedSchedules[date] = {...updatedSchedules[date], [service.serviceName]: {timeRanges: []}}
+            for(const schedule of service.schedules)
+            {
+                if(date != schedule.date) continue;
+
+                updatedSchedules[date][service.serviceName].timeRanges.push({...schedule.time_range.get({plain: true})});
+            }
+        }
+    }
+    
+    res.status(200).send({ success: true, schedules: updatedSchedules, services: servicesInformation });
+}
+
+async function getServices(req, res)
+{
+    const services = await Service.findAll(
+    {
+        attributes: ['id', 'serviceName'],
+        where: { serviceType: 'Main' }
+    });
+
+    res.status(200).send({ success: true, services });
 }
 
 module.exports = 
 {
     postCandidates, getCandidates, checkCandidate, getSitterServices, putSitterServices,
     getSitterPets, putSitterPets, getServiceTimeRanges, putSitterSchedule, getSitterSchedule,
+    getServices
 }
