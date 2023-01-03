@@ -49,6 +49,12 @@ async function putSelfSchedule(data)
     return response;
 }
 
+async function getSelfSchedule(page)
+{
+    const response = await mainAxios.get(`/sitters/self/schedule?page=${page}`);
+    return response;
+}
+
 async function getServices()
 {
     const response = await mainAxios.get('/sitters/services');
@@ -58,5 +64,6 @@ async function getServices()
 export
 {
     checkCandidate, postCandidates, getSelfServices, putServices, getSelfPets,
-    putSelfPets, getServiceTimeRanges, putSelfSchedule, getServices
+    putSelfPets, getServiceTimeRanges, putSelfSchedule, getSelfSchedule, 
+    getServices
 }

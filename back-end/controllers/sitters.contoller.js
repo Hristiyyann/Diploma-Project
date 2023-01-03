@@ -213,8 +213,7 @@ async function getSitterSchedule(req, res)
     const page = +req.query.page || 1;
     const daysPerPage = 5;
     let dates = [];
-    let updatedSchedules = {};
-    let servicesInformation = [];
+    let updatedSchedules = [];
 
     const countDifferentDates = await Schedule.count(
     {
@@ -235,7 +234,7 @@ async function getSitterSchedule(req, res)
     differentDates.forEach(date => 
     {
         dates.push(date.date);
-        updatedSchedules = {...updatedSchedules, [date.date]: []};
+        updatedSchedules = [...updatedSchedules, {date: date.date}];
     });
 
     const services = await Service.findAll(
@@ -251,7 +250,12 @@ async function getSitterSchedule(req, res)
                 include: 
                 { 
                     model: TimeRange,
-                    attributes: ['id', 'startHour', 'endHour'], 
+                    attributes: 
+                    [
+                        'id', 
+                        [sequelize.fn('DATE_FORMAT', sequelize.col('start_hour'), '%H:%i'), 'startHour'],
+                        [sequelize.fn('DATE_FORMAT', sequelize.col('end_hour'), '%H:%i'), 'endHour'],
+                    ] 
                 },        
                 attributes: ['id', 'date']
             },
@@ -264,23 +268,38 @@ async function getSitterSchedule(req, res)
         ],
     });
 
+    let dateIndex;
+
     for(const service of services)
     {
-        servicesInformation.push({id: service.id, serviceName: service.serviceName});
-
         for(const date of dates) 
         {
-            updatedSchedules[date] = {...updatedSchedules[date], [service.serviceName]: {timeRanges: []}}
+            dateIndex = dates.indexOf(date);
+            updatedSchedules[dateIndex] = {...updatedSchedules[dateIndex], [service.serviceName]: []};
             for(const schedule of service.schedules)
             {
                 if(date != schedule.date) continue;
 
-                updatedSchedules[date][service.serviceName].timeRanges.push({...schedule.time_range.get({plain: true})});
+                updatedSchedules[dateIndex][service.serviceName].push({...schedule.time_range.get({plain: true})});
             }
         }
     }
+
+    let nextPage; 
+    let hasNextPage = page * daysPerPage < countDifferentDates;
     
-    res.status(200).send({ success: true, schedules: updatedSchedules, services: servicesInformation });
+    if(hasNextPage)
+    {
+        nextPage = page + 1;
+    }
+    
+    res.status(200).send(
+    { 
+        success: true, 
+        schedules: updatedSchedules,
+        nextPage,
+        hasNextPage
+    });
 }
 
 async function getServices(req, res)

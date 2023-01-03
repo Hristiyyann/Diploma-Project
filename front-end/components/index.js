@@ -18,6 +18,7 @@ import FormError from './FormError.Component';
 import DatePicker from './DatePicker.Component';
 import TimeRange from './TimeRange.Component';
 import DropdownPicker from './DropdownPicker.Component';
+import ScheduleCard from './ScheduleCard.Component';
 
 export
 {
@@ -25,4 +26,5 @@ export
         ChangePasswordForm, PasswordRecoveryForm, VerificationForm, BeSitterForm, 
         ValidationError, LoadingModal, ProfileOption, ServiceOption, PetOption,
         ServerErrorModal, FormError, DatePicker, TimeRange, DropdownPicker,
+        ScheduleCard
 }
