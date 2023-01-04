@@ -18,28 +18,42 @@ const months =
 export default function Schedule({navigation})
 {
     const [services, setServices] = useState();
-    const [dateSchedules, setDateSchedules] = useState();
+    const [dateSchedules, setDateSchedules] = useState([]);
+    const [isLoadingMoreData, setIsLoadingMoreData] = useState(false);
+    const [paginationData, setPaginationData] = useState({page: 1, hasNextPage: null});
     const { setIsLoading } = useLoading();
     const { setServerError } = useShowError();
 
     useEffect(() => 
     {
+        async function fetchServices()
+        {
+            const returnedObject = await apiWrapper(setIsLoading, () => getServices());
+            if(!checkForErrors(returnedObject, setServerError, null)) return;
+            setServices(returnedObject.data.services);
+        }
+
         fetchServices();
-        fetchSchedule();
-    }, []);
+    }, [])
 
-    async function fetchServices()
+    useEffect(() => 
     {
-        const returnedObject = await apiWrapper(setIsLoading, () => getServices());
-        if(!checkForErrors(returnedObject, setServerError, null)) return;
-        setServices(returnedObject.data.services);
-    }
+        console.log('vika se');
+        if(paginationData.page > 1)
+        {
+            fetchSchedule(setIsLoadingMoreData, paginationData.page);
+            return
+        }
+        fetchSchedule(setIsLoading, paginationData.page);
+    }, [paginationData.page]);
 
-    async function fetchSchedule(page)
+    async function fetchSchedule(loadingFunction, page)
     {
-        const returnedObject = await apiWrapper(setIsLoading, () => getSelfSchedule(page));
+        const returnedObject = await apiWrapper(loadingFunction, () => getSelfSchedule(page));
         if(!checkForErrors(returnedObject, setServerError, null)) return;
-        setDateSchedules(returnedObject.data.schedules);
+
+        setPaginationData({...paginationData, hasNextPage: returnedObject.data.hasNextPage});
+        setDateSchedules([...dateSchedules, ...returnedObject.data.schedules]);
     }
 
     function renderDates({ item })
@@ -74,15 +88,23 @@ export default function Schedule({navigation})
             </>
         )
     }
-    
+
+    function loadMoreSchedules() 
+    {
+        if(!paginationData.hasNextPage) return;
+        setPaginationData({...paginationData, page: paginationData.page + 1}); 
+    }
+
     return(
-        <View style = {[GlobalStyles.screenContainer, {marginBottom: 8}]}>
+        <View style = {[GlobalStyles.screenContainer, {margin: 0, marginBottom: 10, marginTop: 20}]}>
                
             <FlatList
                 style = {{width: '100%'}}
                 data = {dateSchedules}
                 renderItem = {renderDates}
-                keyExtractor={({index}) => index}
+                keyExtractor={(item, index) => index}
+                onEndReached = {loadMoreSchedules}
+                onEndReachedThreshold = {0.6}
             />
                 
             <TouchableOpacity 
@@ -90,14 +112,13 @@ export default function Schedule({navigation})
                 onPress = {async () => 
                 {
                     const returnedObject = await apiWrapper(setIsLoading, () => getServiceTimeRanges());
-                    if(checkForErrors(returnedObject, setServerError, null))
-                    {
-                        navigation.navigate('New schedule', 
-                        { 
-                            data: returnedObject.data.timeRanges,
-                            services
-                        });
-                    }
+                    if(!checkForErrors(returnedObject, setServerError, null)) return;
+                    
+                    navigation.navigate('New schedule', 
+                    { 
+                        data: returnedObject.data.timeRanges,
+                        services
+                    });
                 }}
             >
                 <Text status = 'primary'>Add new schedule</Text>
