@@ -15,7 +15,7 @@ function usePermissions()
 
 function PermissionsContextProvider({children})
 {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(null);
     const [roles, setRoles] = useState();
     const { setIsLoading } = useLoading();
     const { setServerError } = useShowError();
@@ -28,7 +28,7 @@ function PermissionsContextProvider({children})
             if(refreshToken != false) 
             {
                 const returnedObject = await apiWrapper(setIsLoading, () => refresh())
-                console.log(returnedObject);
+            
                 if(checkForErrors(returnedObject, setServerError, null))
                 { 
                     setRoles(returnedObject.data.roles)
@@ -37,6 +37,7 @@ function PermissionsContextProvider({children})
                 }
                 setIsLoggedIn(false);
             }
+            setIsLoggedIn(false);
         }
         checkTokens();
     }, []);

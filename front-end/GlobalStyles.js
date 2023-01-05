@@ -93,4 +93,17 @@ export default GlobalStyles = StyleSheet.create(
         margin: 10,
         borderRadius: 15
     },
+
+    headerOptions:
+    {
+        headerStyle: 
+        {
+            backgroundColor: '#73423f',
+        },
+        headerTintColor: '#ec6165',
+        headerTitleStyle:
+        {
+            fontWeight: 'bold',
+        },
+    }
 });

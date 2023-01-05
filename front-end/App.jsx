@@ -7,6 +7,9 @@ import { LoadingModal, ServerErrorModal } from './components/index';
 import { default as theme } from './theme.json'; 
 import Navigator from './navigation/StackNavigation';
 import { LoadingContextProvider, PermissionsContextProvider, ShowErrorProvider } from './contexts/index';
+import * as SplashScreen from 'expo-splash-screen';
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() 
 {

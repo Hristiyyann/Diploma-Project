@@ -7,6 +7,7 @@ import
     Verification, Successful
 } from '../screens/index';
 import BottomTabNavigation  from './BottomNavigation';
+import GlobalStyles from '../GlobalStyles';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,20 +15,15 @@ export default function Navigator()
 {
     const { isLoggedIn } = usePermissions();
     
+    if(isLoggedIn == null)
+    {
+        return null;
+    }
+    
     return(
         <Stack.Navigator
-            screenOptions=
-            {{
-                headerStyle: 
-                {
-                    backgroundColor: '#73423f',
-                },
-                headerTintColor: '#ec6165',
-                headerTitleStyle:
-                {
-                    fontWeight: 'bold',
-                },
-            }}>
+            screenOptions={GlobalStyles.headerOptions}
+        >
             {isLoggedIn ?
             (
                 <Stack.Screen 

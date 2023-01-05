@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect }from 'react';
 import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import * as SplashScreen from 'expo-splash-screen';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Header, Animation, SignInForm } from '../components/index';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
@@ -8,6 +9,16 @@ import GlobalStyles from '../GlobalStyles';
 
 export default function SignIn()
 {   
+    useEffect(() => 
+    {
+        async function hideSplashScreen()
+        {
+            await SplashScreen.hideAsync();
+        }
+        
+        hideSplashScreen();
+    }, []);
+
     return(
         <TouchableWithoutFeedback onPress = {() => {Keyboard.dismiss();}}>
             <KeyboardAwareScrollView 

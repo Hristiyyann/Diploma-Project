@@ -9,19 +9,7 @@ import
 } from '../screens/index';
 import { Icon } from '../components/index';
 import { checkUserRolesFor } from '../Utils';
-
-const headerOptions = 
-{
-    headerStyle: 
-    {
-        backgroundColor: '#73423f',
-    },
-    headerTintColor: '#ec6165',
-    headerTitleStyle:
-    {
-        fontWeight: 'bold',
-    },
-}
+import GlobalStyles from '../GlobalStyles';
 
 const ProfileStack = createNativeStackNavigator();
 
@@ -29,7 +17,7 @@ function ProfileStackScreen()
 {
     return(
         <ProfileStack.Navigator
-            screenOptions={headerOptions}
+            screenOptions={GlobalStyles.headerOptions}
         >
             <ProfileStack.Screen
                 options = {{title: 'Profile'}}
@@ -62,7 +50,7 @@ function ScheduleStackScreen()
 {
     return(
         <ScheduleStack.Navigator
-            screenOptions={headerOptions}
+            screenOptions={GlobalStyles.headerOptions}
         >
             <ScheduleStack.Screen
                 options = {{title: 'Schedule'}}
