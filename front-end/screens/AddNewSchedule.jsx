@@ -67,14 +67,11 @@ export default function AddNewSchedule({navigation, route})
 
     async function sendData()
     {
-        console.log(changedData);
-        /* const values = {...changedData, serviceId: services[selectedService.row].id}
-        const returnedObject = await apiWrapper(setIsLoading, () => putSelfSchedule(values));
-        console.log(returnedObject);
-        if(checkForErrors(returnedObject, setServerError, null))
-        {
-            navigation.goBack();
-        } */
+        const { scheduleName, serviceName, ...rest} = changedData;
+        const service = services.filter((service) => service.serviceName == changedData.serviceName);
+        const values = {...rest, serviceId: service[0].id};
+
+        await apiWrapper(setIsLoading, () => putSelfSchedule(values));   
     }
 
     return(

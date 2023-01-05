@@ -210,6 +210,7 @@ async function putSitterSchedule(req, res)
 
 async function getSitterSchedule(req, res)
 {
+    const sitterId = req.userData.sitterId;
     const page = +req.query.page || 1;
     const daysPerPage = 5;
     let dates = [];
@@ -217,6 +218,7 @@ async function getSitterSchedule(req, res)
 
     const countDifferentDates = await Schedule.count(
     {
+        where: { sitterId },
         distinct: true, 
         col: 'date',
     });
@@ -225,6 +227,7 @@ async function getSitterSchedule(req, res)
       
     const differentDates = await Schedule.findAll(
     {
+        where: { sitterId },
         attributes: [[sequelize.fn('DISTINCT', sequelize.col('date')) ,'date']], 
         order: [[sequelize.col('schedules.date'), 'ASC']],
         offset: (page - 1) * daysPerPage,
@@ -245,7 +248,7 @@ async function getSitterSchedule(req, res)
         [
             {
                 model: Schedule,
-                where: { date: dates },
+                where: { date: dates, sitterId },
                 required: false,
                 include: 
                 { 

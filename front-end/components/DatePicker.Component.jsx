@@ -9,8 +9,7 @@ export default function DatePicker({min, label, onSelect})
 
     useEffect(() => 
     {
-        var newDate = new Date(date.getTime() + Math.abs(date.getTimezoneOffset() * 60000));
-        onSelect(newDate);
+        onSelect(new Date(date.getTime() + Math.abs(date.getTimezoneOffset() * 60000)));
     }, [date])
 
     return(
@@ -35,4 +34,4 @@ const styles = StyleSheet.create(
         alignSelf: 'stretch',
         marginBottom: 10,
     },
-})
+});

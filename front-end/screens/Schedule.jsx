@@ -34,11 +34,10 @@ export default function Schedule({navigation})
         }
 
         fetchServices();
-    }, [])
+    }, []);
 
     useEffect(() => 
     {
-        console.log('vika se');
         if(paginationData.page > 1)
         {
             fetchSchedule(setIsLoadingMoreData, paginationData.page);

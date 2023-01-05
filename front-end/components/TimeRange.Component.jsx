@@ -14,16 +14,18 @@ export default function TimeRange({startHour, endHour, timeRangeId, setChangedDa
             firstRender.current = false;
             return;
         }
+
         if(isPressed)
         {
             setChangedData(changedData => ({...changedData, timeRanges: {...changedData.timeRanges, [timeRangeId]: isPressed}}));
             return;
         }
+
         setChangedData(changedData => 
         {
             delete changedData.timeRanges[timeRangeId];
             return {...changedData};
-        })
+        });
     }, [isPressed])
 
     return(
@@ -59,4 +61,4 @@ const styles = StyleSheet.create(
     {
         backgroundColor: '#d9d9d9',
     }
-})
+});
