@@ -35,9 +35,9 @@ export default function VerificationForm({channel, isForPasswordRecovery})
                 
                 if(isForPasswordRecovery == true)
                 {
-                    const returnedObject = await apiWrapper(setIsLoading, () => checkCode(data));   
+                    const response = await apiWrapper(setIsLoading, () => checkCode(data));   
                    
-                    if(checkForErrors(returnedObject, setServerError, setFormError))
+                    if(checkForErrors(response, setServerError, setFormError))
                     {
                         navigation.navigate('Change password',
                         {

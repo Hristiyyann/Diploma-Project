@@ -33,8 +33,8 @@ export default function SignInForm()
             validationSchema = {SignInSchema}
             onSubmit = {async (values) => 
             {
-                const returnedObject = await apiWrapper(setIsLoading, () => signIn(values, setRoles, setIsLoggedIn));   
-                if(!checkForErrors(returnedObject, setServerError, setFormError) && returnedObject.data.status === 403)
+                const response = await apiWrapper(setIsLoading, () => signIn(values, setRoles, setIsLoggedIn));   
+                if(!checkForErrors(response, setServerError, setFormError) && response.status === 403)
                 {
                     const channel = {...channel, emailAddress: values.emailAddress}
                     navigation.navigate('Verification',

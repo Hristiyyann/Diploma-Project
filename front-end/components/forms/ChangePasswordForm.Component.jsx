@@ -27,18 +27,18 @@ export default function ChangePassworForm({isForgotten, channel})
             validationSchema = {!isForgotten ? fullChangePasswordSchema : baseChangePasswordSchema}
             onSubmit = {async (values) =>
             {
-                let returnedObject;
+                let response;
 
                 if(channel != null) 
                 {
-                    returnedObject = await apiWrapper(setIsLoading, () => forgetPassword({...channel, ...values}));
+                    response = await apiWrapper(setIsLoading, () => forgetPassword({...channel, ...values}));
                 }
                 else
                 {
-                    returnedObject = await apiWrapper(setIsLoading, () => changePassword(values));
+                    response = await apiWrapper(setIsLoading, () => changePassword(values));
                 }
                 
-                if(checkForErrors(returnedObject, setServerError, setFormError))
+                if(checkForErrors(response, setServerError, setFormError))
                 { 
                     navigation.reset(
                     {

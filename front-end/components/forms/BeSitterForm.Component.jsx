@@ -31,8 +31,8 @@ export default function BeSitterForm()
             validationSchema = {BeSitterSchema}
             onSubmit = {async (values) =>
             {
-                const returnedObject = await apiWrapper(setIsLoading, () => postCandidates(values));
-                if(checkForErrors(returnedObject, setServerError, setFormError))
+                const response = await apiWrapper(setIsLoading, () => postCandidates(values));
+                if(checkForErrors(response, setServerError, setFormError))
                 { 
                     navigation.navigate('Successful', 
                     {

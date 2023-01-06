@@ -31,11 +31,9 @@ async function verification(code, setRoles, setIsLoggedIn)
     return response;
 }
 
-async function resendVerificationCode()
+function resendVerificationCode()
 {
-    const response = await authAxios.post('auth/resend');
-    return response;
-
+    return authAxios.post('auth/resend');
 }
 
 async function refresh()
@@ -47,28 +45,24 @@ async function refresh()
     return response;
 }
 
-async function changePassword(data)
+function changePassword(data)
 {
-    const response = await mainAxios.put('auth/change-password', data);
-    return response;
+    return mainAxios.put('auth/change-password', data);
 }
 
-async function forgetPassword(data)
+function forgetPassword(data)
 {
-    const response = await authAxios.post('auth/forget-password', data);
-    return response;
+    return authAxios.post('auth/forget-password', data);
 }
 
-async function passwordRecovery(data)
+function passwordRecovery(data)
 {
-    const response = await authAxios.post('auth/password-recovery', data);
-    return response;
+    return authAxios.post('auth/password-recovery', data);
 }
 
-async function checkCode(data)
+function checkCode(data)
 {
-    const response = await authAxios.post('auth/check-code', data);
-    return response;
+    return authAxios.post('auth/check-code', data);
 }
 
 async function logOut(setRoles, setIsLoggedIn)

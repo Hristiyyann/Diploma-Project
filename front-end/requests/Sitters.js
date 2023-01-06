@@ -1,64 +1,53 @@
 import { mainAxios } from './AxiosConfiguration';
 
-async function checkCandidate()
+function checkCandidate()
 {
-    const response = await mainAxios.get('/sitters/check-candidate');
-    return response;
+    return mainAxios.get('/sitters/check-candidate');
 }
 
-async function postCandidates(data)
+function postCandidates(data)
 {
-    const response = await mainAxios.post('/sitters/candidates', data);
-    return response;
+    return mainAxios.post('/sitters/candidates', data);
 }
 
-async function getSelfServices()
+function getSelfServices()
 {
-    const response = await mainAxios.get('/sitters/self/services');
-    return response;
+    return mainAxios.get('/sitters/self/services');
 }
 
-async function putServices(data)
+function putServices(data)
 {
-    const response = await mainAxios.put('/sitters/self/services', { data });
-    return response;
+    return mainAxios.put('/sitters/self/services', { data });
 }
 
-async function getSelfPets()
+function getSelfPets()
 {
-    const response =  await mainAxios.get('/sitters/self/pets');
-    return response;
+    return mainAxios.get('/sitters/self/pets');
 }
 
-async function putSelfPets(data)
+function putSelfPets(data)
 {
-    const response = await mainAxios.put('/sitters/self/pets', { data });
-    return response;
+    return mainAxios.put('/sitters/self/pets', { data });
 }
 
-async function getServiceTimeRanges()
+function getServiceTimeRanges()
 {
-    const response = await mainAxios.get('/sitters/services/time-ranges');
-    console.log(response);
-    return response;
+    return mainAxios.get('/sitters/services/time-ranges');
 }
 
-async function putSelfSchedule(data)
+function putSelfSchedule(data)
 {
-    const response = await mainAxios.put('/sitters/self/schedule', data);
-    return response;
+    return mainAxios.put('/sitters/self/schedule', data);
 }
 
-async function getSelfSchedule(page)
+function getSelfSchedule(page)
 {
-    const response = await mainAxios.get(`/sitters/self/schedule?page=${page}`);
-    return response;
+    return mainAxios.get(`/sitters/self/schedule?page=${page}`);
 }
 
-async function getServices()
+function getServices()
 {
-    const response = await mainAxios.get('/sitters/services');
-    return response;
+    return mainAxios.get('/sitters/services');
 }
 
 export

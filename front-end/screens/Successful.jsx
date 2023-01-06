@@ -10,7 +10,7 @@ export default function Successful({route})
 {
     const { setIsLoggedIn, isLoggedIn } = usePermissions();
     const { path, firstText, secondText, needLogIn, buttonText} = route.params;
-    const navigation = useNavigation()
+    const navigation = useNavigation();
 
     return(
         <View style = {GlobalStyles.screenContainer}>

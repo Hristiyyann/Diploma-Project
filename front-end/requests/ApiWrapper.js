@@ -2,21 +2,21 @@ import { refresh } from './Auth';
 
 async function apiWrapper(setIsLoading, apiFunction)
 {
-    const returnedObject = {};
+    let response = {};
 
     try
     {
         try
         {
             setIsLoading(true);
-            returnedObject.data = await apiFunction();
+            response = await apiFunction();
         }
         catch (error)
         {
             if(error.status == 401)
             {
                 await apiWrapper(setIsLoading, () => refresh());
-                returnedObject.data = await apiFunction();
+                response = await apiFunction();
             }
             else
             {
@@ -26,12 +26,12 @@ async function apiWrapper(setIsLoading, apiFunction)
     }
     catch(error)
     {
-        returnedObject.data = error;
+        response = error;
         setIsLoading(false);
-        return returnedObject;
+        return response;
     }
     setIsLoading(false);
-    return returnedObject;
+    return response;
 }
 
 export default apiWrapper;

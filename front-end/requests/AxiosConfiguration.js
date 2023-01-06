@@ -28,11 +28,11 @@ function returnError()
     return(
         function (error) 
         {
-            const errorObject = {};
-            errorObject.status = +error.response.status;
-            errorObject.message = error.response.data.message;
-            errorObject.success = error.response.data.success;
-            return Promise.reject(errorObject);
+            const response = {};
+            response.status = +error.response.status;
+            response.message = error.response.data.message;
+            response.success = error.response.data.success;
+            return Promise.reject(response);
         }
     )
 } 

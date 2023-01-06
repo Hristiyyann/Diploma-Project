@@ -36,9 +36,9 @@ export default function PasswordRecoveryForm({forEmail})
                     values = {...values, telephoneNumber: currentTelephone};
                 }
 
-                const returnedObject = await apiWrapper(setIsLoading, () => passwordRecovery(values));
+                const response = await apiWrapper(setIsLoading, () => passwordRecovery(values));
                   
-                if(checkForErrors(returnedObject, setServerError, setFormError))
+                if(checkForErrors(response, setServerError, setFormError))
                 {
                     navigation.navigate('Verification',
                     {

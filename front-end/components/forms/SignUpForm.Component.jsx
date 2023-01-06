@@ -42,8 +42,8 @@ export default function SignUpForm()
                 const currentTelephone = '+' + phoneInput.current.getCallingCode() + values.telephoneNumber;
                 values = {...values, telephoneNumber: currentTelephone};
 
-                const returnedObject = await apiWrapper(setIsLoading, () => signUp(values));   
-                if(checkForErrors(returnedObject, setServerError, setFormError) || returnedObject.data.status === 403)
+                const response = await apiWrapper(setIsLoading, () => signUp(values));   
+                if(checkForErrors(response, setServerError, setFormError) || response.status === 403)
                 { 
                     const channel = {...channel, telephoneNumber: values.telephoneNumber};
                     navigation.replace('Verification',

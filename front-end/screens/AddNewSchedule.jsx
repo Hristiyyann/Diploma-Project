@@ -67,9 +67,9 @@ export default function AddNewSchedule({navigation, route})
 
     async function sendData()
     {
-        const { scheduleName, serviceName, ...rest} = changedData;
+        const { scheduleName, serviceName, ...rest } = changedData;
         const service = services.filter((service) => service.serviceName == changedData.serviceName);
-        const values = {...rest, serviceId: service[0].id};
+        const values = { ...rest, serviceId: service[0].id };
 
         await apiWrapper(setIsLoading, () => putSelfSchedule(values));   
     }

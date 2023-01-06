@@ -27,11 +27,11 @@ function PermissionsContextProvider({children})
             const refreshToken = await hasTokens();
             if(refreshToken != false) 
             {
-                const returnedObject = await apiWrapper(setIsLoading, () => refresh())
+                const response = await apiWrapper(setIsLoading, () => refresh())
             
-                if(checkForErrors(returnedObject, setServerError, null))
+                if(checkForErrors(response, setServerError, null))
                 { 
-                    setRoles(returnedObject.data.roles)
+                    setRoles(response.roles)
                     setIsLoggedIn(true); 
                     return;
                 }

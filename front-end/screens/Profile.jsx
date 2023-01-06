@@ -63,16 +63,14 @@ export default function Profile({navigation})
                         text = {'Become a sitter!'}
                         onPress = { async () => 
                         {
-                            const returnedObject = await apiWrapper(setIsLoading, () => checkCandidate());
-                            console.log(returnedObject);
-                            if(checkForErrors(returnedObject, setServerError, null) || returnedObject.data.status == 400)
+                            const response = await apiWrapper(setIsLoading, () => checkCandidate());
+                            if(!checkForErrors(response, setServerError, null) || response.status == 400) return;
+                        
+                            navigation.navigate('Be sitter',
                             {
-                                navigation.navigate('Be sitter',
-                                {
-                                    hasError: !returnedObject.data.success,
-                                    message: returnedObject.data?.message
-                                });
-                            }
+                                hasError: !response.success,
+                                message: response?.message
+                            });
                         }}
                     />
                 }
@@ -84,11 +82,10 @@ export default function Profile({navigation})
                         text = {'Services settings'}
                         onPress = { async () => 
                         {
-                            const returnedObject = await apiWrapper(setIsLoading, () => getSelfServices());
-                            if(checkForErrors(returnedObject, setServerError, null))
-                            {
-                                navigation.navigate('Services', { data: returnedObject.data.services });
-                            }
+                            const response = await apiWrapper(setIsLoading, () => getSelfServices());
+                            if(!checkForErrors(response, setServerError, null)) return;
+                        
+                            navigation.navigate('Services', { data: response.services });
                         }}
                     />
                 }
@@ -100,11 +97,10 @@ export default function Profile({navigation})
                         text = {'Pet settings'}
                         onPress = { async () => 
                         {
-                            const returnedObject = await apiWrapper(setIsLoading, () => getSelfPets());
-                            if(checkForErrors(returnedObject, setServerError, null))
-                            {
-                                navigation.navigate('Pets', { data: returnedObject.data.pets });
-                            }
+                            const response = await apiWrapper(setIsLoading, () => getSelfPets());
+                            if(!checkForErrors(response, setServerError, null)) return;
+                        
+                            navigation.navigate('Pets', { data: response.pets });
                         }}
                     />
                 }

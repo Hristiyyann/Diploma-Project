@@ -43,23 +43,23 @@ function checkUserRolesFor(userRoles, rolesToCheck)
 
 function checkForErrors(returnedObject, setServerError, setFormError)
 {
-    if (returnedObject.data.success == true) return true;
+    if (returnedObject.success == true) return true;
 
-    if (returnedObject.data.status === 400)
+    if (returnedObject.status === 400)
     {
         if(setFormError == null) return false;
-        setFormError(returnedObject.data.message);
+        setFormError(returnedObject.message);
         return false;
     }
     
-    if (returnedObject.data.status >= 403)
+    if (returnedObject.status >= 403)
     {
-        if (!returnedObject.data.message == 'You have to verify your telephone number')
+        if (!returnedObject.message == 'You have to verify your telephone number')
         {
             setServerError(
             {
-                message: returnedObject.data.message,
-                status: returnedObject.data.status
+                message: returnedObject.message,
+                status: returnedObject.status
             })
 
         }

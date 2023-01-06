@@ -28,9 +28,9 @@ export default function Schedule({navigation})
     {
         async function fetchServices()
         {
-            const returnedObject = await apiWrapper(setIsLoading, () => getServices());
-            if(!checkForErrors(returnedObject, setServerError, null)) return;
-            setServices(returnedObject.data.services);
+            const response = await apiWrapper(setIsLoading, () => getServices());
+            if(!checkForErrors(response, setServerError, null)) return;
+            setServices(response.services);
         }
 
         fetchServices();
@@ -48,11 +48,11 @@ export default function Schedule({navigation})
 
     async function fetchSchedule(loadingFunction, page)
     {
-        const returnedObject = await apiWrapper(loadingFunction, () => getSelfSchedule(page));
-        if(!checkForErrors(returnedObject, setServerError, null)) return;
+        const response = await apiWrapper(loadingFunction, () => getSelfSchedule(page));
+        if(!checkForErrors(response, setServerError, null)) return;
 
-        setPaginationData({...paginationData, hasNextPage: returnedObject.data.hasNextPage});
-        setDateSchedules([...dateSchedules, ...returnedObject.data.schedules]);
+        setPaginationData({...paginationData, hasNextPage: response.hasNextPage});
+        setDateSchedules([...dateSchedules, ...response.schedules]);
     }
 
     function renderDates({ item })
@@ -110,12 +110,12 @@ export default function Schedule({navigation})
                 style = {[GlobalStyles.button, {marginTop: 5, marginBottom: 0}]}
                 onPress = {async () => 
                 {
-                    const returnedObject = await apiWrapper(setIsLoading, () => getServiceTimeRanges());
-                    if(!checkForErrors(returnedObject, setServerError, null)) return;
+                    const response = await apiWrapper(setIsLoading, () => getServiceTimeRanges());
+                    if(!checkForErrors(response, setServerError, null)) return;
                     
                     navigation.navigate('New schedule', 
                     { 
-                        data: returnedObject.data.timeRanges,
+                        data: response.timeRanges,
                         services
                     });
                 }}
