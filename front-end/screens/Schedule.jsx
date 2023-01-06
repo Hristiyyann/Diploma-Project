@@ -13,11 +13,12 @@ const months =
 [
     'January', 'February', 'March', 'April', 'May', 'June', 
     'July', 'August', 'September', 'October', 'November', 'December'
-]
+];
 
 export default function Schedule({navigation})
 {
     const [services, setServices] = useState();
+    const [timeRanges, setTimeRanges] = useState();
     const [dateSchedules, setDateSchedules] = useState([]);
     const [isLoadingMoreData, setIsLoadingMoreData] = useState(false);
     const [paginationData, setPaginationData] = useState({page: 1, hasNextPage: null});
@@ -26,14 +27,23 @@ export default function Schedule({navigation})
 
     useEffect(() => 
     {
-        async function fetchServices()
+        async function fetchServicesAndTimeRanges()
         {
-            const response = await apiWrapper(setIsLoading, () => getServices());
+            const response = await apiWrapper(setIsLoading, () => getServiceTimeRanges());
             if(!checkForErrors(response, setServerError, null)) return;
+
+            let timeRangesForAdd = {};
+
+            response.services.forEach((service) => 
+            (
+                timeRangesForAdd = {...timeRangesForAdd, [service.serviceName]: service.time_ranges}
+            ));
+
             setServices(response.services);
+            setTimeRanges(timeRangesForAdd);
         }
 
-        fetchServices();
+        fetchServicesAndTimeRanges();
     }, []);
 
     useEffect(() => 
@@ -81,7 +91,6 @@ export default function Schedule({navigation})
                         schedules = {services[key]}
                         serviceName = {key}
                     />
-                    
                 })
             }
             </>
@@ -109,14 +118,11 @@ export default function Schedule({navigation})
             <TouchableOpacity 
                 style = {[GlobalStyles.button, {marginTop: 5, marginBottom: 0}]}
                 onPress = {async () => 
-                {
-                    const response = await apiWrapper(setIsLoading, () => getServiceTimeRanges());
-                    if(!checkForErrors(response, setServerError, null)) return;
-                    
+                {      
                     navigation.navigate('New schedule', 
                     { 
-                        data: response.timeRanges,
-                        services
+                        timeRanges,
+                        services: services.map((service) => ({ id: service.id, serviceName: service.serviceName })),
                     });
                 }}
             >

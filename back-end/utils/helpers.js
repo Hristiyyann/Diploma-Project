@@ -62,7 +62,7 @@ function signAccessToken(data)
     (
         payload,
         process.env.ACCESS_TOKEN_SECRET,
-        {expiresIn: '10s'}
+        {expiresIn: '10m'}
     );  
 
     return accessToken;

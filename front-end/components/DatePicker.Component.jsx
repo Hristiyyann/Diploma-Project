@@ -16,7 +16,7 @@ export default function DatePicker({min, label, onSelect})
         <View style = {styles.datePickerContainer}>
             <Datepicker
                 date = {date}
-                initialVisibleDate = {min}
+                initialVisibleDate = {date}
                 min = {min}
                 max={new Date(2024, 0, 0)}
                 onSelect = {newDate => setDate(newDate)}

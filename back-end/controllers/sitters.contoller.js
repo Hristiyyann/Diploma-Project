@@ -171,7 +171,7 @@ async function putSitterPets(req, res)
 
 async function getServiceTimeRanges(req, res)
 {
-    const timeRanges = await Service.findAll(
+    const services = await Service.findAll(
     {
         attributes: { exclude: ['serviceType', 'createdAt', 'updatedAt'] },
         where: { serviceType: 'Main' },
@@ -189,7 +189,7 @@ async function getServiceTimeRanges(req, res)
         order: [[sequelize.col('time_ranges.start_hour'), 'ASC']]
     });
     
-    res.status(200).send({success: true , timeRanges}); 
+    res.status(200).send({ success: true , services }); 
 }
 
 async function putSitterSchedule(req, res)
@@ -242,7 +242,7 @@ async function getSitterSchedule(req, res)
 
     const services = await Service.findAll(
     {
-        attributes: { exclude: ['serviceType', 'createdAt', 'updatedAt']},
+        attributes: { exclude: ['serviceType', 'createdAt', 'updatedAt'] },
         where: { serviceType: 'Main' },
         include:
         [

@@ -14,12 +14,12 @@ const date = new Date();
 
 export default function AddNewSchedule({navigation, route})
 {
-    const { data, services } = route.params;
+    const { timeRanges, services } = route.params;
     const { setIsLoading } = useLoading();
     const { setServerError } = useShowError();
     const [changedData, setChangedData] = useState(
     {
-        serviceName: services[0].name,
+        serviceName: services[0].serviceName,
         scheduleName: 'Single date',
         firstDay: '', 
         lastDay: '',
@@ -37,31 +37,26 @@ export default function AddNewSchedule({navigation, route})
     function renderTimeRanges(serviceName)
     {
         return(
-            data.filter((service) =>
+            <View 
+                style = {styles.timeRangesContainer}
+            >
+
             {
-               return service.serviceName == serviceName
-            }).map((service, index) =>
-            {
-                return(
-                    <View 
-                        key = {index}
-                        style = {styles.timeRangesContainer}
-                    >
-                    {
-                        service.time_ranges.map((timeRange, index) =>
-                        {
-                            return <TimeRange
-                                key = {index}
-                                startHour = {timeRange.startHour}
-                                endHour = {timeRange.endHour}
-                                timeRangeId = {timeRange.id}
-                                setChangedData = {setChangedData}
-                            />
-                        })
-                    }
-                    </View>
-                )
-            })
+                timeRanges[serviceName].map((timeRange, index) =>
+                {
+                    return(
+                        <TimeRange
+                            key = {index}
+                            startHour = {timeRange.startHour}
+                            endHour = {timeRange.endHour}
+                            timeRangeId = {timeRange.id}
+                            setChangedData = {setChangedData}
+                        />
+                    )
+                })
+            }
+
+            </View>
         )
     }
 
