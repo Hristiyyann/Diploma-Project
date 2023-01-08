@@ -19,8 +19,8 @@ export default function AddNewSchedule({navigation, route})
     const { setServerError } = useShowError();
     const [changedData, setChangedData] = useState(
     {
-        serviceName: services[0].serviceName,
-        scheduleName: 'Single date',
+        serviceName: '',
+        scheduleName: '',
         firstDay: '', 
         lastDay: '',
         timeRanges: {}
@@ -36,6 +36,8 @@ export default function AddNewSchedule({navigation, route})
 
     function renderTimeRanges(serviceName)
     {
+        if(!serviceName) return;
+
         return(
             <View 
                 style = {styles.timeRangesContainer}
@@ -66,7 +68,10 @@ export default function AddNewSchedule({navigation, route})
         const service = services.filter((service) => service.serviceName == changedData.serviceName);
         const values = { ...rest, serviceId: service[0].id };
 
-        await apiWrapper(setIsLoading, () => putSelfSchedule(values));   
+        const response = await apiWrapper(setIsLoading, () => putSelfSchedule(values));
+        if(!checkForErrors(response, setServerError, null)) return;
+        
+        navigation.goBack();
     }
 
     return(
@@ -94,7 +99,7 @@ export default function AddNewSchedule({navigation, route})
                 />
 
                 <DropdownPicker
-                    placeholder= {'Select shedule'}
+                    placeholder= {'Select schedule'}
                     label = {'Select what type of schedule you will create'}
                     items = {['Single date', 'Multiple dates']}
                     handleChangedChoice = {handleScheduleChange}
@@ -126,8 +131,8 @@ export default function AddNewSchedule({navigation, route})
                 { renderTimeRanges(changedData.serviceName) }
 
                 <TouchableOpacity 
-                    disabled = {timeRangesLength ? false : true}
-                    style = {[GlobalStyles.button, timeRangesLength == 0 && {opacity: 0.4}]}
+                    disabled = {(timeRangesLength && changedData.scheduleName != '') ? false : true}
+                    style = {[GlobalStyles.button, (!timeRangesLength || changedData.scheduleName == '') && {opacity: 0.4}]}
                     onPress = {() => sendData()}
                 >
                     <Text status = 'primary'>Add schedule</Text>

@@ -69,8 +69,8 @@ export default GlobalStyles = StyleSheet.create(
     centeredText:
     {
         textAlign: 'center',
-        marginTop: 5,
-        marginBottom: 5,
+        marginTop: 10,
+        marginBottom: 10,
     },
 
     choices:

@@ -41,25 +41,26 @@ function checkUserRolesFor(userRoles, rolesToCheck)
     return false;
 }
 
-function checkForErrors(returnedObject, setServerError, setFormError)
+function checkForErrors(response, setServerError, setFormError)
 {
-    if (returnedObject.success == true) return true;
+    if (response.success == true) return true;
 
-    if (returnedObject.status === 400)
+    if (response.status === 400)
     {
         if(setFormError == null) return false;
-        setFormError(returnedObject.message);
+        setFormError(response.message);
         return false;
     }
     
-    if (returnedObject.status >= 403)
+    if (response.status >= 403)
     {
-        if (!returnedObject.message == 'You have to verify your telephone number')
+        console.log(response.message);
+        if (response.message != 'You have to verify your telephone number')
         {
             setServerError(
             {
-                message: returnedObject.message,
-                status: returnedObject.status
+                message: response.message,
+                status: response.status
             })
 
         }
