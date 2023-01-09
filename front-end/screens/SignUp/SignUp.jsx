@@ -3,9 +3,10 @@ import { View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { Header, Animation, SignUpForm } from '../components/index';
-import AnimationsPaths from '../assets/animations/AnimationsPaths';
-import GlobalStyles from '../GlobalStyles';
+import { Header, Animation } from '../../components/index';
+import SignUpForm from './SignUpForm.component';
+import AnimationsPaths from '../../assets/animations/AnimationsPaths';
+import GlobalStyles from '../../utils/GlobalStyles';
 
 export default function SignUp()
 {

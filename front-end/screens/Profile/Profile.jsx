@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Image, StyleSheet, ScrollView } from 'react-native';
 import { Text, Divider } from '@ui-kitten/components';
-import { ProfileOption } from '../components/index';
-import { useLoading, usePermissions, useShowError } from '../contexts';
-import apiWrapper from '../requests/ApiWrapper';
-import { logOut } from '../requests/Auth';
-import { checkCandidate, getSelfServices, getSelfPets } from '../requests/Sitters';
-import { checkUserRolesFor, checkForErrors } from '../Utils';
+import ProfileOption  from './ProfileOption.component';
+import { useLoading, usePermissions, useShowError } from '../../contexts/index';
+import apiWrapper from '../../requests/ApiWrapper';
+import { logOut } from '../../requests/Auth';
+import { checkCandidate, getSelfServices, getSelfPets } from '../../requests/Sitters';
+import { checkUserRolesFor, checkForErrors } from '../../utils/Helpers';
 
 export default function Profile({navigation})
 {
@@ -18,7 +18,7 @@ export default function Profile({navigation})
         <ScrollView>
             <View style={styles.welcomeSection}>       
                 <Image
-                    source = {require('../assets/man.webp')}
+                    source = {require('../../assets/man.webp')}
                     style = {styles.profilePicture}      
                 />
 
@@ -66,7 +66,7 @@ export default function Profile({navigation})
                             const response = await apiWrapper(setIsLoading, () => checkCandidate());
                             if(!checkForErrors(response, setServerError, null) || response.status == 400) return;
                         
-                            navigation.navigate('Be sitter',
+                            navigation.navigate('Become sitter',
                             {
                                 hasError: !response.success,
                                 message: response?.message

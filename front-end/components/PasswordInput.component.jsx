@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { TouchableWithoutFeedback, View } from 'react-native';
 import { Input } from '@ui-kitten/components';
-import Icon from './Icon.Component';
-import GlobalStyles from '../GlobalStyles';
+import Icon from './Icon.component';
+import GlobalStyles from '../utils/GlobalStyles';
 
-export default function PasswordInputField({field, form, ...props})
+export default function PasswordInput({field, form, ...props})
 {
     const [secureText, setSecureText] = useState(true);
     

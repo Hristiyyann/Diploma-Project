@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text  } from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useLoading, useShowError } from '../contexts/index';
-import { putSelfSchedule } from '../requests/Sitters';
-import apiWrapper from '../requests/ApiWrapper';
-import { Header, Animation, DatePicker, DropdownPicker, TimeRange } from '../components/index';
-import AnimationsPaths from '../assets/animations/AnimationsPaths';
-import GlobalStyles from '../GlobalStyles';
-import { checkForErrors } from '../Utils';
+import { useLoading, useShowError } from '../../contexts/index';
+import { putSelfSchedule } from '../../requests/Sitters';
+import apiWrapper from '../../requests/ApiWrapper';
+import { Header, Animation, DatePicker, DropdownPicker, TimeRange } from '../../components/index';
+import AnimationsPaths from '../../assets/animations/AnimationsPaths';
+import GlobalStyles from '../../utils/GlobalStyles';
+import { checkForErrors } from '../../utils/Helpers';
 
 const date = new Date();
 
-export default function AddNewSchedule({navigation, route})
+export default function AddSchedule({navigation, route})
 {
     const { timeRanges, services } = route.params;
     const { setIsLoading } = useLoading();

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getItemValue } from '../Utils';
+import { getItemValue } from '../utils/Helpers';
 
 const authAxios = axios.create(
 {

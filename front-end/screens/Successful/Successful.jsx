@@ -2,9 +2,9 @@ import React from "react";
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { useNavigation } from "@react-navigation/native";
-import { Animation } from '../components/index';
-import { usePermissions } from '../contexts/index';
-import GlobalStyles from '../GlobalStyles';
+import { Animation } from '../../components/index';
+import { usePermissions } from '../../contexts/index';
+import GlobalStyles from '../../utils/GlobalStyles';
 
 export default function Successful({route})
 {

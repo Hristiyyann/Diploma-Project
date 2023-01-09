@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Header, Animation, VerificationForm } from '../components/index';
-import AnimationsPaths from '../assets/animations/AnimationsPaths';
-import GlobalStyles from '../GlobalStyles';
+import { Header, Animation } from '../../components/index';
+import VerificationForm from './VerificationForm.component';
+import AnimationsPaths from '../../assets/animations/AnimationsPaths';
+import GlobalStyles from '../../utils/GlobalStyles';
 
 export default function Verification({route})
 {

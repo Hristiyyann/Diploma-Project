@@ -1,10 +1,9 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { hasTokens } from '../Utils';
 import { refresh } from '../requests/Auth';
 import apiWrapper  from '../requests/ApiWrapper';
 import { useLoading } from './LoadingContext';
 import { useShowError } from './ErrorContext';
-import { checkForErrors } from '../Utils'; 
+import { hasTokens, checkForErrors } from '../utils/Helpers'; 
 
 const PermissionsContext = createContext();
 

@@ -1,6 +1,6 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import Lottie from 'lottie-react-native';
-import {View, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 export default function Animation({path, style, loop}) 
 {
@@ -36,4 +36,4 @@ const styles = StyleSheet.create(
         width: 230,
         height: 230
     }
-})
+});

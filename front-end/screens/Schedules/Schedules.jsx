@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { ScrollView, View, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, FlatList } from 'react-native';
 import { Text } from '@ui-kitten/components';
-import { useLoading, useShowError } from '../contexts/index';
-import apiWrapper from '../requests/ApiWrapper';
-import { getServiceTimeRanges, getServices, getSelfSchedule } from '../requests/Sitters';
-import { checkForErrors } from '../Utils';
-import GlobalStyles from '../GlobalStyles';
-import { ScheduleCard } from '../components';
+import ScheduleCard from './ScheduleCard.component';
+import { useLoading, useShowError } from '../../contexts/index';
+import apiWrapper from '../../requests/ApiWrapper';
+import { getServiceTimeRanges, getSelfSchedule } from '../../requests/Sitters';
+import { checkForErrors } from '../../utils/Helpers';
+import GlobalStyles from '../../utils/GlobalStyles';
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const months = 
@@ -15,7 +15,7 @@ const months =
     'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
-export default function Schedule({navigation})
+export default function Schedules({navigation})
 {
     const [services, setServices] = useState([]);
     const [timeRanges, setTimeRanges] = useState([]);
@@ -23,8 +23,8 @@ export default function Schedule({navigation})
     const [listDataLoading, setListDataLoading] = useState(false);
     const [refresh, setRefresh] = useState(false);
     const [initialRenderError, setInitialRenderError] = useState();
-    const firstRender = useRef(true);
     const [paginationData, setPaginationData] = useState({page: 1, hasNextPage: null});
+    const firstRender = useRef(true);
     const { setIsLoading } = useLoading();
     const { setServerError } = useShowError();
     
@@ -118,11 +118,6 @@ export default function Schedule({navigation})
     {
         if(!paginationData.hasNextPage) return;
         setPaginationData({...paginationData, page: paginationData.page + 1}); 
-    }
-
-    if(initialRenderError)
-    {
-        return <Text>Ooppps! {initialRenderError.status}</Text>
     }
 
     return(

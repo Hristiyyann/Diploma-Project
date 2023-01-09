@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { Animation, Header, PetOption } from '../components/index';
-import { useLoading } from '../contexts';
-import apiWrapper from '../requests/ApiWrapper';
-import { putSelfPets } from '../requests/Sitters';
-import AnimationsPaths from '../assets/animations/AnimationsPaths';
-import GlobalStyles from '../GlobalStyles';
+import { Animation, Header } from '../../components/index';
+import PetOption from './PetOption.component';
+import { useLoading } from '../../contexts';
+import apiWrapper from '../../requests/ApiWrapper';
+import { putSelfPets } from '../../requests/Sitters';
+import AnimationsPaths from '../../assets/animations/AnimationsPaths';
+import GlobalStyles from '../../utils/GlobalStyles';
 
 export default function SitterPets({route})
 {

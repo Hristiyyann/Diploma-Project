@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from '@ui-kitten/components';
-import Icon from './Icon.Component';
+import { Icon } from '../../components/index';
 
 export default function ProfileOption({iconName, text, onPress})
 {
@@ -33,4 +33,4 @@ const styles = StyleSheet.create(
         padding: 10,
         margin: 10,
     },
-})
+});

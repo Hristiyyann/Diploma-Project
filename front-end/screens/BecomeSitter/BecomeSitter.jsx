@@ -2,11 +2,12 @@ import React from 'react';
 import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Header, Animation, BeSitterForm } from '../components/index';
-import AnimationsPaths from '../assets/animations/AnimationsPaths';
-import GlobalStyles from '../GlobalStyles';
+import { Header, Animation } from '../../components/index';
+import BecomeSitterForm from './BecomeSitterForm.component';
+import AnimationsPaths from '../../assets/animations/AnimationsPaths';
+import GlobalStyles from '../../utils/GlobalStyles';
 
-export default function BeSitter({route})
+export default function BecomeSitter({route})
 {
     const { hasError, message } = route.params;
     
@@ -37,7 +38,7 @@ export default function BeSitter({route})
                             method = {'Become a sitter!'}
                         />
 
-                        <BeSitterForm/>
+                        <BecomeSitterForm/>
                         </>
                     }
                 </View>

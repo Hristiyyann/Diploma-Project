@@ -7,14 +7,12 @@ import { BeSitterSchema } from '../../validations/Schemes';
 import { postCandidates } from '../../requests/Sitters';
 import apiWrapper from '../../requests/ApiWrapper';
 import { useLoading, useShowError } from '../../contexts/index';
-import Icon from '../Icon.Component';
-import ValidationError from '../ValidationError.Component';
-import FormError from '../FormError.Component';
-import { checkForErrors } from '../../Utils';
+import { Icon, ValidationError, FormError } from '../../components/index';
+import { checkForErrors } from '../../utils/Helpers';
 import AnimationsPaths from '../../assets/animations/AnimationsPaths';
-import GlobalStyles from '../../GlobalStyles';
+import GlobalStyles from '../../utils/GlobalStyles';
 
-export default function BeSitterForm()
+export default function BecomeSitterForm()
 {
     const [formError, setFormError] = useState(null);
     const { setIsLoading } = useLoading();

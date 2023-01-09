@@ -4,12 +4,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { usePermissions } from '../contexts/index';
 import 
 { 
-    Profile, Search, Schedule, ChangePassword, BeSitter, SitterServices,
-    SitterPets, AddNewSchedule
+    Profile, Search, Schedules, ChangePassword, BecomeSitter, SitterServices,
+    SitterPets, AddSchedule
 } from '../screens/index';
 import { Icon } from '../components/index';
-import { checkUserRolesFor } from '../Utils';
-import GlobalStyles from '../GlobalStyles';
+import { checkUserRolesFor } from '../utils/Helpers';
+import GlobalStyles from '../utils/GlobalStyles';
 
 const ProfileStack = createNativeStackNavigator();
 
@@ -29,8 +29,8 @@ function ProfileStackScreen()
                 component = {ChangePassword}
             />
             <ProfileStack.Screen 
-                name = 'Be sitter' 
-                component = {BeSitter}
+                name = 'Become sitter' 
+                component = {BecomeSitter}
             />
             <ProfileStack.Screen 
                 name = 'Services' 
@@ -55,11 +55,11 @@ function ScheduleStackScreen()
             <ScheduleStack.Screen
                 options = {{title: 'Schedule'}}
                 name = 'ScheduleScreen' 
-                component={Schedule}
+                component={Schedules}
             />
             <ScheduleStack.Screen 
                 name = 'New schedule' 
-                component = {AddNewSchedule}
+                component = {AddSchedule}
             />
         </ScheduleStack.Navigator>
     )

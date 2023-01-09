@@ -8,13 +8,9 @@ import { useLoading, useShowError } from '../../contexts/index';
 import { SignUpSchema } from '../../validations/Schemes';
 import { signUp } from '../../requests/Auth';
 import apiWrapper from '../../requests/ApiWrapper';
-import Icon from '../Icon.Component';
-import ValidationError from '../ValidationError.Component';
-import PasswordInputField from '../PasswordInputField.Component';
-import LoadingModal from '../LoadingModal.Component';
-import FormError from '../FormError.Component';
-import { checkForErrors } from '../../Utils';
-import GlobalStyles from '../../GlobalStyles';
+import { Icon, ValidationError, PasswordInput, FormError } from '../../components/index';
+import { checkForErrors } from '../../utils/Helpers';
+import GlobalStyles from '../../utils/GlobalStyles';
 
 export default function SignUpForm()
 {
@@ -98,7 +94,7 @@ export default function SignUpForm()
                 <Field
                     name = 'password'
                     placeholder = 'Password'
-                    component = {PasswordInputField}
+                    component = {PasswordInput}
                 />
 
                 { props.touched.password && props.errors.password && <ValidationError message = {props.errors.password}/> }
@@ -106,7 +102,7 @@ export default function SignUpForm()
                 <Field
                     name = 'confirmPassword'
                     placeholder = 'Confirm password'
-                    component = {PasswordInputField}
+                    component = {PasswordInput}
                 />
                 
                 { props.touched.confirmPassword && props.errors.confirmPassword && <ValidationError message = {props.errors.confirmPassword}/> }

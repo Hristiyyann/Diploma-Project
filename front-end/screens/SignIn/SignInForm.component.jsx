@@ -7,12 +7,9 @@ import { useLoading, usePermissions, useShowError } from '../../contexts/index';
 import { SignInSchema } from '../../validations/Schemes';
 import { signIn } from '../../requests/Auth';
 import apiWrapper from '../../requests/ApiWrapper';
-import Icon from '../Icon.Component';
-import ValidationError from '../ValidationError.Component';
-import PasswordInputField from '../PasswordInputField.Component';
-import FormError from '../FormError.Component';
-import { checkForErrors } from '../../Utils';
-import GlobalStyles from '../../GlobalStyles';
+import { Icon, ValidationError, PasswordInput, FormError} from '../../components/index';
+import { checkForErrors } from '../../utils/Helpers';
+import GlobalStyles from '../../utils/GlobalStyles';
 
 export default function SignInForm()
 {
@@ -63,7 +60,7 @@ export default function SignInForm()
                 <Field
                     name = 'password'
                     placeholder = 'Password'
-                    component = {PasswordInputField}
+                    component = {PasswordInput}
                 />
 
                 { props.touched.password && props.errors.password && <ValidationError message = {props.errors.password}/> }

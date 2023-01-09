@@ -7,8 +7,8 @@ import { Formik } from 'formik';
 import { useLoading, usePermissions, useShowError } from '../../contexts/index';
 import apiWrapper from '../../requests/ApiWrapper';
 import { verification, resendVerificationCode, checkCode } from '../../requests/Auth';
-import FormError from '../FormError.Component';
-import { checkForErrors } from '../../Utils';
+import { FormError } from '../../components/index';
+import { checkForErrors } from '../../utils/Helpers';
 
 export default function VerificationForm({channel, isForPasswordRecovery})
 {
@@ -37,15 +37,13 @@ export default function VerificationForm({channel, isForPasswordRecovery})
                 {
                     const response = await apiWrapper(setIsLoading, () => checkCode(data));   
                    
-                    if(checkForErrors(response, setServerError, setFormError))
+                    if(!checkForErrors(response, setServerError, setFormError))  return;
+
+                    navigation.navigate('Change password',
                     {
-                        navigation.navigate('Change password',
-                        {
-                            isForgotten: true,
-                            channel
-                        });
-                    }
-                    return;
+                        isForgotten: true,
+                        channel
+                    });
                 }
 
                 await apiWrapper(setIsLoading, () => verification(values.code, setRoles, setIsLoggedIn));

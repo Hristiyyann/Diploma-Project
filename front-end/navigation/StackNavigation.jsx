@@ -7,7 +7,7 @@ import
     Verification, Successful
 } from '../screens/index';
 import BottomTabNavigation  from './BottomNavigation';
-import GlobalStyles from '../GlobalStyles';
+import GlobalStyles from '../utils/GlobalStyles';
 
 const Stack = createNativeStackNavigator();
 

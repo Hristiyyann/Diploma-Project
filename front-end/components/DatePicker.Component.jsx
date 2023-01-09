@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Datepicker } from '@ui-kitten/components';
-import Icon from './Icon.Component';
+import Icon from './Icon.component';
 
 export default function DatePicker({min, label, onSelect})
 {

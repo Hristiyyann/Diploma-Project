@@ -2,9 +2,9 @@ import React from "react";
 import { Text } from '@ui-kitten/components';
 import { Modal, StyleSheet, View, TouchableOpacity } from "react-native";
 import { useShowError } from '../contexts/index'; 
-import Animation from '../components/Lottie.Component';
+import Animation from './Animation.component';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
-import GlobalStyles from '../GlobalStyles';
+import GlobalStyles from '../utils/GlobalStyles';
 
 export default function ServerErrorModal()
 {

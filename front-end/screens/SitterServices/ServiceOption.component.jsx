@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Switch, StyleSheet} from 'react-native';
 import { Text, Input } from '@ui-kitten/components';
-import GlobalStyles from '../GlobalStyles';
+import GlobalStyles from '../../utils/GlobalStyles';
 
 export default function ServiceOption({isTurnedOn, serviceName, serviceId, currentPrice, changeData, setChangeData})
 {

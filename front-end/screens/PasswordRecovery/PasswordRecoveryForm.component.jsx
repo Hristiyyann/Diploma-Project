@@ -8,11 +8,9 @@ import { emailValidation, telephoneValidation } from '../../validations/GlobalVa
 import { useLoading, useShowError } from '../../contexts/index';
 import { passwordRecovery } from '../../requests/Auth';
 import apiWrapper from '../../requests/ApiWrapper';
-import Icon from '../Icon.Component';
-import ValidationError from '../ValidationError.Component';
-import FormError from '../FormError.Component';
-import { checkForErrors } from '../../Utils';
-import GlobalStyles from '../../GlobalStyles';
+import { Icon, ValidationError, FormError } from '../../components/index';
+import { checkForErrors } from '../../utils/Helpers';
+import GlobalStyles from '../../utils/GlobalStyles';
 
 export default function PasswordRecoveryForm({forEmail})
 {

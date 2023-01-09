@@ -5,11 +5,9 @@ import { Formik, Field } from 'formik';
 import { baseChangePasswordSchema, fullChangePasswordSchema } from '../../validations/Schemes';
 import { changePassword, forgetPassword } from '../../requests/Auth';
 import apiWrapper from '../../requests/ApiWrapper';
-import { useLoading, usePermissions, useShowError } from '../../contexts/index';
-import PasswordInputField from '../PasswordInputField.Component';
-import ValidationError from '../ValidationError.Component';
-import FormError from '../FormError.Component';
-import { checkForErrors } from '../../Utils';
+import { useLoading, useShowError } from '../../contexts/index';
+import { PasswordInput, ValidationError, FormError } from '../../components/index';
+import { checkForErrors } from '../../utils/Helpers';
 import AnimationsPaths from '../../assets/animations/AnimationsPaths';
 
 export default function ChangePassworForm({isForgotten, channel})
@@ -64,7 +62,7 @@ export default function ChangePassworForm({isForgotten, channel})
                     <Field 
                         name = 'currentPassword'
                         placeholder = {'Current password'} 
-                        component = {PasswordInputField}
+                        component = {PasswordInput}
                     />
                     
                     { props.touched.currentPassword && props.errors.currentPassword && <ValidationError message = {props.errors.currentPassword}/> }
@@ -74,7 +72,7 @@ export default function ChangePassworForm({isForgotten, channel})
                 <Field 
                     name = 'password'
                     placeholder = {'New password'} 
-                    component = {PasswordInputField}
+                    component = {PasswordInput}
                 />
 
                 { props.touched.password && props.errors.password && <ValidationError message = {props.errors.password}/> }
@@ -82,7 +80,7 @@ export default function ChangePassworForm({isForgotten, channel})
                 <Field 
                     name = 'confirmPassword'
                     placeholder = {'Confirm new password'} 
-                    component = {PasswordInputField}
+                    component = {PasswordInput}
                 />
 
                 { props.touched.confirmPassword && props.errors.confirmPassword && <ValidationError message = {props.errors.confirmPassword}/> }

@@ -1,5 +1,5 @@
 import { authAxios, mainAxios } from './AxiosConfiguration';
-import { saveItem, getItemValue, deleteItem } from '../Utils';
+import { saveItem, getItemValue, deleteItem } from '../utils/Helpers';
 
 async function signIn(data, setRoles, setIsLoggedIn)
 {

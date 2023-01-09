@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text } from '@ui-kitten/components';
-import Icon from './Icon.Component';
+import Icon from './Icon.component';
 
 export default function ValidationError({message}) 
 {
@@ -23,4 +23,4 @@ const styles = StyleSheet.create(
         alignSelf: 'flex-start',
         paddingLeft: 5,
     },
-})
+});

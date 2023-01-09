@@ -3,9 +3,10 @@ import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Header, Animation, SignInForm } from '../components/index';
-import AnimationsPaths from '../assets/animations/AnimationsPaths';
-import GlobalStyles from '../GlobalStyles';
+import { Header, Animation } from '../../components/index';
+import SignInForm from './SignInForm.component';
+import AnimationsPaths from '../../assets/animations/AnimationsPaths';
+import GlobalStyles from '../../utils/GlobalStyles';
 
 export default function SignIn()
 {   

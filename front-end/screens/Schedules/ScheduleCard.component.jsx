@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Text } from '@ui-kitten/components';
-import Icon from './Icon.Component';
+import { Icon } from '../../components/index';
 
-export default function ScheduleCard({date, schedules, serviceName})
+export default function ScheduleCard({date, schedules, serviceName, timeRanges})
 {
     return(
         <View style = {styles.cardContainer}>
@@ -67,4 +67,4 @@ const styles = StyleSheet.create(
     {
         marginRight: 10
     }
-})
+});

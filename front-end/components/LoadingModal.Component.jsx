@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Modal } from '@ui-kitten/components';
 import { useLoading } from '../contexts/index';
-import Animation from './Lottie.Component';
+import Animation from './Animation.component';
 import AnimationsPaths from '../assets/animations/AnimationsPaths';
 
 export default function LoadingModal()
@@ -28,4 +28,4 @@ const styles = StyleSheet.create(
     {
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
     },
-})
+});

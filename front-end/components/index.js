@@ -1,30 +1,19 @@
-import Header from './Header.Component';
-import Icon from './Icon.Component';
-import Animation from './Lottie.Component';
-import PasswordInputField from './PasswordInputField.Component';
-import SignUpForm from './forms/SignUpForm.Component';
-import SignInForm from './forms/SignInForm.Component';
-import ChangePasswordForm from './forms/ChangePasswordForm.Component';
-import PasswordRecoveryForm from './forms/PasswordRecoveryForm.Component';
-import BeSitterForm from './forms/BeSitterForm.Component';
-import VerificationForm from './forms/VerificationForm.Component';
-import ValidationError from './ValidationError.Component';
-import LoadingModal from './LoadingModal.Component';
-import ProfileOption from './ProfileOption.Component';
-import ServiceOption from './ServiceOption.Component';
-import PetOption from './PetOption.Component';
-import ServerErrorModal from './ServerErrorModal.Component';
-import FormError from './FormError.Component';
-import DatePicker from './DatePicker.Component';
-import TimeRange from './TimeRange.Component';
-import DropdownPicker from './DropdownPicker.Component';
-import ScheduleCard from './ScheduleCard.Component';
+import Header from './Header.component';
+import Icon from './Icon.component';
+import Animation from './Animation.component';
+import PasswordInput from './PasswordInput.component';
+import ValidationError from './ValidationError.component';
+import LoadingModal from './LoadingModal.component';
+import ServerErrorModal from './ServerErrorModal.component';
+import FormError from './FormError.component';
+import DatePicker from './DatePicker.component';
+import TimeRange from './TimeRange.component';
+import DropdownPicker from './DropdownPicker.component';
+import InitialRenderError from './InitialRenderError.component';
 
 export
 {
-        Header, Icon, Animation, PasswordInputField, SignUpForm, SignInForm, 
-        ChangePasswordForm, PasswordRecoveryForm, VerificationForm, BeSitterForm, 
-        ValidationError, LoadingModal, ProfileOption, ServiceOption, PetOption,
+        Header, Icon, Animation, PasswordInput, ValidationError, LoadingModal,
         ServerErrorModal, FormError, DatePicker, TimeRange, DropdownPicker,
-        ScheduleCard
+        InitialRenderError
 }
