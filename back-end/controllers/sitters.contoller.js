@@ -222,7 +222,7 @@ async function getSitterSchedule(req, res)
         distinct: true, 
         col: 'date',
     });
-    
+   
     if(!countDifferentDates) return res.status(200).send({ success: true, schedules: []});
       
     const differentDates = await Schedule.findAll(
@@ -288,20 +288,11 @@ async function getSitterSchedule(req, res)
         }
     }
 
-    let nextPage; 
-    let hasNextPage = page * daysPerPage < countDifferentDates;
-    
-    if(hasNextPage)
-    {
-        nextPage = page + 1;
-    }
-    
     res.status(200).send(
     { 
         success: true, 
         schedules: updatedSchedules,
-        nextPage,
-        hasNextPage
+        hasNextPage: page * daysPerPage < countDifferentDates
     });
 }
 

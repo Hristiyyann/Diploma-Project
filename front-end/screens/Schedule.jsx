@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ScrollView, View, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { useLoading, useShowError } from '../contexts/index';
@@ -17,54 +17,70 @@ const months =
 
 export default function Schedule({navigation})
 {
-    const [services, setServices] = useState();
-    const [timeRanges, setTimeRanges] = useState();
+    const [services, setServices] = useState([]);
+    const [timeRanges, setTimeRanges] = useState([]);
     const [dateSchedules, setDateSchedules] = useState([]);
-    const [isLoadingMoreData, setIsLoadingMoreData] = useState(false);
+    const [listDataLoading, setListDataLoading] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+    const [initialRenderError, setInitialRenderError] = useState();
+    const firstRender = useRef(true);
     const [paginationData, setPaginationData] = useState({page: 1, hasNextPage: null});
     const { setIsLoading } = useLoading();
     const { setServerError } = useShowError();
-
+    
     useEffect(() => 
-    {
-        async function fetchServicesAndTimeRanges()
+    {      
+        if(paginationData.page == 1 && !firstRender.current)
         {
-            const response = await apiWrapper(setIsLoading, () => getServiceTimeRanges());
-            if(!checkForErrors(response, setServerError, null)) return;
-
-            let timeRangesForAdd = {};
-
-            response.services.forEach((service) => 
-            (
-                timeRangesForAdd = {...timeRangesForAdd, [service.serviceName]: service.time_ranges}
-            ));
-
-            setServices(response.services);
-            setTimeRanges(timeRangesForAdd);
+            fetchSchedules(setRefresh, setServerError, paginationData.page);
+            return;
         }
 
-        fetchServicesAndTimeRanges();
-    }, []);
-
-    useEffect(() => 
-    {
         if(paginationData.page > 1)
         {
-            fetchSchedule(setIsLoadingMoreData, paginationData.page);
+            fetchSchedules(setListDataLoading, setServerError, paginationData.page);
             return
         }
-        fetchSchedule(setIsLoading, paginationData.page);
+       
+        fetchServicesAndTimeRanges()
+        .then(() => fetchSchedules(setIsLoading, setInitialRenderError, paginationData.page))
+
+        firstRender.current = false;
     }, [paginationData.page]);
 
-    async function fetchSchedule(loadingFunction, page)
+    async function fetchSchedules(loadingFunction, errorState, page)
     {
         const response = await apiWrapper(loadingFunction, () => getSelfSchedule(page));
-        if(!checkForErrors(response, setServerError, null)) return;
+        if(!checkForErrors(response, errorState, null)) return;
 
         setPaginationData({...paginationData, hasNextPage: response.hasNextPage});
+        
+        if(page == 1)
+        {
+            setDateSchedules(response.schedules);
+            return; 
+        }
+        
         setDateSchedules([...dateSchedules, ...response.schedules]);
     }
 
+    async function fetchServicesAndTimeRanges()
+    {
+        const response = await apiWrapper(setIsLoading, () => getServiceTimeRanges());
+
+        if(!checkForErrors(response, setInitialRenderError, null)) return reject();
+
+        let timeRangesForAdd = {};
+
+        response.services.forEach((service) => 
+        (
+            timeRangesForAdd = {...timeRangesForAdd, [service.serviceName]: service.time_ranges}
+        ));
+
+        setServices(response.services);
+        setTimeRanges(timeRangesForAdd);
+    }
+        
     function renderDates({ item })
     {
         const { date, ...services } = item;
@@ -90,6 +106,7 @@ export default function Schedule({navigation})
                         date = {date}
                         schedules = {services[key]}
                         serviceName = {key}
+                        timeRanges = {timeRanges[key]}
                     />
                 })
             }
@@ -103,9 +120,14 @@ export default function Schedule({navigation})
         setPaginationData({...paginationData, page: paginationData.page + 1}); 
     }
 
+    if(initialRenderError)
+    {
+        return <Text>Ooppps! {initialRenderError.status}</Text>
+    }
+
     return(
         <View style = {[GlobalStyles.screenContainer, {margin: 0, marginBottom: 10, marginTop: 20}]}>
-               
+            
             <FlatList
                 style = {{width: '100%'}}
                 data = {dateSchedules}
@@ -113,6 +135,8 @@ export default function Schedule({navigation})
                 keyExtractor={(item, index) => index}
                 onEndReached = {loadMoreSchedules}
                 onEndReachedThreshold = {0.6}
+                onRefresh = {() => setPaginationData({...paginationData, page: 1})}
+                refreshing = {refresh}
             />
                 
             <TouchableOpacity 
