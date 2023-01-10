@@ -5,6 +5,7 @@ import { getServiceTimeRanges, getSelfSchedule } from '../../requests/Sitters';
 import { checkForErrors } from '../../utils/Helpers';
 
 const SchedulesContext = createContext();
+const SchedulesConsumer = SchedulesContext.Consumer;
 
 function useSchedulesContext() 
 {
@@ -75,4 +76,4 @@ function SchedulesProvider({children})
     )
 };
 
-export { SchedulesProvider,  useSchedulesContext };
+export { SchedulesProvider, SchedulesConsumer , useSchedulesContext };
